@@ -1,0 +1,120 @@
+type: object
+required:
+ - date
+ - payment_type
+ - currency
+ - exchange_rate
+ - amount
+ - operation_number
+ - beneficiary_account_number
+ - payer_rfc
+ - payer_account_number
+ - payer_bank_name
+ - related_documents
+properties:
+  date:
+    type: string
+    format: date-time
+    nullable: true
+    description: | 
+      ISO-8601 timestamp when the payment was made.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 2020-03-17T12:00:00.000Z
+  payment_type:
+    type: string
+    nullable: true
+    description: | 
+      Payment type code used for this invoice, as defined by the country's legal entity.
+      
+      - 🇲🇽 Mexico [SAT catalog reference article](https://developers.belvo.com/docs/sat-catalogs#payment-type)
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '03'
+  currency:
+    type: string
+    nullable: true
+    description: |
+      The currency of the payment. For example:
+      
+      - 🇧🇷 BRL (Brazilian Real)
+      - 🇨🇴 COP (Colombian Peso)
+      - 🇲🇽 MXN (Mexican Peso)
+      
+      Please note that other currencies other than in the list above may be returned.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: BRL
+  exchange_rate:
+    type: string
+    nullable: true
+    description: |
+      The `currency` to MXN currency exchange rate when the payment was made.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '3.75'
+  amount:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The invoice amount, in the currency of the original invoice.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 8000.5
+  operation_number:
+    type: string
+    nullable: true
+    description: |
+      The fiscal institution's internal identifier for the operation.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: "831840"
+  beneficiary_rfc:
+    type: string
+    nullable: true
+    description: |
+      The fiscal ID of the payment beneficiary.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: BNM840515VB1
+  beneficiary_account_number:
+    type: string
+    nullable: true
+    description: |
+      The bank account number of the payment beneficiary.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '12343453245633'
+  payer_rfc:
+    type: string
+    nullable: true
+    description: |
+      The fiscal ID of the payment issuer.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: BKJM840515VB1
+  payer_account_number:
+    type: string
+    nullable: true
+    description: |
+      The bank account number of the payment issuer.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '13343663245699'
+  payer_bank_name:
+    type: string
+    nullable: true
+    description: |
+      The banking institution that was used by the payment issuer.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: CITI BANAMEX
+  related_documents:
+    type: array
+    description: |
+      A list of all the related deferred invoices affected by the payment.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    items:
+      $ref: ./InvoicesPaymentsRelatedDocuments.yaml

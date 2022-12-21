@@ -1,0 +1,8 @@
+extends: ["spectral:oas", "spectral:asyncapi"]
+rules:
+  # We have to have trailing slashes, so we turn this check "off"
+  path-keys-no-trailing-slash: off
+  oas3-valid-parameter-schema-example: off
+  # Turning this one "off" for now for testing purposes
+  oas3-valid-oas-content-example: off
+  

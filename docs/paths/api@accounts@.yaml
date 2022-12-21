@@ -1,0 +1,705 @@
+get:
+  tags:
+    - Accounts
+  operationId: ListAccounts
+  summary: List all accounts
+  description: >-
+    Get a paginated list of all existing accounts in your Belvo account. By default, we return up to 100 results per page.
+  parameters:
+    - name: page
+      required: false
+      in: query
+      description: A page number within the paginated result set.
+      schema:
+        type: integer
+        format: int32
+        example: 1
+    - name: page_size
+      required: false
+      in: query
+      description: |
+        Indicates how many results to return per page. By default we return 100 results per page. 
+
+        ℹ️ The minimum number of results returned per page is 1 and the maximum is 1000. If you enter a value greater than 1000, our API will default to the maximum value (1000).
+      schema:
+        type: integer
+        format: int32
+        default: 100
+        minimum: 1
+        maximum: 1000
+        example: 100
+    - name: link
+      in: query
+      description: |
+        The `link.id` you want to filter by.
+
+        ℹ️ We highly recommend adding the `link.id` filter in order to improve your performance.
+      schema:
+        type: string
+        format: uuid
+        example: 8848bd0c-9c7e-4f53-a732-ec896b11d4c4
+    - name: balance__available
+      in: query
+      description: Return accounts that have a `balance.available` matching exactly this value.
+      schema:
+        type: string
+        example: 4000.00
+    - name: balance__available__lt
+      in: query
+      description: Return accounts that have a `balance.available` less than this value.
+      schema:
+        type: string
+        example: 6000.00
+    - name: balance__available__lte
+      in: query
+      description: Return accounts that have a `balance.available` less than or equal to this value.
+      schema:
+        type: string
+        example: 5999.00
+    - name: balance__available__gt
+      in: query
+      description: Return accounts that have a `balance.available` greater than this value.
+      schema:
+        type: string
+        example: 2000.00
+    - name: balance__available__gte
+      in: query
+      description: Return accounts that have a `balance.available` greater than or equal to this value.
+      schema:
+        type: string
+        example: 1999.00
+    - name: balance__available__range
+      in: query
+      description: Return accounts that have a `balance.available` within a range of two values.
+      schema:
+        type: string
+        example: 3000.00,4350.00
+    - name: balance__current
+      in: query
+      description: Return accounts that have a `balance.current` matching exactly this value.
+      schema:
+        type: string
+        example: 4000.00
+    - name: balance__current__lt
+      in: query
+      description: Return accounts that have a `balance.current` less than this value.
+      schema:
+        type: string
+        example: 6000.00
+    - name: balance__current__lte
+      in: query
+      description: Return accounts that have a `balance.available` less than or equal to this value.
+      schema:
+        type: string
+        example: 5999.00
+    - name: balance__current__gt
+      in: query
+      description: Return accounts that have a `balance.current` greater than this value.
+      schema:
+        type: string
+        example: 2000.00
+    - name: balance__current__gte
+      in: query
+      description: Return accounts that have a `balance.available` greater than or equal to this value.
+      schema:
+        type: string
+        example: 1999.00
+    - name: balance__current__range
+      in: query
+      description: Return accounts that have a `balance.available` within a range of two values.
+      schema:
+        type: string
+        example: 3000.00,4350.00
+    - name: category
+      in: query
+      description: Return accounts only for the given category (for example, `CHECKING_ACCOUNT` and `SAVINGS_ACCOUNT`). 
+      schema:
+        type: string
+        example: CREDIT_ACCOUNT
+    - name: category__in
+      in: query
+      description: Return accounts only for the given categories (for example, `CHECKING_ACCOUNT` and `SAVINGS_ACCOUNT`). 
+      schema:
+        type: string
+        example: CHECKING_ACCOUNT,SAVINGS_ACCOUNT
+    - name: created_at__gt
+      in: query
+      description: Return accounts that were last updated in Belvo's database after this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-05-05
+    - name: created_at__gte
+      in: query
+      description: Return accounts that were last updated in Belvo's database after or on this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-05-04
+    - name: created_at__lt
+      in: query
+      description: Return accounts that were last updated in Belvo's database before this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-04-01
+    - name: created_at__lte
+      in: query
+      description: Return accounts that were last updated in Belvo's database before or on this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-03-30
+    - name: created_at__range
+      in: query
+      description: Return accounts that were last updated in Belvo's database between two dates (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-03-03,2022-05-04
+    - name: currency
+      in: query
+      description: Return accounts that hold finances in only this three-letter currency code.
+      schema:
+        type: string
+        example: COP
+    - name: currency__in
+      in: query
+      description: Return accounts that hold finances in one of these three-letter currency codes.
+      schema:
+        type: string
+        example: COP,MXN
+    - name: id
+      in: query
+      description: Return information only for this `account.id`.
+      schema:
+        type: string
+        example: 24ccab1d-3a86-4136-a6eb-e04bf52b356f
+    - name: id__in
+      in: query
+      description: Return information for these `account.id`s.
+      schema:
+        type: string
+        example: 24ccab1d-3a86-4136-a6eb-e04bf52b356f,beb2b197-3cf7-428d-bef3-f415c0d57509
+    - name: institution
+      in: query
+      description: Return accounts only for this institution (use the Belvo-designated name, such as `erebor_mx_retail`).
+      schema:
+        type: string
+        example: erebor_mx_retail
+    - name: institution__in
+      in: query
+      description: Return accounts only for these institutions (use the Belvo-designated names, such as `erebor_mx_retail` and `gringotts_mx_retail`).
+      schema:
+        type: string
+        example: erebor_mx_retail,gringotts_mx_retail
+    - name: link__in
+      in: query
+      description: Return accounts only for these `link.id`s.
+      schema:
+        type: string
+        example: 8848bd0c-9c7e-4f53-a732-ec896b11d4c4,cc2b13cf-336e-497c-9fad-e074b580df65
+    - name: name
+      in: query
+      description: Return accounts with exactly this internal (specified by the institution) name.
+      schema:
+        type: string
+        example: Cuenta Perfiles- M.N. - MXN-666
+    - name: name__icontains
+      in: query
+      description: Return accounts partially matching this internal (specified by the institution) name.
+      schema:
+        type: string
+        example: Perfiles
+    - name: number
+      in: query
+      description: Return information only for this account number (as specified by the institution).
+      schema:
+        type: string
+        example: 4057068115181
+    - name: number__in
+      in: query
+      description: Return information for these account numbers (as specified by the institution).
+      schema:
+        type: string
+        example: 4057068115181,7809346821648
+    - name: public_identification_name
+      in: query
+      description: Return information only for this type of account ID. For example, CLABE accounts.
+      schema:
+        type: string
+        example: CLABE
+    - name: public_identification_value
+      in: query
+      description: Return information only for this account ID. For example, the account number for a CLABE account.
+      schema:
+        type: string
+        example: 150194683119900273
+    - name: type
+      in: query
+      description: Return information only for accounts matching this account type, as designated by the institution.
+      schema:
+        type: string
+        example: Cuentas de efectivo
+  responses:
+    '200':
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: ../components/responses/AccountsPaginatedResponse.yaml
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+  x-readme:
+    code-samples:
+      - language: cURL
+        code: |
+          curl https://sandbox.belvo.com/api/accounts/ \
+            -u [Secret Key ID]:[Secret Key PASSWORD]
+      - language: python
+        name: Belvo Python SDK
+        code: |
+          # check our python-client library on github
+          # https://github.com/belvo-finance/belvo-python
+          from pprint import pprint
+          from belvo.client import Client
+
+          # Login to Belvo API
+          client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+          # List Accounts
+          for account in client.Accounts.list():
+              pprint(account)
+      - language: ruby
+        name: Belvo Ruby SDK
+        code: |
+          # check our Ruby gem on github
+          # https://github.com/belvo-finance/belvo-ruby
+          require 'belvo'
+
+          sandbox = Belvo::Client.new(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          )
+
+          sandbox.accounts.list
+      - language: node
+        name: Belvo Node SDK
+        code: |
+          // check our node package on github
+          // https://github.com/belvo-finance/belvo-js
+
+          var belvo = require('belvo').default;
+
+          var client = new belvo(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          );
+
+          client.connect()
+            .then(function () {
+              client.accounts.list()
+                .then(function (res) {
+                  console.log(res);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+          });
+post:
+  tags:
+    - Accounts
+  operationId: RetrieveAccounts
+  summary: Retrieve accounts for a link
+  description: >-
+    Retrieve accounts from an existing link.
+
+      > 🚧 Scheduled field deprecation
+      > 
+      > Please note that we will soon be deprecating the following fields in our `loan_data` object:
+      > - `cutting_date`
+      > - `cutting_day`
+      > - `credit_limit`: replaced by the `principal` field.
+      > - `interest_rate`: replaced by the `interest_rates` object.
+      > - `last_payment_date`
+      > - `last_period_balance`: replaced by the `outstanding_balance ` field.
+      > - `limit_day`
+      > - `limit_date`: replaced by the `payment_day ` field.
+      > - `no_interest_payment`
+      > - `payment_due_day`
+
+  parameters: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/requestBodies/StandardRequest.yaml
+  responses:
+    '200':
+      description: Ok (when `save_data=false`)
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/accounts/Account.yaml
+          examples:
+            AccountsBankingChecking:
+              $ref: ../components/examples/AccountsBankingChecking.yaml
+            AccountsBankingCreditCard:
+              $ref: ../components/examples/AccountsBankingCreditCard.yaml
+            AcccountsBankingLoan:
+              $ref: ../components/examples/AccountsBankingLoan.yaml
+            AccountsBankingPension:
+              $ref: ../components/examples/AccountsBankingPension.yaml
+            AccountsBankingSavings:
+              $ref: ../components/examples/AccountsBankingSavings.yaml
+    '201':
+      description: Created (when `save_data=true`)
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/accounts/Account.yaml
+          examples:
+            AccountsBankingChecking:
+              $ref: ../components/examples/AccountsBankingChecking.yaml
+            AccountsBankingCreditCard:
+              $ref: ../components/examples/AccountsBankingCreditCard.yaml
+            AcccountsBankingLoan:
+              $ref: ../components/examples/AccountsBankingLoan.yaml
+            AccountsBankingPension:
+              $ref: ../components/examples/AccountsBankingPension.yaml
+            AccountsBankingSavings:
+              $ref: ../components/examples/AccountsBankingSavings.yaml
+    '400':
+      description: Bad request error
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              anyOf:
+              - $ref: ../components/errors/TooManySessionsError.yaml
+              - $ref: ../components/errors/SessionExpiredError.yaml
+              - $ref: ../components/errors/ValidationError.yaml
+              - $ref: ../components/errors/InstitutionDownError.yaml
+              - $ref: ../components/errors/InstitutionUnavailableError.yaml
+              - $ref: ../components/errors/InstitutionInactiveError.yaml
+              - $ref: ../components/errors/UnsupportedOperationError.yaml
+              - $ref: ../components/errors/InvalidLinkError.yaml
+              - $ref: ../components/errors/UnconfirmedLinkError.yaml
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+    '408':
+      description: Request Timeout
+      content:
+        application/json:
+          schema:
+            type: array
+            title: Request Timeout
+            description: >-
+              Belvo has a limit regarding the time it takes to log in, retrieve account data, and log out. A timeout occurs when there is a very high amount of data and everything could not be obtained within the allotted time.
+                
+            items:
+              $ref: ../components/errors/RequestTimeoutError.yaml
+    '428':
+      description: MFA Token Required
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/responses/TokenRequiredResponse.yaml
+    '500':
+      description: Unexpected Error
+      content:
+        application/json:
+          schema:
+            type: array
+            title: Unexpected Error
+            description: >-
+              This error occurs when we (Belvo) have encountered an internal system error (sorry about that) or due to an unsupported response from the institution.
+                
+            items:
+              $ref: ../components/errors/UnexpectedError.yaml
+  x-readme:
+    code-samples:
+      - language: cURL
+        code: |
+          curl -X POST \
+            https://sandbox.belvo.com/api/accounts/ \
+            -H 'Content-Type: application/json' \
+            -H 'Host: sandbox.belvo.com' \
+            -H 'cache-control: no-cache' \
+            -d '{
+              "link": "link_id"
+          }' \
+            -u [Secret Key ID]:[Secret Key PASSWORD]
+      - language: python
+        name: Belvo Python SDK
+        code: |
+          # check our python-client library on github
+          # https://github.com/belvo-finance/belvo-python
+          from belvo.client import Client
+
+          # Login to Belvo API
+          client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+          # Retrieve accounts
+          accounts = client.Accounts.create(
+            link="link_id"
+          )
+      - language: ruby
+        name: Belvo Ruby SDK
+        code: |
+          # check our Ruby gem on github
+          # https://github.com/belvo-finance/belvo-ruby
+          require 'belvo'
+
+          sandbox = Belvo::Client.new(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          )
+
+          sandbox.accounts.retrieve link: 'link-id'
+      - language: node
+        name: Belvo Node SDK
+        code: |
+          // check our node package on github
+          // https://github.com/belvo-finance/belvo-js
+
+          var belvo = require('belvo').default;
+
+          var client = new belvo(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          );
+
+          client.connect()
+            .then(function () {
+              client.accounts.retrieve('link-id')
+                .then(function (res) {
+                  console.log(res);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+          });
+patch:
+  tags:
+    - Accounts
+  operationId: PatchAccounts
+  summary: Complete an accounts request
+  description: >-
+    Used to resume an Account retrieve session that was paused because an MFA
+    token was required by the institution.
+
+      > 🚧 Scheduled field deprecation
+      > 
+      > Please note that we will soon be deprecating the following fields in our `loan_data` object:
+      > - `cutting_date`
+      > - `cutting_day`
+      > - `credit_limit`: replaced by the `principal` field.
+      > - `interest_rate`: replaced by the `interest_rates` object.
+      > - `last_payment_date`
+      > - `last_period_balance`: replaced by the `outstanding_balance ` field.
+      > - `limit_day`
+      > - `limit_date`: replaced by the `payment_day ` field.
+      > - `no_interest_payment`
+      > - `payment_due_day`
+      
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/requestBodies/PatchBody.yaml
+  responses:
+    '200':
+      description: Ok (when `save_data=false`)
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/accounts/Account.yaml
+          examples:
+            AccountsBankingChecking:
+              $ref: ../components/examples/AccountsBankingChecking.yaml
+            AccountsBankingCreditCard:
+              $ref: ../components/examples/AccountsBankingCreditCard.yaml
+            AcccountsBankingLoan:
+              $ref: ../components/examples/AccountsBankingLoan.yaml
+            AccountsBankingPension:
+              $ref: ../components/examples/AccountsBankingPension.yaml
+            AccountsBankingSavings:
+              $ref: ../components/examples/AccountsBankingSavings.yaml
+    '201':
+      description: Created (when `save_data=true`)
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/accounts/Account.yaml
+          examples:
+            AccountsBankingChecking:
+              $ref: ../components/examples/AccountsBankingChecking.yaml
+            AccountsBankingCreditCard:
+              $ref: ../components/examples/AccountsBankingCreditCard.yaml
+            AcccountsBankingLoan:
+              $ref: ../components/examples/AccountsBankingLoan.yaml
+            AccountsBankingPension:
+              $ref: ../components/examples/AccountsBankingPension.yaml
+            AccountsBankingSavings:
+              $ref: ../components/examples/AccountsBankingSavings.yaml
+    '400':
+      description: Bad request error
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              anyOf:
+              - $ref: ../components/errors/TooManySessionsError.yaml
+              - $ref: ../components/errors/SessionExpiredError.yaml
+              - $ref: ../components/errors/ValidationError.yaml
+              - $ref: ../components/errors/InstitutionDownError.yaml
+              - $ref: ../components/errors/InstitutionUnavailableError.yaml
+              - $ref: ../components/errors/InstitutionInactiveError.yaml
+              - $ref: ../components/errors/UnsupportedOperationError.yaml
+              - $ref: ../components/errors/InvalidLinkError.yaml
+              - $ref: ../components/errors/UnconfirmedLinkError.yaml
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+    '408':
+      description: Request Timeout
+      content:
+        application/json:
+          schema:
+            type: array
+            title: Request Timeout
+            description: >-
+              Belvo has a limit regarding the time it takes to log in, retrieve account data, and log out. A timeout occurs when there is a very high amount of data and everything could not be obtained within the allotted time.
+                
+            items:
+              $ref: ../components/errors/RequestTimeoutError.yaml
+    '428':
+      description: MFA Token Required
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/responses/TokenRequiredResponse.yaml
+    '500':
+      description: Unexpected Error
+      content:
+        application/json:
+          schema:
+            type: array
+            title: Unexpected Error
+            description: >-
+              This error occurs when we (Belvo) have encountered an internal system error (sorry about that) or due to an unsupported response from the institution.
+                
+            items:
+              $ref: ../components/errors/UnexpectedError.yaml
+  x-readme:
+    code-samples:
+      - language: cURL
+        code: |
+          curl -X PATCH \
+            https://sandbox.belvo.com/api/accounts/ \
+            -H 'Content-Type: application/json' \
+            -H 'Host: sandbox.belvo.com' \
+            -H 'cache-control: no-cache' \
+            -d '{
+                "session": "",
+                "token": "",
+                "link": ""
+            }' \
+            -u [Secret Key ID]:[Secret Key PASSWORD]
+      - language: python
+        name: Belvo Python SDK
+        code: |
+          # check our python-client library on github
+          # https://github.com/belvo-finance/belvo-python
+          from belvo.client import Client
+
+          # Login to Belvo API
+          client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+          # Resume accounts
+          accounts = client.Accounts.resume(
+            session="session_id",
+            token="token",
+            link="link_id"
+          )
+      - language: ruby
+        name: Belvo Ruby SDK
+        code: |
+          # check our Ruby gem on github
+          # https://github.com/belvo-finance/belvo-ruby
+          require 'belvo'
+
+          sandbox = Belvo::Client.new(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          )
+
+          sandbox.accounts.resume(
+            session: 'session_id',
+            token: 'token',
+            link: 'link_id'
+          )
+      - language: node
+        name: Belvo Node SDK
+        code: |
+          // check our node package on github
+          // https://github.com/belvo-finance/belvo-js
+
+          var belvo = require('belvo').default;
+
+          var client = new belvo(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          );
+
+          client.connect()
+            .then(function () {
+              client.accounts.resume('sessionId', 'token', 'linkId')
+                .then(function (res) {
+                  console.log(res);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+          });

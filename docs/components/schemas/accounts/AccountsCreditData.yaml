@@ -1,0 +1,80 @@
+type: object
+required:
+ - credit_limit
+ - cutting_date
+ - next_payment_date
+ - minimum_payment
+ - no_interest_payment
+ - interest_rate
+ - collected_at
+nullable: true
+description: The credit options associated with this account.
+properties:
+  credit_limit:
+    type: number
+    format: float
+    nullable: true
+    example: 192000
+    description: The maximum amount of credit the owner can receive.
+  collected_at:
+    type: string
+    nullable: true
+    example: 2019-09-27T13:01:41.941Z
+    format: date-time
+    description: >-
+      The ISO-8601 timestamp when the data point was collected.
+  cutting_date:
+    type: string
+    nullable: true
+    example: '2019-12-11'
+    description: The closing date of the credit period.
+  next_payment_date:
+    type: string
+    description: The due date for the next payment (`YYYY-MM-DD`).
+    example: '2019-12-13'
+    nullable: true
+  minimum_payment:
+    type: number
+    format: float
+    nullable: true
+    example: 2400.3
+    description: The minimum amount to be paid on the `next_payment_date`.
+  no_interest_payment:
+    type: number
+    format: float
+    nullable: true
+    example: 2690.83
+    description: The minimum amount required to pay to avoid generating interest.
+  interest_rate:
+    type: number
+    format: float
+    nullable: true
+    description: The annualized interest rate of the credit.
+    example: 4
+  end_date:
+    type: string
+    deprecated: true
+    nullable: true
+    description: |
+      *This field has been deprecated.*
+
+    example: null
+  monthly_payment:
+    type: number
+    deprecated: true
+    nullable: true
+    description: |
+      *This field has been deprecated.*
+
+      *The recurrent monthly payment, if applicable.*
+    example: null
+  last_payment_date:
+    type: string
+    deprecated: true
+    nullable: true
+    description: |
+      *This field has been deprecated.*
+
+
+      *The date when the last credit payment was made.*
+    example: null

@@ -1,0 +1,40 @@
+type: object
+required: 
+  - gross_income_from_ordinary_activities
+  - dividends
+  - other_income
+  - total_gross_income
+  - returns_rebates_and_discounts_on_sales
+  - total_net_income
+description: Object containing the reported annual incomes, deductions, and final balances of the tax payer.
+properties:
+  gross_income_from_ordinary_activities:
+    type: number
+    format: float
+    description: Total gross income that the company generated from their main economic activity.
+    example: 210043000.0
+  dividends:
+    type: number
+    format: float
+    description: Total income that the company generated from dividends.
+    example: 0.0
+  other_income:
+    type: number
+    format: float
+    description: Total income that the company generated from activities not associated with their main economic activity.
+    example: 0.0
+  total_gross_income:
+    type: number
+    format: float
+    description: Total gross income the company generated.
+    example: 210043000.0
+  returns_rebates_and_discounts_on_sales:
+    type: number
+    format: float
+    description: Total value of cancelled orders, corrected invoices, or similar, that can be discounted from the `total_gross_income`.
+    example: 0.0
+  total_net_income:
+    type: number
+    format: float
+    description: Total net income of the company, taking into account `returns_rebates_and_discounts_on_sales`.
+    example: 210043000.0

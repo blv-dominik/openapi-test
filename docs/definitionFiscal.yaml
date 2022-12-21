@@ -1,0 +1,79 @@
+openapi: 3.0.2
+info:
+  title: Fiscal API
+  version: 1.20.1
+  description:
+    $ref: ./markdown/BelvoApiIntroduction.md
+  contact:
+    name: Need help?
+    url: 'https://developers.belvo.com'
+    email: support@belvo.com
+  x-logo:
+    url: 'https://files.readme.io/5111448-belvo-for-developers.svg'
+    altText: Belvo logo
+servers:
+  - url: 'https://sandbox.belvo.com'
+    description: Sandbox
+  - url: 'https://development.belvo.com'
+    description: Development
+security:
+  - basicAuth: []
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description:
+        $ref: ./markdown/BelvoBasicAuthentication.md
+tags:
+  - name: Fiscal API introduction
+    description:
+      $ref: ./markdown/FiscalApiIntroduction.md
+  - name: Invoices
+    description:
+      $ref: ./markdown/Invoices.md
+  - name: Tax compliance status
+    description:
+      $ref: ./markdown/TaxComplianceStatus.md
+  - name: Tax declarations
+    description:
+      $ref: ./markdown/TaxDeclarations.md
+  - name: Tax retentions
+    description:
+      $ref: ./markdown/TaxRetentions.md
+  - name: Tax returns
+    description:
+      $ref: ./markdown/TaxReturns.md
+  - name: Tax status
+    description:
+      $ref: ./markdown/TaxStatus.md
+paths:
+  /api/invoices/:
+    $ref: paths/api@invoices@.yaml
+  '/api/invoices/{id}/':
+    $ref: 'paths/api@invoices@{id}@.yaml'
+  /api/tax-compliance-status/:
+    $ref: paths/api@tax-compliance-status@.yaml
+  '/api/tax-compliance-status/{id}/':
+    $ref: 'paths/api@tax-compliance-status@{id}@.yaml'
+  /api/tax-declarations/:
+    $ref: paths/api@tax-declarations@.yaml
+  '/api/tax-declarations/{id}/':
+    $ref: 'paths/api@tax-declarations@{id}@.yaml'
+  /api/tax-returns/:
+    $ref: paths/api@tax-returns@.yaml
+  '/api/tax-returns/{id}/':
+    $ref: 'paths/api@tax-returns@{id}@.yaml'
+  /api/tax-retentions/:
+    $ref: paths/api@tax-retentions@.yaml
+  '/api/tax-retentions/{id}/':
+    $ref: 'paths/api@tax-retentions@{id}.yaml'
+  /api/tax-status/:
+    $ref: paths/api@tax-status@.yaml
+  '/api/tax-status/{id}/':
+    $ref: 'paths/api@tax-status@{id}@.yaml'
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true
+  samples-enabled: true
+  samples-languages: ['curl', 'node', 'ruby', 'python']

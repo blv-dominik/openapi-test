@@ -1,0 +1,58 @@
+summary: Invoice Traslado
+description: Example of a *Traslado* type invoice.
+value:
+  count: 110
+  next: 'https://sandbox.belvo.com/api/{endpoint}/?page=2'
+  previous: null
+  results:
+    - id: 90d90e38-0087-4b6d-b6dc-94ea561bb9cb
+      link: 1bd948f7-245d-4313-b604-34d1044cb908
+      collected_at: 2022-02-09T08:45:50.406032Z
+      created_at: 2022-02-09T08:46:20.406032Z
+      invoice_identification: 862B9918-3K6H-4E0B-NAI9-2BE2D833B840
+      invoice_date: '2020-12-24'
+      status: Vigente
+      invoice_type: Traslado
+      type: INFLOW
+      sender_id: GHTF980303F7
+      sender_name: ACNE SA DE CV
+      sender_tax_fraud_status: NO_TAX_FRAUD_STATUS
+      receiver_id: MNMK3203409H1
+      receiver_name: CARGOS S.A. DE C.V.
+      receiver_tax_fraud_status: NO_TAX_FRAUD_STATUS
+      cancelation_status: null
+      cancelation_update_date: null
+      certification_date: '2020-12-24'
+      certification_authority: FGV330542BG6
+      payment_type: null
+      payment_type_description: null
+      payment_method: null
+      usage: G03
+      place_of_issue: '11000'
+      version: '3.3'
+      invoice_details:
+        - description: FLETE
+          product_identification: '78101802'
+          quantity: 1
+          unit_code: E48
+          unit_description: Unidad de servicio
+          unit_amount: 21000
+          pre_tax_amount: 21000
+          tax_percentage: 16
+          tax_amount: 0
+          total_amount: 21000
+          retained_taxes: []
+          collected_at: 2022-02-09T08:45:50.406032Z
+      currency: MXN
+      subtotal_amount: 0
+      exchange_rate: 1
+      tax_amount: 0
+      discount_amount: 0
+      total_amount: 0
+      payments: []
+      payroll: null
+      folio: '28'
+      xml: '=XML-STRING='
+      warnings:
+        code: warning_code
+        message: warning message

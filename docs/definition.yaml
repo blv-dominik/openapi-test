@@ -1,0 +1,166 @@
+openapi: 3.0.2
+info:
+  title: Belvo API Docs
+  version: 1.20.1
+  description:
+    $ref: ./markdown/BelvoApiIntroduction.md
+  contact:
+    name: Need help?
+    url: 'https://developers.belvo.com'
+    email: support@belvo.com
+  x-logo:
+    url: 'https://files.readme.io/5111448-belvo-for-developers.svg'
+    altText: Belvo logo
+servers:
+  - url: 'https://sandbox.belvo.com'
+    description: Sandbox
+  - url: 'https://development.belvo.com'
+    description: Development
+security:
+  - basicAuth: []
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description:
+        $ref: ./markdown/BelvoBasicAuthentication.md
+tags:
+  - name: Institutions
+    description:
+      $ref: ./markdown/Institutions.md
+  - name: Links
+    description:
+      $ref: ./markdown/Links.md
+  - name: Banking API introduction
+    description:
+      $ref: ./markdown/BankingIntroduction.md
+  - name: Accounts
+    description:
+      $ref: ./markdown/Accounts.md
+  - name: Transactions
+    description:
+      $ref: ./markdown/Transactions.md
+  - name: Balances
+    description:
+      $ref: ./markdown/Balances.md
+  - name: Owners
+    description:
+      $ref: ./markdown/Owners.md
+  - name: Investment Portfolios
+    description:
+      $ref: ./markdown/InvestmentPortfolios.md
+  - name: Receivable Transactions
+    description:
+      $ref: ./markdown/ReceivableTransactions.md
+
+  - name: Enrichment API introduction
+    description:
+      $ref: ./markdown/EnrichmentApiIntroduction.md
+  - name: Incomes
+    description:
+      $ref: ./markdown/Incomes.md
+  - name: Recurring Expenses
+    description:
+      $ref: ./markdown/RecurringExpenses.md
+  - name: Risk Insights
+    description:
+      $ref: ./markdown/RiskInsights.md
+
+  - name: Fiscal API introduction
+    description:
+      $ref: ./markdown/FiscalApiIntroduction.md
+  - name: Invoices
+    description:
+      $ref: ./markdown/Invoices.md
+  - name: Tax declarations
+    description:
+      $ref: ./markdown/TaxDeclarations.md
+  - name: Tax returns
+    description:
+      $ref: ./markdown/TaxReturns.md
+  - name: Tax status
+    description:
+      $ref: ./markdown/TaxStatus.md
+  - name: Tax retentions
+    description:
+      $ref: ./markdown/TaxRetentions.md
+  - name: Tax compliance status
+    description:
+      $ref: ./markdown/TaxComplianceStatus.md
+
+
+paths:
+  /api/links/:
+    $ref: paths/api@links@.yaml
+  '/api/links/{id}/':
+    $ref: 'paths/api@links@{id}@.yaml'
+  /api/accounts/:
+    $ref: paths/api@accounts@.yaml
+  '/api/accounts/{id}/':
+    $ref: 'paths/api@accounts@{id}@.yaml'
+  /api/transactions/:
+    $ref: paths/api@transactions@.yaml
+  '/api/transactions/{id}/':
+    $ref: 'paths/api@transactions@{id}@.yaml'
+  /api/balances/:
+    $ref: paths/api@balances@.yaml
+  '/api/balances/{id}/':
+    $ref: 'paths/api@balances@{id}@.yaml'
+  /api/institutions/:
+    $ref: paths/api@institutions@.yaml
+  '/api/institutions/{id}/':
+    $ref: 'paths/api@institutions@{id}@.yaml'
+  /api/owners/:
+    $ref: paths/api@owners@.yaml
+  '/api/owners/{id}/':
+    $ref: 'paths/api@owners@{id}@.yaml'
+  /api/invoices/:
+    $ref: paths/api@invoices@.yaml
+  '/api/invoices/{id}/':
+    $ref: 'paths/api@invoices@{id}@.yaml'
+  /api/tax-returns/:
+    $ref: paths/api@tax-returns@.yaml
+  '/api/tax-returns/{id}/':
+    $ref: 'paths/api@tax-returns@{id}@.yaml'
+  /api/tax-status/:
+    $ref: paths/api@tax-status@.yaml
+  '/api/tax-status/{id}/':
+    $ref: 'paths/api@tax-status@{id}@.yaml'
+  /api/tax-compliance-status/:
+    $ref: paths/api@tax-compliance-status@.yaml
+  '/api/tax-compliance-status/{id}/':
+    $ref: 'paths/api@tax-compliance-status@{id}@.yaml'
+  /api/incomes/:
+    $ref: paths/api@incomes@.yaml
+  '/api/incomes/{id}/':
+    $ref: 'paths/api@incomes@{id}@.yaml'
+  /api/recurring-expenses/:
+    $ref: paths/api@recurring-expenses.yaml
+  '/api/recurring-expenses/{id}/':
+    $ref: 'paths/api@recurring-expenses@{id}.yaml'
+  /investments/portfolios/:
+    $ref: paths/investments@portfolios.yaml
+  '/investments/portfolios/{id}/':
+    $ref: 'paths/investments@portfolios@{id}.yaml'
+  /receivables/transactions/:
+    $ref: paths/receivables@transactions.yaml
+  '/receivables/transactions/{id}/':
+    $ref: 'paths/receivables@transactions@{id}.yaml'
+  /api/risk-insights/:
+    $ref: paths/api@risk-insights.yaml
+  '/api/risk-insights/{id}/':
+    $ref: 'paths/api@risk-insights@{id}.yaml'
+  /api/tax-retentions/:
+    $ref: paths/api@tax-retentions@.yaml
+  '/api/tax-retentions/{id}/':
+    $ref: 'paths/api@tax-retentions@{id}.yaml'
+  /api/tax-declarations/:
+    $ref: paths/api@tax-declarations@.yaml
+  '/api/tax-declarations/{id}/':
+    $ref: 'paths/api@tax-declarations@{id}@.yaml'
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true
+  samples-enabled: true
+  samples-languages: ['curl', 'node', 'ruby', 'python']

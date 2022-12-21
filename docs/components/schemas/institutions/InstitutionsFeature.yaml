@@ -1,0 +1,10 @@
+type: object
+properties:
+  name:
+    type: string
+    description: The name of the feature.
+    example: token_required
+  description:
+    type: string
+    description: The description of the feature.
+    example: The institution may require a token during link creation or login

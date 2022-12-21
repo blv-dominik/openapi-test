@@ -1,0 +1,49 @@
+type: object
+description: Income insights
+required:
+  - id
+  - account
+  - currency
+  - sources
+  - aggregations
+  - collected_at
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Belvo's unique identifier used to reference the current income.
+    example: 076c66e5-90f5-4e01-99c7-50e32f65ae42
+  account:
+    $ref: ../accounts/Account.yaml
+  currency:
+    type: string
+    description: "The currency of the income. For example:\n- \U0001F1E7\U0001F1F7 BRL (Brazilian Real)\n- \U0001F1E8\U0001F1F4 COP (Colombian Peso)\n- \U0001F1F2\U0001F1FD MXN (Mexican Peso)\n\n Please note that other currencies other than in the list above may be returned."
+    minLength: 3
+    maxLength: 3
+    example: MXN
+  sources:
+    type: array
+    description: |
+      A list of income sources for the account.
+
+      For each income source, we provide additional insights such as:
+      - Frequency of the income transactions.
+      - Key metrics about the transaction amounts.
+    items:
+      $ref: ./IncomeSources.yaml
+  aggregations:
+    type: array
+    description: |
+      A list of aggregated metrics for the income.
+    items:
+      $ref: ./IncomesAggregations.yaml
+  collected_at:
+    type: string
+    format: date-time
+    nullable: true
+    deprecated: true
+    description: |
+      This field has been deprecated.
+
+      The ISO-8601 timestamp when the data point was collected.
+    example: null

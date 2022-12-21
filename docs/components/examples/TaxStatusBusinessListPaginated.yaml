@@ -1,0 +1,67 @@
+summary: Business Tax Status
+description: Example of a list of business tax status
+value:
+  count: 101
+  next: 'https://sandbox.belvo.com/api/{endpoint}/?page=2'
+  previous: null
+  results:
+    - id: 6de34cb3-bf0d-445d-b832-7ec7781e2c6f
+      link: 0b2edc42-7214-4c68-b22e-ae6885bf7c07
+      collected_at: 2022-02-09T08:45:50.406032Z
+      created_at: 2022-02-09T08:46:20.406032Z
+      place_and_date_of_issuance: 'BUENAVENTURA, CIUDAD DE MEXICO A 22 DE FEBRERO DE 2021'
+      official_name: ACNE SA DE CV
+      id_cif: '2274235873432'
+      tax_payer_information:
+        rfc: GHTF980303F7
+        curp: null
+        name: null
+        first_last_name: null
+        second_last_name: null
+        start_operations_date: '1995-08-01'
+        status_padron: ACTIVO
+        last_status_change_date: '1995-08-01'
+        commercial_name: null
+        social_name: ACNE SA DE CV
+        email: contact@acne.com
+        phone: '555507122'
+      address:
+        postal_code: '21255'
+        street_type: BOULEVARD (BLVD.)
+        street: GENERAL GIMENO
+        exterior_number: '4360'
+        interior_number: PLANTA BAJA
+        suburb: BUENAVENTURA
+        locality: null
+        municipality: ALTOS DE MIRAMAR
+        state: CIUDAD DE MEXICO
+        between_street:
+          - street_one: CALLE PRINCIPE
+            street_two: CALLE NUEVA ROMA
+      economic_activity:
+        - order: '1'
+          economic_activity: 'Otros servicios profesionales, científicos y técnicos'
+          percentage: '100'
+          initial_date: '2014-11-05'
+          end_date: null
+      regimes:
+        - regime: Régimen General de Ley Personas Morales
+          initial_date: '2003-01-01'
+          end_date: null
+      obligations:
+        - obligation: Declaración informativa de IVA con la anual de ISR
+          expiration: Conjuntamente con la declaración anual del ejercicio.
+          initial_date: '2004-03-31'
+          end_date: null
+        - obligation: Pago definitivo mensual de IVA.
+          expiration: >-
+            A más tardar el día 17 del mes inmediato posterior al periodo que
+            corresponda.
+          initial_date: '2004-03-31'
+          end_date: null
+      digital_stamp: >-
+        ||2020/04/26|GHTF980303F7|CONSTANCIA DE SITUACIÓN
+        FISCAL|2044441088666600000034||
+      digital_stamp_chain: >-
+        EtenSA9t1adG7bn+Jj23kj43JK+XbMPxdOppwabhXD+pXseSqYowWWDna0mpUk3264lkj2345j23faNZB852dCDt9KAjow=
+      pdf: '=PDF-STRING='

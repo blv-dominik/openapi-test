@@ -1,0 +1,20 @@
+type: object
+description: Details regarding the fees applied to the transaction.
+required:
+  - type
+  - value
+properties:
+  type:
+    type: string
+    nullable: true
+    enum:
+      - TRANSACTION_FEE
+    description: >-
+      The type of fee applied to the transaction. Can be one of the following values:
+
+       - `TRANSACTION_FEE`
+  value:
+    type: number
+    format: float
+    description: The value of `fees.type`.
+    example: 2.21

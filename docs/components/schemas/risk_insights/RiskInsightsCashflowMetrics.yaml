@@ -1,0 +1,88 @@
+type: object
+nullable: true
+required:
+  - sum_positive_1w
+  - sum_positive_1m
+  - sum_positive_3m
+  - sum_negative_1w
+  - sum_negative_1m
+  - sum_negative_3m
+  - positive_to_negative_ratio_1w
+  - positive_to_negative_ratio_1m
+  - positive_to_negative_ratio_3m
+description: |
+  Aggregated metrics calculated based on the user's transactions from checking, savings, credit, and loan accounts.
+
+  However, internal transfers (transfers between accounts belonging to the same link) are not used in the calculation.
+properties:
+  sum_positive_1w:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        Sum total of all transactions leading to a positive cashflow in the last week (counted from the time of the request).
+      example: 10022.01
+  sum_positive_1m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        Sum total of all transactions leading to a positive cashflow in the last month (counted from the time of the request).
+      example: 10022.01
+  sum_positive_3m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        Sum total of all transactions leading to a positive cashflow in the last three months (counted from the time of the request).
+      example: 10022.01
+  sum_negative_1w:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        Sum total of all transactions leading to a negative cashflow in the last week (counted from the time of the request).
+      example: 10237.03
+  sum_negative_1m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        Sum total of all transactions leading to a negative cashflow in the last month (counted from the time of the request).
+      example: 10237.03
+  sum_negative_3m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        Sum total of all transactions leading to a negative cashflow in the last three months (counted from the time of the request).
+      example: 10237.03
+  positive_to_negative_ratio_1w:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The ratio between sum_positive / sum_negative  in the last week (counted from the time of the request).
+
+        ℹ️ If the ratio is greater than `1`, it means that the user has more income than outgoing, indicating that they spend less than they earn.
+
+        **Note**: In the case that there have been no outgoing transactions, the value will be `null`.
+      example: 0.98
+  positive_to_negative_ratio_1m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The ratio between sum_positive / sum_negative  in the last month (counted from the time of the request).
+
+        ℹ️ If the ratio is greater than `1`, it means that the user has more income than outgoing, indicating that they spend less than they earn.
+      example: 0.98
+  positive_to_negative_ratio_3m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The ratio between sum_positive / sum_negative  in the last three months (counted from the time of the request).
+
+        ℹ️ If the ratio is greater than `1`, it means that the user has more income than outgoing, indicating that they spend less than they earn.
+      example: 0.98

@@ -1,0 +1,44 @@
+type: object
+required: 
+  - first_last_name
+  - second_last_name
+  - first_name
+  - other_names
+  - company_name
+  - main_economic_activity
+  - document_id
+  - reporting_id
+description: Object containing information about the tax payer.
+properties:
+  first_last_name:
+    type: string
+    nullable: true
+    description: The tax payer's first last name.
+    example: Restrepo
+  second_last_name:
+    type: string
+    nullable: true
+    description:  The tax payer's second last name.
+    example: Vives
+  first_name:
+    type: string
+    nullable: true
+    description: The tax payer's first name.
+    example: Carlos
+  other_names:
+    type: string
+    nullable: true
+    description: Additional names of the tax payer.
+    example: Alberto
+  company_name:
+    type: string
+    description: The name of the company, as registered at the institution.
+    example: Trusty Spanners
+  main_economic_activity:
+    type: string
+    description: The main economic activity the tax payer is involved in.
+    example: "0032"
+  document_id:
+    $ref: DocumentIdBusiness.yaml
+  reporting_id:
+    $ref: ReportingId.yaml

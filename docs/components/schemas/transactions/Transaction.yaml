@@ -1,0 +1,164 @@
+type: object
+required:
+ - value_date
+ - accounting_date
+ - amount
+ - currency
+ - description
+ - reference
+ - observations
+ - balance
+ - status
+ - account
+ - type
+ - collected_at
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Belvo's unique ID for the transaction.
+    example: 076c66e5-90f5-4e01-99c7-50e32f65ae42
+  account:
+    $ref: ../accounts/Account.yaml
+  collected_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: >-
+      The ISO-8601 timestamp when the data point was collected.
+    example: 2019-11-28T10:27:44.813Z
+  created_at:
+    type: string
+    format: date-time
+    description: >-
+      The ISO-8601 timestamp of when the data point was last updated in Belvo's database.
+    example: 2022-02-09T08:45:50.406032Z
+  value_date:
+    nullable: true
+    type: string
+    format: date
+    description: The date when the transaction occurred, in `YYYY-MM-DD` format.
+    example: 2019-10-23
+  accounting_date:
+    type: string
+    format: date-time
+    nullable: true
+    description: >-
+      The ISO timestamp when the transaction was processed and accounted for by the
+      institution.
+    example: '2019-10-23T13:01:41.941Z'
+  amount:
+    type: number
+    format: float
+    description: >
+      The transaction amount.
+
+      ℹ️ The amount displayed is always positive as we indicate the direction of
+      the transaction in the `type` parameter.
+    example: 2145.45
+  balance:
+    type: number
+    format: float
+    nullable: true
+    description: The balance at the end of the transaction.
+    example: 16907.96
+  currency:
+    type: string
+    description: "The currency of the transaction. For example:\n- \U0001F1E7\U0001F1F7 BRL (Brazilian Real)\n- \U0001F1E8\U0001F1F4 COP (Colombian Peso)\n- \U0001F1F2\U0001F1FD MXN (Mexican Peso)\n\n Please note that other currencies other than in the list above may be returned."
+    example: MXN
+  description:
+    type: string
+    nullable: true
+    description: >-
+      The description of transaction provided by the institution. Usually this
+      is the text that the end user sees in the online platform.
+    example: 'SEVEN BUDDHAS RFC:XXXXXXXXXX'
+  observations:
+    type: string
+    nullable: true
+    description: Additional observations provided by the institution on the transaction.
+    example: OPTIONAL OBSERVATIONS
+  merchant:
+    $ref: ./TransactionMerchantData.yaml
+  category:
+    type: string
+    nullable: true
+    enum:
+      - Deposits
+      - Home & Life
+      - Food & Groceries
+      - Online Platforms & Leisure
+      - Transport & Travel
+      - Personal Shopping
+      - Taxes
+      - Withdrawal & ATM
+      - Credits & Loans
+      - Bills & Utilities
+      - Investments & Savings
+      - Fees & Charges
+      - Income & Payments
+      - Transfers
+      - null
+      - Unknown
+    description: |
+      The name of the category to which this transaction belongs.
+
+      > **Get transaction categorization**
+      We can clean and categorize transactions for you as part of our [Transaction categorization](https://developers.belvo.com/docs/banking#transaction-categorization) product, turning raw data into actionable insights. To enable this product, just email our sales team at sales@belvo.com, and they'll get right to it.
+
+      We return one of the following enum values:
+
+        - `Deposits`
+        - `Home & Life`
+        - `Food & Groceries`
+        - `Online Platforms & Leisure`
+        - `Transport & Travel`
+        - `Personal Shopping`
+        - `Taxes`
+        - `Withdrawal & ATM`
+        - `Credits & Loans`
+        - `Bills & Utilities`
+        - `Investments & Savings`
+        - `Fees & Charges`
+        - `Income & Payments`
+        - `Transfers`
+        - `Unknown`*
+
+        \* For clients not using our Transaction Categorization product, we return `null` instead.
+
+    example: Food & Groceries
+  reference:
+    type: string
+    nullable: true
+    maxLength: 128
+    description: 'The reference number of the transaction, provided by the bank.'
+    example: '8703'
+  type:
+    type: string
+    enum:
+      - OUTFLOW
+      - INFLOW
+      - null
+    nullable: true
+    description: |
+      The direction of the transaction:
+      - `INFLOW` indicates money coming into the account.
+      - `OUTFLOW` indicates money going out of the account.
+  status:
+    type: string
+    enum:
+      - PENDING
+      - PROCESSED
+      - UNCATEGORIZED
+      - null
+    nullable: true
+    description: |
+      The status of the transaction.
+
+      We return one of the following enum values:
+
+        - `PENDING`
+        - `PROCESSED`
+        - `UNCATEGORIZED`
+  credit_card_data:
+    $ref: ./TransactionCreditCardData.yaml

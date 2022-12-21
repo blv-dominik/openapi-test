@@ -1,0 +1,48 @@
+type: object
+description: MFA Token Required
+properties:
+  code:
+    type: string
+    description: >-
+      A unique error code (`token_required`) that allows you to classify and handle the error programmatically.
+
+
+      ℹ️ Check our DevPortal for more information on how to handle <a href="https://developers.belvo.com/docs/belvo-api-errors#428-token_required" target="_blank">428 token_required errors</a>.
+    example: token_required
+  message:
+    type: string
+    description: >-
+      A short description of the error. 
+
+
+      For `token_required` errors, the description is:
+        
+        - `A MFA token is required by the institution to login`.
+    example: A MFA token is required by the institution to login
+  request_id:
+    type: string
+    pattern: '[a-f0-9]{32}'
+    description: >-
+      A 32-character unique ID of the request (matching a regex pattern of: `[a-f0-9]{32}`). Provide this ID when contacting the Belvo
+      support team to accelerate investigations.
+    example: 8c7b283c6efa449c9c028a16b5c249fa
+  session:
+    type: string
+    pattern: '[a-f0-9]{32}'
+    description: >-
+      A 32-character unique ID of the login session (matching a regex pattern of: `[a-f0-9]{32}`).
+    example: 2675b703b9d4451f8d4861a3eee54449
+  expiry:
+    type: integer
+    format: int32
+    description: Session duration time in seconds.
+    example: 9600
+  link:
+    type: string
+    format: uuid
+    description: >-
+      Unique identifier created by Belvo, used to reference the current
+      Link.
+    example: 30cb4806-6e00-48a4-91c9-ca55968576c8
+  token_generation_data:
+    $ref: ../responses/TokenRequiredResponseTokenGenerationData.yaml

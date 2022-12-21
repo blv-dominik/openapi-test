@@ -1,0 +1,402 @@
+get:
+  tags:
+    - Investment Portfolios
+  operationId: ListPortfolio
+  description: >-
+    Get a paginated list of all the existing portfolios (and their instruments) in your Belvo account. By default, we return up to 100 results per page.
+  summary: List all portfolios
+  parameters:
+    - name: page
+      required: false
+      in: query
+      description: A page number within the paginated result set.
+      schema:
+        type: integer
+        format: int32
+        example: 1
+    - name: page_size
+      required: false
+      in: query
+      description: |
+        Indicates how many results to return per page. By default we return 100 results per page. 
+    
+        ℹ️ The minimum number of results returned per page is 1 and the maximum is 1000. If you enter a value greater than 1000, our API will default to the maximum value (1000).
+      schema:
+        type: integer
+        format: int32
+        default: 100
+        minimum: 1
+        maximum: 1000
+        example: 100
+    - name: link
+      in: query
+      description: |
+        The `link.id` you want to filter by.
+
+        ℹ️ We highly recommend adding the `link.id` filter in order to improve your performance.
+      schema:
+        type: string
+        format: uuid
+        example: 8848bd0c-9c7e-4f53-a732-ec896b11d4c4
+    - name: created_at__gt
+      in: query
+      schema:
+        type: string
+    - name: created_at__gte
+      in: query
+      schema:
+        type: string
+    - name: created_at__lt
+      in: query
+      schema:
+        type: string
+    - name: created_at__lte
+      in: query
+      schema:
+        type: string
+    - name: created_at__range
+      in: query
+      schema:
+        type: string
+    - name: link__in
+      in: query
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: ../components/responses/InvestmentsPortfoliosPaginatedResponse.yaml
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+  x-readme:
+    code-samples:
+      - language: python
+        name: Belvo Python SDK
+        code: |
+          # For more information about our SDKs go to:
+          # https://developers.belvo.com/docs/belvo-sdks
+
+          from belvo.client import Client
+
+          # Login to Belvo API
+          client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+          # List Investment Portfolios
+          for portfolio in client.InvestmentsPortfolios.list():
+          pprint(portfolio)
+      - language: ruby
+        name: Belvo Ruby SDK
+        code: |
+          # For more information about our SDKs go to:
+          # https://developers.belvo.com/docs/belvo-sdks
+
+          require 'belvo'
+
+          sandbox = Belvo::Client.new(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          )
+
+          client.investments_portfolio.list
+      - language: node
+        name: Belvo Node SDK
+        code: |
+          // For more information about our SDKs go to:
+          // https://developers.belvo.com/docs/belvo-sdks
+
+          var belvo = require('belvo').default;
+
+          var client = new belvo(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          );
+
+          client.connect()
+            .then(function () {
+              client.investmentsPortfolios.list()
+                .then(function (res) {
+                  console.log(res);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+          });
+post:
+  tags:
+    - Investment Portfolios
+  operationId: RetrievePortfolio
+  summary: Retrieve portfolios for a link
+  description: Retrieve all portfolios for an existing link.
+  parameters: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/requestBodies/StandardRequest.yaml
+  responses:
+    '200':
+      description: Ok (when `save_data=false`)
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/investments/investments_portfolios/InvestmentsPortfolio.yaml
+    '201':
+      description: Created (when `save_data=true`)
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/investments/investments_portfolios/InvestmentsPortfolio.yaml
+    '400':
+      description: Bad request error
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              anyOf:
+              - $ref: ../components/errors/TooManySessionsError.yaml
+              - $ref: ../components/errors/SessionExpiredError.yaml
+              - $ref: ../components/errors/ValidationError.yaml
+              - $ref: ../components/errors/InstitutionDownError.yaml
+              - $ref: ../components/errors/InstitutionUnavailableError.yaml
+              - $ref: ../components/errors/InstitutionInactiveError.yaml
+              - $ref: ../components/errors/UnsupportedOperationError.yaml
+              - $ref: ../components/errors/InvalidLinkError.yaml
+              - $ref: ../components/errors/UnconfirmedLinkError.yaml
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+    '428':
+      description: MFA Token Required
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/responses/TokenRequiredResponse.yaml
+    '500':
+      description: Unexpected Error
+      content:
+        application/json:
+          schema:
+            type: array
+            title: Unexpected Error
+            description: >-
+              This error occurs when we (Belvo) have encountered an internal system error (sorry about that) or due to an unsupported response from the institution.
+                
+            items:
+              $ref: ../components/errors/UnexpectedError.yaml
+  x-readme:
+    code-samples:
+      - language: python
+        name: Belvo Python SDK
+        code: |
+          # For more information about our SDKs go to:
+          # https://developers.belvo.com/docs/belvo-sdks
+
+          from belvo.client import Client
+
+          # Login to Belvo API
+          client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+          # Retrieve Investment Portfolios
+          client.InvestmentsPortfolios.create('link-id')
+      - language: ruby
+        name: Belvo Ruby SDK
+        code: |
+          # For more information about our SDKs go to:
+          # https://developers.belvo.com/docs/belvo-sdks
+
+          require 'belvo'
+
+          sandbox = Belvo::Client.new(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          )
+
+          client.investments_portfolio.retrieve(
+            link: 'link-id'
+          )
+      - language: node
+        name: Belvo Node SDK
+        code: |
+          // For more information about our SDKs go to:
+          // https://developers.belvo.com/docs/belvo-sdks
+
+          var belvo = require('belvo').default;
+
+          var client = new belvo(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          );
+
+          client.connect()
+            .then(function () {
+              client.investmentsPortfolios.retrieve('linkID')
+                .then(function (res) {
+                  console.log(res);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+          });
+
+patch:
+  tags:
+    - Investment Portfolios
+  operationId: PatchPortfolio
+  summary: Complete a portfolios request
+  description: >-
+    Used to resume a portfolio retrieve session that was paused because an MFA token
+    was required by the institution.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/requestBodies/PatchBodyWithoutSaveData.yaml
+  responses:
+    '200':
+      description: Ok (when `save_data=false`)
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/investments/investments_portfolios/InvestmentsPortfolio.yaml
+    '201':
+      description: Created (when `save_data=true`)
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/investments/investments_portfolios/InvestmentsPortfolio.yaml
+    '400':
+      description: Bad request error
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              anyOf:
+              - $ref: ../components/errors/TooManySessionsError.yaml
+              - $ref: ../components/errors/SessionExpiredError.yaml
+              - $ref: ../components/errors/ValidationError.yaml
+              - $ref: ../components/errors/InstitutionDownError.yaml
+              - $ref: ../components/errors/InstitutionUnavailableError.yaml
+              - $ref: ../components/errors/InstitutionInactiveError.yaml
+              - $ref: ../components/errors/UnsupportedOperationError.yaml
+              - $ref: ../components/errors/InvalidLinkError.yaml
+              - $ref: ../components/errors/UnconfirmedLinkError.yaml
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+    '428':
+      description: MFA Token Required
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/responses/TokenRequiredResponse.yaml
+    '500':
+      description: Unexpected Error
+      content:
+        application/json:
+          schema:
+            type: array
+            title: Unexpected Error
+            description: >-
+              This error occurs when we (Belvo) have encountered an internal system error (sorry about that) or due to an unsupported response from the institution.
+                
+            items:
+              $ref: ../components/errors/UnexpectedError.yaml
+  x-readme:
+    code-samples:
+      - language: python
+        name: Belvo Python SDK
+        code: |
+          # For more information about our SDKs go to:
+          # https://developers.belvo.com/docs/belvo-sdks
+
+          from belvo.client import Client
+
+          # Login to Belvo API
+          client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+          # Resume Investment Portfolios
+          investments_portfolios = client.InvestmentsPortfolios.resume(
+            session="session_id",
+            token="token",
+            link="link_id"
+          )
+      - language: ruby
+        name: Belvo Ruby SDK
+        code: |
+          # For more information about our SDKs go to:
+          # https://developers.belvo.com/docs/belvo-sdks
+
+          require 'belvo'
+
+          client = Belvo::Client.new(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          )
+
+          client.investments_portfolio.resume(
+            session: 'session_id',
+            token: 'token',
+            link: 'link_id'
+          )
+      - language: node
+        name: Belvo Node SDK
+        code: |
+          // For more information about our SDKs go to:
+          // https://developers.belvo.com/docs/belvo-sdks
+
+          var belvo = require('belvo').default;
+
+          var client = new belvo(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          );
+
+          client.connect()
+            .then(function () {
+              client.investmentsPortfolios.resume('sessionId', 'token', 'linkId')
+                .then(function (res) {
+                  console.log(res);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+          });

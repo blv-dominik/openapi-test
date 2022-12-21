@@ -14174,7 +14174,7 @@ paths:
         - Links
       operationId: UpdateLink
       summary: Update a link's credentials
-      description: >
+      description: |
         Update the credentials of a specific link. If the successfully updated
         link is a recurrent one, we automatically trigger an update of the link.
         If we find fresh data, you'll [receive historical

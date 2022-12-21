@@ -1,0 +1,79 @@
+openapi: 3.0.2
+info:
+  title: Banking API
+  version: 1.20.1
+  description:
+    $ref: ./markdown/BelvoApiIntroduction.md
+  contact:
+    name: Need help?
+    url: 'https://developers.belvo.com'
+    email: support@belvo.com
+  x-logo:
+    url: 'https://files.readme.io/5111448-belvo-for-developers.svg'
+    altText: Belvo logo
+servers:
+  - url: 'https://sandbox.belvo.com'
+    description: Sandbox
+  - url: 'https://development.belvo.com'
+    description: Development
+security:
+  - basicAuth: []
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description:
+        $ref: ./markdown/BelvoBasicAuthentication.md
+tags:
+  - name: Banking API introduction
+    description:
+      $ref: ./markdown/BankingIntroduction.md
+  - name: Accounts
+    description:
+      $ref: ./markdown/Accounts.md
+  - name: Transactions
+    description:
+      $ref: ./markdown/Transactions.md
+  - name: Balances
+    description:
+      $ref: ./markdown/Balances.md
+  - name: Owners
+    description:
+      $ref: ./markdown/Owners.md
+  - name: Investment Portfolios
+    description:
+      $ref: ./markdown/InvestmentPortfolios.md
+  - name: Receivable Transactions
+    description:
+      $ref: ./markdown/ReceivableTransactions.md
+paths:
+  /api/accounts/:
+    $ref: paths/api@accounts@.yaml
+  '/api/accounts/{id}/':
+    $ref: 'paths/api@accounts@{id}@.yaml'
+  /api/transactions/:
+    $ref: paths/api@transactions@.yaml
+  '/api/transactions/{id}/':
+    $ref: 'paths/api@transactions@{id}@.yaml'
+  /api/balances/:
+    $ref: paths/api@balances@.yaml
+  '/api/balances/{id}/':
+    $ref: 'paths/api@balances@{id}@.yaml'
+  /api/owners/:
+    $ref: paths/api@owners@.yaml
+  '/api/owners/{id}/':
+    $ref: 'paths/api@owners@{id}@.yaml'
+  /investments/portfolios/:
+    $ref: paths/investments@portfolios.yaml
+  '/investments/portfolios/{id}/':
+    $ref: 'paths/investments@portfolios@{id}.yaml'
+  /receivables/transactions/:
+    $ref: paths/receivables@transactions.yaml
+  '/receivables/transactions/{id}/':
+    $ref: 'paths/receivables@transactions@{id}.yaml'
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true
+  samples-enabled: true
+  samples-languages: ['curl', 'node', 'ruby', 'python']

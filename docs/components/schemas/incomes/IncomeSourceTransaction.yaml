@@ -1,0 +1,25 @@
+type: object
+nullable: true
+required:
+  - amount
+  - value_date
+  - description
+properties:
+  amount:
+    type: number
+    format: float
+    maximum: 10000000000
+    minimum: 0
+    description: The transaction amount.
+    example: 2145.45
+  value_date:
+    type: string
+    format: date
+    description: The date when the transaction occurred, in `YYYY-MM-DD` format.
+    example: 2019-10-23
+  description:
+    type: string
+    description: >-
+      The description of the transaction provided by the institution. Usually,
+      this is the text that the end user would see in the bank statement.
+    example: 'NOMINA BUDDHAS RFC:XXXXXXXXXX'

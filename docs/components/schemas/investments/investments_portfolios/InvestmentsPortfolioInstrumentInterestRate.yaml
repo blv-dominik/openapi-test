@@ -1,0 +1,25 @@
+type: object
+nullable: true
+required:
+ - type
+ - value
+ - index
+properties:
+  type:
+    type: string
+    description: How often the interest rate is calculated on the instrument.
+    example: yearly
+  value:
+    type: number
+    format: float
+    description: |
+      The interest rate for the instrument, in percent.
+
+
+      ℹ️  **Note:** If the `interest_rate.index` is present, this value is a percentage of the index. For example, if `interest_rate.index` = `CDI` and `interest_rate.value` = `90`, then the total interest rate applied is 90% of the CDI.
+    example: 11.31
+  index:
+    type: string
+    nullable: true
+    description: If applicable, the index type that the `interest_rates.value` is calculated against.
+    example: CDI

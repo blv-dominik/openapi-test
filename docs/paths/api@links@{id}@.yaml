@@ -1,0 +1,370 @@
+get:
+  tags:
+    - Links
+  operationId: DetailLink
+  summary: Get a link's details
+  description: Get the details of a specific link.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The `link.id` you want to get detailed information about.
+  responses:
+    '200':
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/links/Link.yaml
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+    '404':
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              You made a request where you:
+
+                - provided the wrong URL.
+                - used an ID (for a link, account, transaction, and so on) that is not associated with your Belvo account.
+                
+            items:
+              $ref: ../components/errors/NotFoundError.yaml
+  x-readme:
+    code-samples:
+      - language: cURL
+        code: |
+          curl https://sandbox.belvo.com/api/links/{id} \
+            -u [Secret Key ID]:[Secret Key PASSWORD]
+      - language: python
+        name: Belvo Python SDK
+        code: |
+          # check our python-client library on github
+          # https://github.com/belvo-finance/belvo-python
+          from belvo.client import Client
+
+          # Login to Belvo API
+          client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+          # Get a link
+          link = client.Links.get(id="link_id")
+      - language: ruby
+        name: Belvo Ruby SDK
+        code: |
+          # check our Ruby gem on github
+          # https://github.com/belvo-finance/belvo-ruby
+          require 'belvo'
+
+          sandbox = Belvo::Client.new(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          )
+
+          sandbox.links.detail id: 'link-id'
+      - language: node
+        name: Belvo Node SDK
+        code: |
+          // check our node package on github
+          // https://github.com/belvo-finance/belvo-js
+
+          var belvo = require('belvo').default;
+
+          var client = new belvo(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          );
+
+          client.connect()
+            .then(function () {
+              client.links.detail('linkId')
+                .then(function (res) {
+                  console.log(res);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+          });
+put:
+  tags:
+    - Links
+  operationId: UpdateLink
+  summary: Update a link's credentials
+  description: >
+    Update the credentials of a specific link. If the successfully updated link is a recurrent one, we automatically trigger an update of the link. If we find fresh data, you'll [receive historical update](https://developers.belvo.com/docs/webhooks) webhooks.
+
+    <div style="background-color:#f4f6f8; border-left: 6px solid
+    #4CAF50;padding: 12px;margin-left: 25px; border-radius: 4px; margin-right:
+    25px"> <strong>Note: </strong> We recommend using our <a
+    href="https://developers.belvo.com/docs/connect-widget"
+    target="_blank">Connect Widget</a> to handle updating <code>invalid</code>
+    or <code>token_required</code> links. </div>
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The `link.id` you want to update.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/requestBodies/LinksPutRequest.yaml
+  responses:
+    '200':
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/links/Link.yaml
+    '400':
+      description: Bad request error
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              anyOf:
+              - $ref: ../components/errors/TooManySessionsError.yaml
+              - $ref: ../components/errors/SessionExpiredError.yaml
+              - $ref: ../components/errors/ValidationError.yaml
+              - $ref: ../components/errors/InstitutionDownError.yaml
+              - $ref: ../components/errors/InstitutionUnavailableError.yaml
+              - $ref: ../components/errors/InstitutionInactiveError.yaml
+              - $ref: ../components/errors/UnsupportedOperationError.yaml
+              - $ref: ../components/errors/InvalidLinkError.yaml
+              - $ref: ../components/errors/UnconfirmedLinkError.yaml
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+    '404':
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              You made a request where you:
+
+                - provided the wrong URL.
+                - used an ID (for a link, account, transaction, and so on) that is not associated with your Belvo account.
+                
+            items:
+              $ref: ../components/errors/NotFoundError.yaml
+    '428':
+      description: MFA Token Required
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/responses/TokenRequiredResponse.yaml
+    '500':
+      description: Unexpected Error
+      content:
+        application/json:
+          schema:
+            type: array
+            title: Unexpected Error
+            description: >-
+              This error occurs when we (Belvo) have encountered an internal system error (sorry about that) or due to an unsupported response from the institution.
+                
+            items:
+              $ref: ../components/errors/UnexpectedError.yaml
+  x-readme:
+    code-samples:
+      - language: cURL
+        code: |
+          curl -X PUT https://sandbox.belvo.com/api/links/{id} \
+            -H 'Content-Type: application/json' \
+            -H 'Host: sandbox.belvo.com' \
+            -H 'cache-control: no-cache' \
+            -d '{
+                "password": ""
+            }' \
+            -u [Secret Key ID]:[Secret Key PASSWORD]
+      - language: python
+        name: Belvo Python SDK
+        code: |
+          # check our python-client library on github
+          # https://github.com/belvo-finance/belvo-python
+          from belvo.client import Client
+
+          # Login to Belvo API
+          client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+          # Update a link
+          link = client.Links.put(link="link_id", password="password")
+      - language: ruby
+        name: Belvo Ruby SDK
+        code: |
+          # check our Ruby gem on github
+          # https://github.com/belvo-finance/belvo-ruby
+          require 'belvo'
+
+          sandbox = Belvo::Client.new(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          )
+
+          sandbox.links.update(link: 'link-id', password: 'new-password')
+      - language: node
+        name: Belvo Node SDK
+        code: |
+          // check our node package on github
+          // https://github.com/belvo-finance/belvo-js
+
+          var belvo = require('belvo').default;
+
+          var client = new belvo(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          );
+
+          client.connect()
+            .then(function () {
+              client.links.update('linkID', 'newSuperSecret')
+                .then(function (res) {
+                  console.log(res);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+          });
+delete:
+  tags:
+    - Links
+  operationId: DestroyLink
+  summary: Delete a link
+  description: >-
+    Delete a specific link and all associated accounts, transactions, and owners
+    from your Belvo account.
+
+    # Deleting links in batches
+
+    To delete links in bulk, we recommend looping through the list of links you want to delete and making the delete request.
+
+      > 🚧 **Rate limiting and IP blocking**
+      > 
+      > An important technical note for performing operations in batches is to take into consideration our rate-limiting: up to 80 requests every 30 seconds. If you exceed this limit, you run the risk of Belvo blocking your IP from making further requests.
+      > 
+      > For more information, or if your IP address has been blocked, please contact our [support team](https://support.belvo.com/hc/en-us/requests/new).
+
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: The `link.id` that you want to delete.
+  responses:
+    '204':
+      description: No content
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+    '404':
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              You made a request where you:
+
+                - provided the wrong URL.
+                - used an ID (for a link, account, transaction, and so on) that is not associated with your Belvo account.
+                
+            items:
+              $ref: ../components/errors/NotFoundError.yaml
+  x-readme:
+    code-samples:
+      - language: cURL
+        code: |
+          curl -X DELETE \
+            https://sandbox.belvo.com/api/links/{id}/ \
+            -H 'Host: sandbox.belvo.com' \
+            -u [Secret Key ID]:[Secret Key PASSWORD]
+      - language: python
+        name: Belvo Python SDK
+        code: |
+          # check our python-client library on github
+          # https://github.com/belvo-finance/belvo-python
+          from belvo.client import Client
+
+          # Login to Belvo API
+          client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+          client.Links.delete("link_id")
+      - language: ruby
+        name: Belvo Ruby SDK
+        code: |
+          # check our Ruby gem on github
+          # https://github.com/belvo-finance/belvo-ruby
+          require 'belvo'
+
+          sandbox = Belvo::Client.new(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          )
+
+          sandbox.links.delete id: 'link-id'
+      - language: node
+        name: Belvo Node SDK
+        code: |
+          // check our node package on github
+          // https://github.com/belvo-finance/belvo-js
+
+          var belvo = require('belvo').default;
+
+          var client = new belvo(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          );
+
+          client.connect()
+            .then(function () {
+              client.links.delete('linkId')
+                .then(function (res) {
+                  console.log(res);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+          });

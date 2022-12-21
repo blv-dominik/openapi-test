@@ -1,0 +1,73 @@
+summary: Invoice Pago
+description: Example of a *Pago* type invoice.
+value:
+  id: 90d90e38-0087-4b6d-b6dc-94ea561bb9cb
+  link: 1bd948f7-245d-4313-b604-34d1044cb908
+  collected_at: 2022-02-09T08:45:50.406032Z
+  created_at: 2022-02-09T08:46:20.406032Z
+  invoice_identification: 862B9918-3K6H-4E0B-NAI9-2BE2D833B840
+  invoice_date: '2020-12-24'
+  status: Vigente
+  invoice_type: Pago
+  type: OUTFLOW
+  sender_id: GHTF980303F7
+  sender_name: Roberto Martinez Diaz
+  sender_tax_fraud_status: NO_TAX_FRAUD_STATUS
+  receiver_id: MNMK3203409H1
+  receiver_name: ACNE SA DE CV
+  receiver_tax_fraud_status: NO_TAX_FRAUD_STATUS
+  cancelation_status: null
+  cancelation_update_date: null
+  certification_date: '2020-12-24'
+  certification_authority: FGV330542BG6
+  payment_type: null
+  payment_type_description: null
+  payment_method: null
+  usage: P01
+  place_of_issue: '11000'
+  version: '3.3'
+  invoice_details:
+    - description: Pago
+      product_identification: '84111506'
+      quantity: 1
+      unit_amount: 0
+      unit_code: ACT
+      unit_description: null
+      pre_tax_amount: 0
+      tax_percentage: 0
+      tax_amount: 0
+      total_amount: 0
+      retained_taxes: []
+      collected_at: 2022-02-09T08:45:50.406032Z
+  currency: MXN
+  subtotal_amount: 0
+  exchange_rate: null
+  tax_amount: 0
+  discount_amount: 0
+  total_amount: 0
+  payments:
+    - date: 2020-03-17T12:00:00.000Z
+      payment_type: '03'
+      currency: BRL
+      exchange_rate: '3.75'
+      amount: 8000.5
+      operation_number: "831840"
+      beneficiary_rfc: BNM840515VB1
+      beneficiary_account_number: '12343453245633'
+      payer_rfc: BKJM840515VB1
+      payer_account_number: '13343663245699'
+      payer_bank_name: CITI BANAMEX
+      related_documents:
+        - invoice_identification: 7EE015F3-6311-11EA-B02A-00155D014007
+          currency: MXN
+          payment_method: PPD
+          installment: 1
+          previous_balance: 18877.84
+          amount_paid: 8000
+          outstanding_balance: 10877.84
+  payroll: null
+  folio: '28'
+  xml: '=XML-STRING='
+  warnings:
+    code: warning_code
+    message: warning message

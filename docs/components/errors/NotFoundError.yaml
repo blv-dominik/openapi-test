@@ -1,0 +1,28 @@
+type: object
+title: Not Found
+properties:
+  code:
+    type: string
+    description: >-
+      A unique error code (`not_found`) that allows you to classify and handle the error programmatically.
+      
+      
+      ℹ️ Check our DevPortal for more information on how to handle <a href="https://developers.belvo.com/docs/belvo-api-errors#404-not_found" target="_blank">404 not_found errors</a>.
+    example: not_found
+  message:
+    type: string
+    description: >-
+      A short description of the error. 
+      
+      
+      For `not_found` errors, the description is:
+        
+        - `Not found`
+    example: Not found
+  request_id:
+    type: string
+    pattern: '[a-f0-9]{32}'
+    description: >-
+      A 32-character unique ID of the request (matching a regex pattern of: `[a-f0-9]{32}`). Provide this ID when contacting the Belvo
+      support team to accelerate investigations.
+    example: 9e7b283c6efa449c9c028a16b5c249fb

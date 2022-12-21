@@ -1,0 +1,32 @@
+type: object
+title: Unconfirmed Link
+description: >-
+  This error occurs when you try to access a link that was paused previously (and as such is not active now).
+
+  A Link's status is set to `unconfirmed_link` when your user has not completed the Link creation process successfully (for example, they might not provide a valid MFA token).
+properties:
+  code:
+    type: string
+    description: >-
+      A unique error code (`unconfirmed_link`) that allows you to classify and handle the error programmatically.
+      
+      
+      ℹ️ Check our DevPortal for more information on how to handle <a href="https://developers.belvo.com/docs/belvo-api-errors#400-unconfirmed_link" target="_blank">400 unconfirmed_link errors</a>.
+    example: unconfirmed_link
+  message:
+    type: string
+    description: >-
+      A short description of the error. 
+      
+      
+      For `unconfirmed_link` errors, the description is:
+        
+        - `The link creation has not been completed yet`.
+    example: The link creation has not been completed yet
+  request_id:
+    type: string
+    pattern: '[a-f0-9]{32}'
+    description: >-
+      A 32-character unique ID of the request (matching a regex pattern of: `[a-f0-9]{32}`). Provide this ID when contacting the Belvo
+      support team to accelerate investigations.
+    example: 9e7b283c6efa449c9c028a16b5c249fb

@@ -1,0 +1,77 @@
+type: object
+required:
+  - name
+  - type
+  - balance_gross
+  - balance_net
+  - currency
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Belvo's unique ID for the current portfolio.
+    example: 30cb4806-6e00-48a4-91c9-ca55968576c8
+  name:
+    type: string
+    description: |
+      The name of the portfolio, as given in the institution.
+    example: Investimento
+  type:
+    type: string
+    enum:
+      - FIXED_INCOME
+      - OTHER
+      - PENSION
+      - VARIABLE_INCOME
+    description: |
+      The portfolio type.
+
+      We return one of the following enum values:
+
+        - `FIXED_INCOME`
+        - `OTHER`
+        - `PENSION`
+        - `VARIABLE_INCOME`
+
+    example: FIXED_INCOME
+  balance_type:
+    type: string
+    nullable: true
+    description: >
+      Indicates whether this account is either an `ASSET` or a `LIABILITY`. You can consider the balance of an `ASSET` as being positive, while the balance of a `LIABILITY` as negative.
+    example: ASSET
+  balance_gross:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The current gross total value of the entire portfolio and all its underlying instruments, as given by the institution.
+    example: 76000.00
+  balance_net:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The total current value of the entire portfolio and all its underlying instruments, as given by the institution.
+
+      ℹ️ **Note:** In Brazil, this is usually calculated based on the net value (that is, not including tax).
+    example: 77370.69
+  currency:
+    type: string
+    description: |
+      The currency of the portfolio. For example:
+
+
+      - 🇧🇷 BRL (Brazilian Real)
+      - 🇨🇴 COP (Colombian Peso)
+      - 🇲🇽 MXN (Mexican Peso)
+
+
+      Please note that other currencies other than in the list above may be returned.
+    example: BRL
+  instruments:
+    type: array
+    nullable: true
+    description: An array of instruments that fall into the investment portfolio.
+    items:
+      $ref: ./InvestmentsPortfolioInstrument.yaml

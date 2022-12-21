@@ -1,0 +1,12 @@
+type: object
+properties:
+  street_one:
+    type: string
+    nullable: true
+    description: The first street that `street` is located between.
+    example: CALLE PRINCIPE
+  street_two:
+    type: string
+    nullable: true
+    description: The second street that `street` is located between.
+    example: CALLE NUEVA ROMA

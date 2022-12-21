@@ -1,0 +1,116 @@
+type: object
+nullable: true
+required:
+  - min_balance_1w
+  - min_balance_1m
+  - min_balance_3m
+  - max_balance_1w
+  - max_balance_1m
+  - max_balance_3m
+  - days_balance_below_0_1w
+  - days_balance_below_0_1m
+  - days_balance_below_0_3m
+  - days_balance_below_x_1w
+  - days_balance_below_x_1m
+  - days_balance_below_x_3m
+  - closing_balance
+  - balance_threshold_x
+description: Balance metrics calculated based on the user's balances from checking and savings accounts.
+properties:
+  min_balance_1w:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The minimum balance in the period (one week).
+      example: 0.51
+  min_balance_1m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The minimum balance in the period (one month).
+      example: 0.51
+  min_balance_3m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The minimum balance in the period (three months).
+      example: 0.51
+  max_balance_1w:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The maximum balance in the period (one week).
+      example: 3062.11
+  max_balance_1m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The maximum balance in the period (one month).
+      example: 3062.11
+  max_balance_3m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The maximum balance in the period (three months).
+      example: 3062.11
+  closing_balance:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The balance of all the accounts at the `collected_at` time.
+      example: 24.19
+  days_balance_below_0_1w:
+      type: integer
+      format: int32
+      nullable: true
+      description: |
+        The number of days that the total balance of the account is less than or equal to 0 in the last week.
+      example: 0
+  days_balance_below_0_1m:
+      type: integer
+      format: int32
+      nullable: true
+      description: |
+        The number of days that the total balance of the account is less than or equal to 0 in the last month.
+      example: 0
+  days_balance_below_0_3m:
+      type: integer
+      format: int32
+      nullable: true
+      description: |
+        The number of days that the total balance of the account is less than or equal to 0 in the last three months.
+      example: 0
+  days_balance_below_x_1w:
+      type: integer
+      format: int32
+      nullable: true
+      description: |
+        The number of days that the total balance of the account is less than or equal to the amount specified in `balance_threshold_x` in the last week.
+      example: 3
+  days_balance_below_x_1m:
+      type: integer
+      format: int32
+      nullable: true
+      description: |
+        The number of days that the total balance of the account is less than or equal to the amount specified in `balance_threshold_x` in the last month.
+      example: 3
+  days_balance_below_x_3m:
+      type: integer
+      format: int32
+      nullable: true
+      description: |
+        The number of days that the total balance of the account is less than or equal to the amount specified in `balance_threshold_x` in the last three months.
+      example: 3
+  balance_threshold_x:
+      type: number
+      format: float
+      description: |
+        The threshold used to compute `days_balance_below_x_period`. Please note, this is value is country specific (both in terms of the amount and the currency).
+      example: 267.00

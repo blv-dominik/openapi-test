@@ -1,0 +1,390 @@
+type: object
+required:
+ - type
+ - invoice_identification
+ - invoice_date
+ - invoice_type
+ - subtotal_amount
+ - tax_amount
+ - discount_amount
+ - total_amount
+ - currency
+ - exchange_rate
+ - status
+ - sender_name
+ - sender_id
+ - receiver_name
+ - receiver_id
+ - certification_authority
+ - certification_date
+ - cancelation_status
+ - cancelation_update_date
+ - payment_type
+ - payment_type_description
+ - invoice_details
+ - payroll
+ - payments
+ - collected_at
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Belvo's unique identifier used to reference the current invoice.
+    example: c749315b-eec2-435d-a458-06912878564f
+  link:
+    type: string
+    description: The `link.id` the invoice belongs to.
+    example: 30cb4806-6e00-48a4-91c9-ca55968576c8
+  collected_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: >-
+      The ISO-8601 timestamp when the data point was collected.
+    example: 2019-09-27T13:01:41.941Z
+  created_at:
+    type: string
+    format: date-time
+    description: >-
+      The ISO-8601 timestamp of when the data point was last updated in Belvo's database.
+    example: 2022-02-09T08:45:50.406032Z
+  invoice_identification:
+    type: string
+    nullable: true
+    description: The fiscal institution's unique ID for the invoice.
+    example: A1A1A1A1-2B2B-3C33-D44D-555555E55EE
+  invoice_date:
+    type: string
+    format: date
+    nullable: true
+    description: The date of the invoice.
+    example: '2019-12-01'
+  status:
+    type: string
+    nullable: true
+    description: >-
+      The status of the invoice. Can be either *Vigente* (valid) or *Cancelado*
+      (cancelled).
+    example: Vigente
+  invoice_type:
+    type: string
+    nullable: true
+    enum:
+      - Egreso
+      - Ingreso
+      - Nómina
+      - Pago
+      - Traslado
+    description: |
+      The fiscal institution's classification of the invoice.
+
+      For Mexico's SAT, we return one of the following enum values:
+
+        - `Egreso`
+        - `Ingreso`
+        - `Nómina`
+        - `Pago`
+        - `Traslado`
+
+    example: Ingreso
+  type:
+    type: string
+    enum:
+      - OUTFLOW
+      - INFLOW
+    nullable: true
+    description: |
+      The type of the invoice (from the perspective of the invoice sender). Can be either `INFLOW` or `OUTFLOW`.
+    example: OUTFLOW
+  sender_id:
+    type: string
+    nullable: true
+    description: The fiscal ID of the invoice sender
+    example: AAA111111AA11
+  sender_name:
+    type: string
+    nullable: true
+    description: The name of the invoice sender.
+    example: ACME CORP
+  sender_tax_fraud_status:
+    type: string
+    nullable: true
+    description: >-
+      Indicates whether or not the sender is on SAT's tax fraud list for having submitted incorrect data, having outstanding payments, or having conducted business that is in violation of the fiscal institution's regulations.<br><br>
+
+      SAT updates the tax fraud list every three months. <br><br>
+
+      For more information regarding the reason's a taxpayer can be put on the tax fraud list, please see [Article 69](http://omawww.sat.gob.mx/cifras_sat/Paginas/datos/vinculo.html?page=ListCompleta69.html) and [Article 69-B](http://omawww.sat.gob.mx/cifras_sat/Paginas/datos/vinculo.html?page=ListCompleta69B.html) of Mexico's Código Fiscal de la Federación.
+      <br><br>
+
+      Possible statuses are:
+
+      - `INVESTIGATING` <br>
+      The fiscal institution has identified irregularities and open an investigation regarding the taxpayer.
+      <br>
+      - `DISMISSED` <br>
+      The fiscal institution has investigated the taxpayer and declared them innocent.
+      <br>
+      - `CONFIRMED` <br>
+      The fiscal institution has confirmed that the taxpayer is guilty.
+      <br>
+      - `OVERTURNED` <br>
+      The fiscal institution has reassessed a previously confirmed taxpayer and, based on new evidence, has taken the taxpayer off the tax fraud list.
+      <br>
+      - `NO_TAX_FRAUD_STATUS` <br>
+      The receiver or sender is not found in the list (in other words, they are complying with the fiscal institution's regulations).
+
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: NO_TAX_FRAUD_STATUS
+  receiver_id:
+    type: string
+    nullable: true
+    description: The fiscal ID of the invoice receiver.
+    example: BBB222222BB22
+  receiver_name:
+    type: string
+    nullable: true
+    description: The name of the invoice receiver.
+    example: BELVO CORP
+  receiver_tax_fraud_status:
+    type: string
+    nullable: true
+    description: >-
+      Indicates whether or not the receiver is on SAT's tax fraud list for having submitted incorrect data, having outstanding payments, or having conducted business that is in violation of the fiscal institution's regulations.<br><br>
+
+      SAT updates the tax fraud list every three months. <br><br>
+
+      For more information regarding the reason's a taxpayer can be put on the tax fraud list, please see [Article 69](http://omawww.sat.gob.mx/cifras_sat/Paginas/datos/vinculo.html?page=ListCompleta69.html) and [Article 69-B](http://omawww.sat.gob.mx/cifras_sat/Paginas/datos/vinculo.html?page=ListCompleta69B.html) of Mexico's Código Fiscal de la Federación.
+      <br><br>
+
+      Possible statuses are:
+
+      - `INVESTIGATING` <br>
+      The fiscal institution has identified irregularities and open an investigation regarding the taxpayer.
+      <br>
+      - `DISMISSED` <br>
+      The fiscal institution has investigated the taxpayer and declared them innocent.
+      <br>
+      - `CONFIRMED` <br>
+      The fiscal institution has confirmed that the taxpayer is guilty.
+      <br>
+      - `OVERTURNED` <br>
+      The fiscal institution has reassessed a previously confirmed taxpayer and, based on new evidence, has taken the taxpayer off the tax fraud list.
+      <br>
+      - `NO_TAX_FRAUD_STATUS` <br>
+      The receiver or sender is not found in the list (in other words, they are complying with the fiscal institution's regulations).
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: NO_TAX_FRAUD_STATUS
+  cancelation_status:
+    type: string
+    nullable: true
+    description: >-
+      If the invoice is cancelled, this field indicates the status of the cancellation.
+
+
+      **Note**: This field is not applicable for DIAN Colombia.
+  cancelation_update_date:
+    type: string
+    format: date
+    description: |
+      The date of the invoice cancelation.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '2019-12-02'
+    nullable: true
+  certification_date:
+    type: string
+    format: date
+    nullable: true
+    description: |
+      The date of the fiscal certification.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '2019-12-01'
+  certification_authority:
+    type: string
+    nullable: true
+    description: |
+      The fiscal ID of the certification provider.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: CCC333333CC33
+  payment_type:
+    type: string
+    nullable: true
+    description: |
+      The payment type code used for this invoice, as defined by the country legal entity.
+      
+      - 🇲🇽 Mexico [SAT catalog reference article](https://developers.belvo.com/docs/sat-catalogs#payment-type)
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '99'
+  payment_type_description:
+    deprecated: true
+    nullable: true
+    type: string
+    description: |
+      *This field has been deprecated.*
+
+      *The description of the payment method used for this invoice.*
+    example: null
+  payment_method:
+    type: string
+    nullable: true
+    enum:
+      - PUE
+      - PIP
+      - PPD
+      - null
+    description: |
+      The payment method code used for this invoice, as defined by the legal entity of the country.
+
+      - 🇲🇽 Mexico [SAT catalog reference article](https://developers.belvo.com/docs/sat-catalogs#payment-method). For Mexico, we return `PUE`, `PIP`, OR `PPD`.
+
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: PUE
+  payment_method_description:
+    deprecated: true
+    nullable: true
+    type: string
+    description: |
+      *This field has been deprecated.*
+
+      *The description of the payment method used for this invoice.*
+    example: null
+  usage:
+    type: string
+    description: |
+      The invoice's usage code, as defined by the legal entity of the country. 
+      
+      - 🇲🇽 Mexico [SAT catalog reference article](https://developers.belvo.com/docs/sat-catalogs#usage)
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    nullable: true
+    example: P01
+  version:
+    type: string
+    description: |
+      The CFDI version of the invoice.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    nullable: true
+    example: '3.3'
+  place_of_issue:
+    type: string
+    description: |
+      The postcode of where the invoice was issued.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    nullable: true
+    example: '01165'
+  invoice_details:
+    type: array
+    description: >
+      A list of descriptions for each item (purchased product or service
+      provided) in the invoice.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    items:
+      $ref: ./InvoiceDetail.yaml
+  currency:
+    type: string
+    nullable: true
+    description: |
+       The currency of the invoice. For example:
+        
+        - 🇧🇷 BRL (Brazilian Real)
+        - 🇨🇴 COP (Colombian Peso)
+        - 🇲🇽 MXN (Mexican Peso)
+        - 🇺🇸 USD (United States Dollar)
+
+        **Note**: This field is not applicable for DIAN Colombia.
+    example: MXN
+  subtotal_amount:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The pretax amount of this invoice (sum of each item's `pre_tax_amount`).
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 400
+  exchange_rate:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The exchange rate used in this invoice for the currency.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 0.052
+  tax_amount:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The amount of tax for this invoice (sum of each item's `tax_amount`).
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 64
+  discount_amount:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The total amount discounted in this invoice.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 10
+  total_amount:
+    type: number
+    format: float
+    nullable: true
+    description: >-
+      The total amount of the invoice (`subtotal_amount` + `tax_amount` -
+      `discount_amount`)
+    example: 454
+  payments:
+    type: array
+    description: |
+      A list detailing all the invoice payments.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    items:
+      $ref: ./InvoicesPayments.yaml
+  payroll:
+    $ref: ./InvoicesPayroll.yaml
+  folio:
+    type: string
+    nullable: true
+    description: |
+      The internal control number that the taxpayer assigns to the invoice.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: "26"
+  xml:
+    type: string
+    description: |
+      XML of the invoice document.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    nullable: true
+  warnings:
+    $ref: ./InvoiceWarnings.yaml
+  sender_blacklist_status:
+    type: string
+    deprecated: true
+    nullable: true
+    description: >
+      This field has been deprecated. Please use `sender_tax_fraud_status` instead.
+    example: null
+  receiver_blacklist_status:
+    type: string
+    deprecated: true
+    nullable: true
+    description: >
+      This field has been deprecated. Please use `receiver_tax_fraud_status` instead.
+    example: null

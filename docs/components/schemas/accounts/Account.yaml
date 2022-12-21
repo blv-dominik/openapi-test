@@ -1,0 +1,155 @@
+type: object
+nullable: true
+description: |
+  Details regarding the account.
+
+  **Note**: For our recurring expenses resource, this account relates to the account that was analyzed to generate the recurring expenses report.
+required:
+ - name
+ - number
+ - type
+ - category
+ - public_identification_name
+ - public_identification_value
+ - currency
+ - balance
+ - balance_type
+ - credit_data
+ - loan_data
+ - collected_at
+ - last_accessed_at
+properties:
+  id:
+    type: string
+    format: uuid
+    description: >-
+      The unique identifier created by Belvo used to reference the current
+      account.
+    example: 0d3ffb69-f83b-456e-ad8e-208d0998d71d
+  link:
+    type: string
+    nullable: true
+    description: The `link.id` the account belongs to.
+    example: 30cb4806-6e00-48a4-91c9-ca55968576c8
+  institution:
+    $ref: ../institutions/InstitutionAccount.yaml
+  collected_at:
+    type: string
+    format: date-time
+    description: >-
+      The ISO-8601 timestamp when the data point was collected.
+    example: 2019-09-27T13:01:41.941Z
+  created_at:
+    type: string
+    format: date-time
+    description: >-
+      The ISO-8601 timestamp of when the data point was last updated in Belvo's database.
+    example: 2022-02-09T08:45:50.406032Z
+  category:
+    type: string
+    nullable: true
+    enum:
+      - CHECKING_ACCOUNT
+      - CREDIT_CARD
+      - INVESTMENT_ACCOUNT
+      - LOAN_ACCOUNT
+      - PENSION_FUND_ACCOUNT
+      - RECEIVABLES_ACCOUNT
+      - SAVINGS_ACCOUNT
+      - UNCATEGORIZED
+    description: >
+      The type of account.
+
+      We return one of the following enum values:
+        - `CHECKING_ACCOUNT`
+        - `CREDIT_CARD`
+        - `INVESTMENT_ACCOUNT`
+        - `LOAN_ACCOUNT`
+        - `PENSION_FUND_ACCOUNT`
+        - `RECEIVABLES_ACCOUNT`
+        - `SAVINGS_ACCOUNT`
+        - `UNCATEGORIZED`
+    example: CHECKING_ACCOUNT
+  balance_type:
+    type: string
+    nullable: true
+    description: >
+      Indicates whether this account is either an `ASSET` or a `LIABILITY`. You can consider the balance of an `ASSET` as being positive, while the balance of a `LIABILITY` as negative.
+    example: ASSET
+  type:
+    type: string
+    nullable: true
+    description: 'The account type, as designated by the institution.'
+    example: Cuentas de efectivo
+  name:
+    type: string
+    nullable: true
+    description: 'The account name, as given by the institution.'
+    example: Cuenta Perfiles- M.N. - MXN-666
+  number:
+    type: string
+    nullable: true
+    description: 'The account number, as designated by the institution.'
+    example: "4057068115181"
+  balance:
+    $ref: ./AccountsBalance.yaml
+  currency:
+    type: string
+    nullable: true
+    description: "The currency of the account. For example:\n- \U0001F1E7\U0001F1F7 BRL (Brazilian Real)\n- \U0001F1E8\U0001F1F4 COP (Colombian Peso)\n- \U0001F1F2\U0001F1FD MXN (Mexican Peso)\n\n Please note that other currencies other than in the list above may be returned."
+    example: MXN
+  public_identification_name:
+    type: string
+    nullable: true
+    description: |
+      The public name for the type of identification. For example: `"CLABE"`.
+
+      ℹ️ For 🇧🇷 Brazilian savings and checking accounts, this field will be `AGENCY/ACCOUNT`.
+
+    example: CLABE
+  public_identification_value:
+    type: string
+    nullable: true
+    description: |
+      The value for the `public_identification_name`.
+
+      ℹ️ For 🇧🇷 Brazilian savings and checking accounts, this field will be the agency and bank account number, separated by a slash.
+      For example: `0444/45722-0`.
+    example: "150194683119900273"
+  last_accessed_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: >-
+      The ISO-8601 timestamp of Belvo's most recent successful access to the institution for the given link.
+    example: 2021-03-09T10:28:40.000Z
+  credit_data:
+    $ref: ./AccountsCreditData.yaml
+  loan_data:
+    $ref: ./AccountsLoanData.yaml
+  funds_data:
+    type: array
+    description: One or more funds that contribute to the the pension account.
+    nullable: true
+    items:
+      $ref: ./AccountsFundsData.yaml
+  receivables_data:
+    $ref: ./AccountsReceivablesData.yaml
+  bank_product_id:
+    deprecated: true
+    type: string
+    nullable: true
+    description: |
+      *This field has been deprecated.*
+
+      *The institution's product ID for the account type.*
+    example: null
+  internal_identification:
+    deprecated: true
+    type: string
+    nullable: true
+    description: |
+      *This field has been deprecated.*
+
+      *The institution's internal identification for the account.*
+    example: null

@@ -1,0 +1,47 @@
+summary: Loan Account
+description: Example of a loan account.
+value:
+  id: 0f82c5db-13a2-43c7-a69a-e036160aba3a
+  link: 57f212dc-1ba4-407f-b7f0-15a5e5ff17ae
+  institution:
+    name: erebor_mx_retail
+    type: bank
+  collected_at: 2022-02-09T08:45:50.406032Z
+  created_at: 2022-02-09T08:46:20.406032Z
+  category: LOAN_ACCOUNT
+  balance_type: LIABILITY
+  type: Créditos
+  name: Cuenta nómina
+  number: "72964044"
+  balance:
+    available: 34708.36
+    current: 34708.36
+  currency: MXN
+  bank_product_id: null
+  internal_identification: null
+  public_identification_name: ACCOUNT_NUMBER
+  public_identification_value: "217035843284091420"
+  last_accessed_at: 2022-02-01T20:25:47.307911Z
+  credit_data: null
+  loan_data:
+    collected_at: 2022-02-09T08:45:50.406032Z
+    loan_type: SFH
+    contract_amount: 202000.00
+    principal: 192000.00
+    outstanding_principal: 142000.00
+    outstanding_balance: 164000.00
+    payment_day: '17'
+    interest_rates:
+      - name: jurosEfetivo
+        type: MONTHLY
+        value: 7.85
+    fees:
+      - type: 'OPERATION_FEE'
+        value: 5.60
+    monthly_payment: 1000
+    number_of_installments_total: 50
+    number_of_installments_outstanding: 41
+    contract_start_date: '2018-01-01'
+    contract_end_date: '2027-10-01'
+    contract_number: ER8072930097
+  funds_data: null

@@ -1,0 +1,23 @@
+type: object
+required:
+  - link
+properties:
+  link:
+    type: string
+    format: uuid
+    description: The fiscal `link.id` to use.
+    example: d4617561-1c01-4b2f-83b6-a594f7b3bc57
+  attach_pdf:
+    type: boolean
+    default: false
+    description: >-
+      When set to `true`, you will receive the PDF in binary format in
+      the response.
+  save_data:
+    type: boolean
+    default: true
+    description: >-
+      Indicates whether or not to persist the data in Belvo. By default, this is set to `true` and we return a 201 Created response.
+
+      When set to `false`, the data won't be persisted and we return a 200 OK response.
+    example: true

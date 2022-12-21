@@ -1,0 +1,14 @@
+type: object
+required:
+ - type
+ - value
+description: The public identifiers for the instrument.
+properties:
+  type:
+    type: string
+    description: The type of public identifier for the instrument.
+    example: isin
+  value:
+    type: string
+    description: The value of the `public_id.type`.
+    example: "435-3354.3333"

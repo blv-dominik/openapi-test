@@ -1,0 +1,88 @@
+type: object
+required:
+  - account
+  - name
+  - transactions
+  - frequency
+  - average_transaction_amount
+  - median_transaction_amount
+  - days_since_last_transaction
+  - category
+  - payment_type
+description: |
+  Recurring expense insights.
+
+
+  ℹ️ If no recurring expense insights are found, we return an empty array.
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Belvo's unique identifier used to reference the current recurring expense.
+    example: 076c66e5-90f5-4e01-99c7-50e32f65ae42
+  account:
+    $ref: ../accounts/Account.yaml
+  name:
+    type: string
+    nullable: true
+    default: null
+    description: |
+      The name for the recurring expense.
+
+      ℹ️ **Note**: This information is taken from the description section of a transaction and then normalized to provide you with an easy-to-read name. As such, sometimes the name will reflect the merchant the payment is made to (for example, Netflix.com), while for other recurring expenses, this could be something like "Monthly payment to John".
+    example: Netflix
+  transactions:
+    type: array
+    description: An array of minified transaction objects used to evaluate the recurring expense. If no transactions were found, we return an empty array.
+    items:
+      $ref: ./RecurringExpenseSourceTransaction.yaml
+  frequency:
+    type: string
+    enum:
+      - MONTHLY
+    default: MONTHLY
+    description: |
+      The frequency at which this recurring expense occurs.
+      ℹ️ **Note:** Belvo only identifies `MONTHLY` frequencies.
+    example: MONTHLY
+  average_transaction_amount:
+    type: number
+    format: float
+    description: The average transaction amount of the recurring expense.
+    example: 32.9
+  median_transaction_amount:
+    type: number
+    format: float
+    description: The median transaction amount of the recurring expense.
+    example: 32.9
+  days_since_last_transaction:
+    type: integer
+    format: int32
+    description: |
+      Number of days since the last recurring expense occurred.
+
+      Based on the frequency, you can infer how many days until the next charge will occur.
+    example: 5
+  category:
+    type: string
+    nullable: true
+    default: null
+    description: |
+      The transaction category for the recurring expense. For more information on the available categories, please see our [Transaction categorization documentation](https://developers.belvo.com/docs/banking#transaction-categorization).
+      ℹ️ **Note:** The most common categories that will be returned are:
+      - `Online Platforms & Leisure` (Netflix, Spotify, Gym Memberships)
+      - `Bills & Utilities` (electricity, telephone, internet)
+      - `Credits & Loans` (credit card cash advances, student loan, watercraft lease)
+      - `Transport & Travel` (Uber trip, airbnb, parking)
+      - `Taxes` (service fee, donation, court taxes)
+    example: Online Platforms & Leisure
+  payment_type:
+    type: string
+    nullable: true
+    enum:
+      - SUBSCRIPTION
+      - REGULAR
+    description: |
+      The type of recurring expense.
+      Belvo returns either `SUBSCRIPTION` or `REGULAR` payment types for a transaction category.
+    example: SUBSCRIPTION

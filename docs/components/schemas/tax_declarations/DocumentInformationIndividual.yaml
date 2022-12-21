@@ -1,0 +1,27 @@
+type: object
+required: 
+  - name
+  - type
+  - form_number
+  - year
+description: Object containing detailed information about the fiscal document.
+properties:
+  name:
+    type: string
+    description: The name of the tax document.
+    example: Declaracion de Renta y Complementario o de Ingresos y Patrimonio para Personas Juridicas y Asimiladas y Personas Naturales y Asimiladas no Residentes y Sucesiones Iliquidas de Causantes no Residentes
+  type:
+    type: string
+    description: The type of tax declaration form. For DIAN, this will be either `110` or `210`.
+    example: "110"
+  form_number:
+    type: string
+    description: Institution-provided identifier for the tax declaration.
+    example: "2117680087604"
+  year:
+      type: integer
+      nullable: true
+      description: | 
+        The year of this tax declaration.
+      example: 2021
+  

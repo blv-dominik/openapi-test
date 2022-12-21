@@ -1,0 +1,27 @@
+summary: Savings Account
+description: Example of a savings account.
+value:
+  id: 3d5b0f90-90df-455d-a647-5b74feb746f6
+  link: fbbb5ea7-4605-437f-b5c5-667fd037a303
+  institution:
+    name: erebor_co_retail
+    type: bank
+  collected_at: 2022-02-09T08:45:50.406032Z
+  created_at: 2022-02-09T08:46:20.406032Z
+  category: SAVINGS_ACCOUNT
+  balance_type: ASSET
+  type: Cuenta de Ahorro
+  name: Cuenta de Ahorro
+  number: '13166008'
+  balance:
+    available: 4978436.05
+    current: 4978436.05
+  currency: COP
+  bank_product_id: null
+  internal_identification: null
+  public_identification_name: ACCOUNT_NUMBER
+  public_identification_value: '260825906'
+  last_accessed_at: 2021-03-09T10:28:40.000Z
+  credit_data: null
+  loan_data: null
+  funds_data: null

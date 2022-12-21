@@ -1,0 +1,36 @@
+type: object
+nullable: true
+required:
+  - num_accounts
+  - sum_loans_principal
+  - sum_loans_outstanding_principal
+  - sum_loans_monthly_payment
+description: Aggregated metrics calculated based on the user's loan accounts.
+properties:
+  num_accounts:
+      type: integer
+      format: int32
+      description: |
+        Number of loan accounts associated with the link.
+      example: 5
+  sum_loans_principal:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        Sum total of the principal for all of the link's loan accounts.
+      example: 5000.00
+  sum_loans_outstanding_principal:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        Sum total of the outstanding principal for all the link's loan accounts.
+      example: 2000.00
+  sum_loans_monthly_payment:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        Sum total of the monthly payments for all the link's loan accounts.
+      example: 400.00

@@ -1,0 +1,37 @@
+summary: Credit Card Account
+description: Example of a credit card account.
+value:
+  id: 0f82c5db-13a2-43c7-a69a-e036160aba3a
+  link: 57f212dc-1ba4-407f-b7f0-15a5e5ff17ae
+  institution:
+    name: erebor_mx_retail
+    type: bank
+  collected_at: 2022-02-09T08:45:50.406032Z
+  created_at: 2022-02-09T08:46:20.406032Z
+  category: CREDIT_CARD
+  balance_type: LIABILITY
+  type: Tarjetas de crédito
+  name: Erebor Gold
+  number: null
+  balance:
+    available: 1550.15
+    current: 4049.85
+  currency: MXN
+  bank_product_id: null
+  internal_identification: null
+  public_identification_name: null
+  public_identification_value: null
+  last_accessed_at: 2022-02-01T20:25:47.307911Z
+  credit_data:
+    collected_at: 2022-02-09T08:45:50.406032Z
+    credit_limit: 15600
+    cutting_date: '2021-04-11'
+    next_payment_date: '2021-03-31'
+    minimum_payment: 690
+    no_interest_payment: 11550.15
+    interest_rate: 4.0
+    monthly_payment: null
+    last_payment_date: null
+    last_period_balance: null
+  loan_data: null
+  funds_data: null

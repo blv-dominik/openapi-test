@@ -1,0 +1,26 @@
+type: object
+required:
+ - name
+ - type
+ - value
+description: Breakdown of the interest applied to the loan.
+properties:
+  name:
+    type: string
+    nullable: true
+    description: The name of the type of interest rate applied to the loan.
+    example: "jurosEfetivo"
+  type:
+    type: string
+    nullable: true
+    enum:
+      - MONTHLY
+      - YEARLY
+    description: The period that the interest is applied to the loan.
+    example: "MONTHLY"
+  value:
+    type: number
+    format: float
+    nullable: true
+    description: The interest rate (in percent or currency value).
+    example: 7.85

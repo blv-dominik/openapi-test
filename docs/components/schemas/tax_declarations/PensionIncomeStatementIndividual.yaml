@@ -1,0 +1,16 @@
+type: object
+required: 
+  - net_pension_income
+  - net_taxable_pension_income
+description: Object containing the tax payer's total pension income.
+properties:
+  net_pension_income:
+    type: number
+    format: float
+    description: The total net pension of the taxpayer.
+    example: 0.00
+  net_taxable_pension_income:
+    type: number
+    format: float
+    description: The total taxable pension income of the taxpayer.
+    example: 0.00

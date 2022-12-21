@@ -1,0 +1,815 @@
+get:
+  tags:
+    - Transactions
+  operationId: ListTransactions
+  summary: List all transactions
+  description: >-
+    Get a paginated list of all existing transactions in your Belvo account. By default, we return up to 100 results per page.
+  parameters:
+    - name: page
+      required: false
+      in: query
+      description: A page number within the paginated result set.
+      schema:
+        type: integer
+        format: int32
+        example: 1
+    - name: page_size
+      required: false
+      in: query
+      description: |
+        Indicates how many results to return per page. By default we return 100 results per page.
+
+        ℹ️ The minimum number of results returned per page is 1 and the maximum is 1000. If you enter a value greater than 1000, our API will default to the maximum value (1000).
+      schema:
+        type: integer
+        format: int32
+        default: 100
+        minimum: 1
+        maximum: 1000
+        example: 100
+    - name: link
+      in: query
+      required: true
+      description: |
+        The `link.id` you want to filter by.
+
+        ℹ️ We highly recommend adding the `account.id` filter as well in order to improve your performance.
+      schema:
+        type: string
+        format: uuid
+        example: 8848bd0c-9c7e-4f53-a732-ec896b11d4c4
+    - name: account
+      in: query
+      description: |
+        The `account.id` you want to filter by.
+
+        ℹ️ We highly recommend adding the `account.id` filter in order to improve your performance.
+      schema:
+        type: string
+        format: uuid
+        example: d979df3a-5d0f-4cc9-9bd4-b75c28b45963
+    - name: account__balance__available
+      in: query
+      description: Return transactions that have a `account.balance.available` matching exactly this value.
+      schema:
+        type: string
+        example: 4000.00
+    - name: account__balance__available__lt
+      in: query
+      description: Return transactions that have a `account.balance.available` less than this value.
+      schema:
+        type: string
+        example: 6000.00
+    - name: account__balance__available__lte
+      in: query
+      description: Return transactions that have a `account.balance.available` less than or equal to this value.
+      schema:
+        type: string
+        example: 5999.00
+    - name: account__balance__available__range
+      in: query
+      description: Return transactions that have a `account.balance.available` within a range of two values.
+      schema:
+        type: string
+        example: 3000.00,4350.00
+    - name: account__balance__current
+      in: query
+      description: Return transactions that have a `account.balance.current` matching exactly this value.
+      schema:
+        type: string
+        example: 4000.00
+    - name: account__balance__current__gt
+      in: query
+      description: Return transactions that have a `account.balance.current` greater than this value.
+      schema:
+        type: string
+        example: 4020.00
+    - name: account__balance__current__gte
+      in: query
+      description: Return transactions that have a `account.balance.current` greater than or equal to this value.
+      schema:
+        type: string
+        example: 4019.00
+    - name: account__balance__current__lt
+      in: query
+      description: Return transactions that have a `account.balance.current` less than this value.
+      schema:
+        type: string
+        example: 3000.00
+    - name: account__balance__current__lte
+      in: query
+      description: Return transactions that have a `account.balance.current` less than or equal to this value.
+      schema:
+        type: string
+        example: 2999.00
+    - name: account__balance__current__range
+      in: query
+      description: Return transactions that have a `account.balance.current` within a range of two values.
+      schema:
+        type: string
+        example: 2999.00,4000.00
+    - name: account__in
+      in: query
+      description: Return transactions only for these `account.id`s.
+      schema:
+        type: string
+        example: 24ccab1d-3a86-4136-a6eb-e04bf52b356f,beb2b197-3cf7-428d-bef3-f415c0d57509
+    - name: account_type
+      in: query
+      description: Return information only for transactions matching this account type, as designated by the institution.
+      schema:
+        type: string
+        example: Cuentas de efectivo
+    - name: account_type__in
+      in: query
+      description: Return information only for transactions matching these account types, as designated by the institution.
+      schema:
+        type: string
+        example: Cuentas de efectivo,Depositos Ahorro
+    - name: accounting_date
+      in: query
+      description: Return transactions that were processed by the institution on exactly this date (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-05-05
+    - name: accounting_date__gt
+      in: query
+      description: Return transactions that were processed by the institution after this date (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-05-06
+    - name: accounting_date__gte
+      in: query
+      description: Return transactions that were processed by the institution on this date or later (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-05-04
+    - name: accounting_date__lt
+      in: query
+      description: Return transactions that were processed by the institution before this date (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-03-02
+    - name: accounting_date__lte
+      in: query
+      description: Return transactions that were processed by the institution on this date or earlier (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-03-01
+    - name: accounting_date__range
+      in: query
+      description: Return transactions that were processed by the institution in this date range (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-03-01,2022-05-06
+    - name: amount
+      in: query
+      description: Return transactions matching exactly this value.
+      schema:
+        type: string
+        example: 1000.00
+    - name: amount__gt
+      in: query
+      description: Return transactions greater than this value.
+      schema:
+        type: string
+        example: 520.00
+    - name: amount__gte
+      in: query
+      description: Return transactions greater than or equal to this value.
+      schema:
+        type: string
+        example: 519.00
+    - name: amount__lt
+      in: query
+      description: Return transactions less than this value.
+      schema:
+        type: string
+        example: 540.00
+    - name: amount__lte
+      in: query
+      description: Return transactions less than or equal to this value.
+      schema:
+        type: string
+        example: 541.00
+    - name: amount__range
+      in: query
+      description: Return transactions between these two values.
+      schema:
+        type: string
+        example: 519.00,541.00
+    - name: collected_at
+      in: query
+      description: Return transactions that were retrieved from the institution on this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-05-01
+    - name: collected_at__gt
+      in: query
+      description: Return transactions that were retrieved from the institution after this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-05-05
+    - name: collected_at__gte
+      in: query
+      description: Return transactions that were retrieved from the institution after or on this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-05-04
+    - name: collected_at__lt
+      in: query
+      description: Return transactions that were retrieved from the institution before this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-04-01
+    - name: collected_at__lte
+      in: query
+      description: Return transactions that were retrieved from the institution before or on this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-03-30
+    - name: collected_at__range
+      in: query
+      description: Return transactions that were retrieved from the institution between two dates (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-03-03,2022-05-04
+    - name: created_at
+      in: query
+      description: Return transactions that were last updated in Belvo's database on this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-05-01
+    - name: created_at__gt
+      in: query
+      description: Return transactions that were last updated in Belvo's database after this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-05-05
+    - name: created_at__gte
+      in: query
+      description: Return transactions that were last updated in Belvo's database after or on this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-05-04
+    - name: created_at__lt
+      in: query
+      description: Return transactions that were last updated in Belvo's database before this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-04-01
+    - name: created_at__lte
+      in: query
+      description: Return transactions that were last updated in Belvo's database before or on this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-03-30
+    - name: created_at__range
+      in: query
+      description: Return transactions that were last updated in Belvo's database between two dates (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-03-03,2022-05-04
+    - name: credit_card_data__bill_name__in
+      in: query
+      description: Return transactions for one of these bill names.
+      schema:
+        type: string
+        example: maio-2022,feb-2022
+    - name: currency
+      in: query
+      description: Return transactions in only this three-letter currency code.
+      schema:
+        type: string
+        example: COP
+    - name: currency__in
+      in: query
+      description: Return transactions in one of these three-letter currency codes.
+      schema:
+        type: string
+        example: COP,MXN
+    - name: reference
+      in: query
+      description: Returns transactions with this institution-assigned reference number.
+      schema:
+        type: string
+        example: 085904452810319225
+    - name: reference__in
+      in: query
+      description: Returns transactions with these institution-assigned reference numbers.
+      schema:
+        type: string
+        example: 085904452810319225,8703
+    - name: status
+      in: query
+      description: Return transactions with this status. Can be either `PENDING`, `PROCESSED`, or `UNCATEGORIZED`.
+      schema:
+        type: string
+        example: PENDING
+    - name: status__in
+      in: query
+      description: Return transactions with these statuses. Can be either `PENDING`, `PROCESSED`, or `UNCATEGORIZED`.
+      schema:
+        type: string
+        example: PENDING,PROCESSED
+    - name: type
+      in: query
+      description: Return transactions with this type. Can be either `INFLOW` or `OUTFLOW`.
+      schema:
+        type: string
+        example: OUTFLOW
+    - name: type__in
+      in: query
+      description: Return transactions with this types. Can be either `INFLOW` or `OUTFLOW`.
+      schema:
+        type: string
+        example: INFLOW,OUTFLOW
+    - name: value_date
+      in: query
+      description: Return transactions that occurred on exactly this date (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-05-05
+    - name: value_date__gt
+      in: query
+      description: Return transactions that occurred after this date (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-05-06
+    - name: value_date__gte
+      in: query
+      description: Return transactions that occurred on this date or later (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-05-04
+    - name: value_date__lt
+      in: query
+      description: Return transactions that occurred before this date (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-03-02
+    - name: value_date__lte
+      in: query
+      description: Return transactions that occurred on this date or earlier (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-03-01
+    - name: value_date__range
+      in: query
+      description: Return transactions for this date range (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-03-01,2022-05-06
+  responses:
+    '200':
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: ../components/responses/TransactionsPaginatedResponse.yaml
+          examples:
+            TransactionsCheckingPaginated:
+              $ref: ../components/examples/TransactionsCheckingPaginated.yaml
+            TransactionsSavingsPaginated:
+              $ref: ../components/examples/TransactionsSavingsPaginated.yaml
+            TransactionsCreditCardPaginated:
+              $ref: ../components/examples/TransactionsCreditCardPaginated.yaml
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+  x-readme:
+    code-samples:
+      - language: cURL
+        code: |
+          curl https://sandbox.belvo.com/api/transactions/ \
+            -u [Secret Key ID]:[Secret Key PASSWORD]
+      - language: python
+        name: Belvo Python SDK
+        code: |
+          # check our python-client library on github
+          # https://github.com/belvo-finance/belvo-python
+          from pprint import pprint
+          from belvo.client import Client
+
+          # Login to Belvo API
+          client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+          # List transactions
+          for transaction in client.Transactions.list():
+              pprint(transaction)
+      - language: ruby
+        name: Belvo Ruby SDK
+        code: |
+          # check our Ruby gem on github
+          # https://github.com/belvo-finance/belvo-ruby
+          require 'belvo'
+
+          sandbox = Belvo::Client.new(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          )
+
+          sandbox.transactions.list
+      - language: node
+        name: Belvo Node SDK
+        code: |
+          // check our node package on github
+          // https://github.com/belvo-finance/belvo-js
+
+          var belvo = require('belvo').default;
+
+          var client = new belvo(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          );
+
+          client.connect()
+            .then(function () {
+              client.transactions.list()
+                .then(function (res) {
+                  console.log(res);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+          });
+post:
+  tags:
+    - Transactions
+  operationId: RetrieveTransactions
+  summary: Retrieve transactions for a link
+  description: >
+    Retrieve transactions for one or more accounts from a specific link.
+
+    <div style="background-color:#f4f6f8; border-left: 6px solid
+    #0663F9;padding: 12px;margin-left: 25px; border-radius: 4px; margin-right:
+    25px"> <strong>Info: </strong> When retrieving transactions, it is important
+    to understand that the available transaction data ranges depend on each
+    institution. <br><br>
+
+    If you try to access older information than what we can access, we will
+    return all the data we can read within that date range. For example, if you
+    request transactions for the last year and we can only access the last six
+    months, we will return the information corresponding to these six months of
+    data. </div>
+  parameters: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/requestBodies/TransactionsRequest.yaml
+  responses:
+    '200':
+      description: Ok (when `save_data=false`)
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/transactions/Transaction.yaml
+          examples:
+            TransactionsChecking:
+              $ref: ../components/examples/TransactionsChecking.yaml
+            TransactionsSavings:
+              $ref: ../components/examples/TransactionsSavings.yaml
+            TransactionsCreditCard:
+              $ref: ../components/examples/TransactionsCreditCard.yaml
+    '201':
+      description: Created (when `save_data=true`)
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/transactions/Transaction.yaml
+          examples:
+            TransactionsChecking:
+              $ref: ../components/examples/TransactionsChecking.yaml
+            TransactionsSavings:
+              $ref: ../components/examples/TransactionsSavings.yaml
+            TransactionsCreditCard:
+              $ref: ../components/examples/TransactionsCreditCard.yaml
+    '400':
+      description: Bad request error
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              anyOf:
+              - $ref: ../components/errors/TooManySessionsError.yaml
+              - $ref: ../components/errors/SessionExpiredError.yaml
+              - $ref: ../components/errors/ValidationError.yaml
+              - $ref: ../components/errors/InstitutionDownError.yaml
+              - $ref: ../components/errors/InstitutionUnavailableError.yaml
+              - $ref: ../components/errors/InstitutionInactiveError.yaml
+              - $ref: ../components/errors/UnsupportedOperationError.yaml
+              - $ref: ../components/errors/InvalidLinkError.yaml
+              - $ref: ../components/errors/UnconfirmedLinkError.yaml
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+    '408':
+      description: Request Timeout
+      content:
+        application/json:
+          schema:
+            type: array
+            title: Request Timeout
+            description: >-
+              Belvo has a limit regarding the time it takes to log in, retrieve account data, and log out. A timeout occurs when there is a very high amount of data and everything could not be obtained within the allotted time.
+                
+            items:
+              $ref: ../components/errors/RequestTimeoutError.yaml
+    '428':
+      description: MFA Token Required
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/responses/TokenRequiredResponse.yaml
+    '500':
+      description: Unexpected Error
+      content:
+        application/json:
+          schema:
+            type: array
+            title: Unexpected Error
+            description: >-
+              This error occurs when we (Belvo) have encountered an internal system error (sorry about that) or due to an unsupported response from the institution.
+                
+            items:
+              $ref: ../components/errors/UnexpectedError.yaml
+  x-readme:
+    code-samples:
+      - language: cURL
+        code: |
+          curl -X POST \
+            https://sandbox.belvo.com/api/transactions/ \
+            -H 'Content-Type: application/json' \
+            -H 'Host: sandbox.belvo.com' \
+            -H 'cache-control: no-cache' \
+            -d '{
+              "link": "",
+              "account": "",
+              "date_from": "",
+              "date_to": ""
+          }' \
+            -u [Secret Key ID]:[Secret Key PASSWORD]
+      - language: python
+        name: Belvo Python SDK
+        code: |
+          # check our python-client library on github
+          # https://github.com/belvo-finance/belvo-python
+          from belvo.client import Client
+
+          # Login to Belvo API
+          client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+          # Retrieve transactions
+          transactions = client.Transactions.create(
+            "link_id",
+            "2019-07-01",
+            date_to="2019-07-31"
+          )
+      - language: ruby
+        name: Belvo Ruby SDK
+        code: |
+          # check our Ruby gem on github
+          # https://github.com/belvo-finance/belvo-ruby
+          require 'belvo'
+
+          sandbox = Belvo::Client.new(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          )
+
+          transactions = sandbox.transactions.retrieve(
+            link: 'link_id',
+            date_from: '2022-01-01',
+            options: {
+              account: account, //optional
+              date_to: '2022-01-24'
+            }
+          )
+      - language: node
+        name: Belvo Node SDK
+        code: |
+          // check our node package on github
+          // https://github.com/belvo-finance/belvo-js
+
+          var belvo = require('belvo').default;
+
+          var client = new belvo(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          );
+
+          client.connect()
+            .then(function () {
+              client.transactions.retrieve('linkId', '2019-01-01', { 'dateTo': '2019-07-31' })
+                .then(function (res) {
+                  console.log(res);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+          });
+patch:
+  tags:
+    - Transactions
+  operationId: PatchTransactions
+  summary: Complete a transactions request
+  description: >-
+    Used to resume a Transaction retrieve session that was paused because an MFA
+    token was required by the institution.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/requestBodies/PatchBody.yaml
+  responses:
+    '200':
+      description: Ok (when `save_data=false`)
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/transactions/Transaction.yaml
+          examples:
+            TransactionsChecking:
+              $ref: ../components/examples/TransactionsChecking.yaml
+            TransactionsSavings:
+              $ref: ../components/examples/TransactionsSavings.yaml
+            TransactionsCreditCard:
+              $ref: ../components/examples/TransactionsCreditCard.yaml
+    '201':
+      description: Created (when `save_data=true`)
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/schemas/transactions/Transaction.yaml
+          examples:
+            TransactionsChecking:
+              $ref: ../components/examples/TransactionsChecking.yaml
+            TransactionsSavings:
+              $ref: ../components/examples/TransactionsSavings.yaml
+            TransactionsCreditCard:
+              $ref: ../components/examples/TransactionsCreditCard.yaml
+    '400':
+      description: Bad request error
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              anyOf:
+              - $ref: ../components/errors/TooManySessionsError.yaml
+              - $ref: ../components/errors/SessionExpiredError.yaml
+              - $ref: ../components/errors/ValidationError.yaml
+              - $ref: ../components/errors/InstitutionDownError.yaml
+              - $ref: ../components/errors/InstitutionUnavailableError.yaml
+              - $ref: ../components/errors/InstitutionInactiveError.yaml
+              - $ref: ../components/errors/UnsupportedOperationError.yaml
+              - $ref: ../components/errors/InvalidLinkError.yaml
+              - $ref: ../components/errors/UnconfirmedLinkError.yaml
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+    '408':
+      description: Request Timeout
+      content:
+        application/json:
+          schema:
+            type: array
+            title: Request Timeout
+            description: >-
+              Belvo has a limit regarding the time it takes to log in, retrieve account data, and log out. A timeout occurs when there is a very high amount of data and everything could not be obtained within the allotted time.
+                
+            items:
+              $ref: ../components/errors/RequestTimeoutError.yaml
+    '428':
+      description: MFA Token Required
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/responses/TokenRequiredResponse.yaml
+    '500':
+      description: Unexpected Error
+      content:
+        application/json:
+          schema:
+            type: array
+            title: Unexpected Error
+            description: >-
+              This error occurs when we (Belvo) have encountered an internal system error (sorry about that) or due to an unsupported response from the institution.
+                
+            items:
+              $ref: ../components/errors/UnexpectedError.yaml
+  x-readme:
+    code-samples:
+      - language: cURL
+        code: |
+          curl -X PATCH \
+            https://sandbox.belvo.com/api/transactions/ \
+            -H 'Content-Type: application/json' \
+            -H 'Host: sandbox.belvo.com' \
+            -H 'cache-control: no-cache' \
+            -d '{
+                "session": "",
+                "token": "",
+                "link": ""
+            }' \
+            -u [Secret Key ID]:[Secret Key PASSWORD]
+      - language: python
+        name: Belvo Python SDK
+        code: |
+          # check our python-client library on github
+          # https://github.com/belvo-finance/belvo-python
+          from belvo.client import Client
+
+          # Login to Belvo API
+          client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+          # Resume transactions
+          transactions = client.Transactions.resume(
+            session="session_id",
+            token="token",
+            link="link_id"
+          )
+      - language: ruby
+        name: Belvo Ruby SDK
+        code: |
+          # check our Ruby gem on github
+          # https://github.com/belvo-finance/belvo-ruby
+          require 'belvo'
+
+          sandbox = Belvo::Client.new(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          )
+
+          sandbox.transactions.resume(
+            session: 'session-id',
+            token: 'token',
+            link: 'link-id'
+          )
+      - language: node
+        name: Belvo Node SDK
+        code: |
+          // check our node package on github
+          // https://github.com/belvo-finance/belvo-js
+
+          var belvo = require('belvo').default;
+
+          var client = new belvo(
+            'Secret Key ID',
+            'Secret Key PASSWORD',
+            'sandbox'
+          );
+
+          client.connect()
+            .then(function () {
+              client.transactions.resume('yourSessionId', 'yourOTPToken', 'linkId')
+                .then(function (res) {
+                  console.log(res);
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+          });

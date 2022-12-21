@@ -1,0 +1,19 @@
+type: object
+description: Details regarding the number of installments for the transaction, if applicable.
+required: 
+  - paid
+  - total
+nullable: true
+properties:
+  paid:
+    type: integer
+    nullable: true
+    format: int32
+    description: The number of payments already made to pay the cost of the transaction.
+    example: 1
+  total:
+    type: integer
+    nullable: true
+    format: int32
+    description: The number of payments required to pay the cost of the transaction.
+    example: 2

@@ -1,0 +1,102 @@
+type: object
+required:
+  - id
+  - account
+  - created_at
+  - collected_at
+  - value_hour
+  - value_date
+  - institution_transaction_id
+  - currency
+  - type
+  - gross_amount
+  - net_amount
+  - fees
+  - status
+  - number_of_installments
+properties:
+  id:
+    type: string
+    format: uuid
+    readOnly: true
+    description: Belvo's unique ID for the current receivable transaction.
+    example: 30cb4806-6e00-48a4-91c9-ca55968576c8
+  account:
+    $ref: ../receivables/ReceivablesTransactionAccount.yaml
+  created_at:
+    type: string
+    format: date-time
+    description: The ISO timestamp of when the data point was last updated in Belvo's database.
+    example: 2020-04-23T21:30:20.336854+00:00
+  collected_at:
+    type: string
+    format: date-time
+    description: The ISO timestamp when the data point was collected.
+    example: 2020-04-23T21:32:55.336854+00:00
+  value_hour:
+    type: string
+    description: The time that the transaction occurred, according to the institution, in `HH:MM` format.
+    example: "19:47"
+  value_date:
+    type: string
+    format: date
+    description: The date that the transactions occurred, according to the institution, in `YYYY-MM-DD` format.
+    example: "2022-01-16"
+  institution_transaction_id:
+    type: string
+    description: >- 
+      Internal identification number that the acquirer uses to identify the transaction.
+
+      ℹ️ **Note**: For Brazil, this number is the NSU.
+    example: "134532345" 
+  currency:
+    type: string
+    description: "The currency of the transaction. For example:\n- \U0001F1E7\U0001F1F7 BRL (Brazilian Real)\n- \U0001F1E8\U0001F1F4 COP (Colombian Peso)\n- \U0001F1F2\U0001F1FD MXN (Mexican Peso)\n\n Please note that currencies other than those listed above may be returned."
+    example: BRL
+  type:
+    type: string
+    nullable: true
+    enum:
+      - VISA_CREDIT
+      - VISA_DEBIT
+      - MASTERCARD_CREDIT
+      - MASTERCARD_DEBIT
+      - ELO_CREDIT
+      - ELO_DEBIT
+    description: The type of transaction. For example, whether the transaction was a `VISA_DEBIT` or a `MASTERCARD_CREDIT`.
+    example: MASTERCARD_CREDIT
+  gross_amount:
+    type: number
+    format: float
+    nullable: true
+    description: The total gross amount of the transaction.
+    example: 106.7
+  net_amount:
+    type: number
+    format: float
+    nullable: true
+    description: The net amount of the transaction.
+    example: 104.58
+  fees:
+    type: array
+    items:
+      $ref: RecevablesTransactionFees.yaml
+  status:
+    type: string
+    nullable: true
+    enum:
+      - APPROVED
+      - CANCELLED
+      - REVERTED
+      - UNCATEGORIZED
+    description: >-
+      The status of the transaction. Can be either:
+
+        - `APPROVED`
+        - `CANCELLED`
+        - `REVERTED`
+        - `UNCATEGORIZED`
+    example: APPROVED
+  number_of_installments:
+    $ref: ../receivables/ReceivablesTransactionNumberOfInstallments.yaml
+  

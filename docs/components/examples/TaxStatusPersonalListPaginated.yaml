@@ -1,0 +1,67 @@
+summary: Personal Tax Status
+description: Example of a list of personal tax status
+value:
+  count: 101
+  next: 'https://sandbox.belvo.com/api/{endpoint}/?page=2'
+  previous: null
+  results:
+    - id: e88d29d1-3dc6-407f-825c-a9b50453e349
+      link: 401d5a8e-79e2-472e-a1ca-8f4646f5cb24
+      collected_at: 2022-02-09T08:45:50.406032Z
+      created_at: 2022-02-09T08:46:20.406032Z
+      place_and_date_of_issuance: 'BUENAVENTURA, CIUDAD DE MEXICO A 22 DE FEBRERO DE 2021'
+      official_name: Alfredo Gonzalo Robin
+      id_cif: '2274235873432'
+      tax_payer_information:
+        rfc: GGTF770303G7
+        curp: BEMP930403HDFLLT00
+        name: Alfredo
+        first_last_name: Gonzalo
+        second_last_name: Robin
+        start_operations_date: '2000-06-01'
+        status_padron: ACTIVO
+        last_status_change_date: '2000-06-01'
+        commercial_name: Alfredo Gonzalo Robin
+        social_name: null
+        email: alfredo@robin.com
+        phone: '667507132'
+      address:
+        postal_code: '21255'
+        street_type: BOULEVARD (BLVD.)
+        street: GENERAL GIMENO
+        exterior_number: '4360'
+        interior_number: PLANTA BAJA
+        suburb: BUENAVENTURA
+        locality: null
+        municipality: ALTOS DE MIRAMAR
+        state: CIUDAD DE MEXICO
+        between_street:
+          - street_one: CALLE PRINCIPE
+            street_two: CALLE NUEVA ROMA
+      economic_activity:
+        - order: '1'
+          economic_activity: Asalariado
+          percentage: '100'
+          initial_date: '2014-11-05'
+          end_date: null
+      regimes:
+        - regime: Régimen de Sueldos y Salarios e Ingresos Asimilados a Salarios
+          initial_date: '2003-01-01'
+          end_date: null
+      obligations:
+        - obligation: Declaración informativa de IVA con la anual de ISR
+          expiration: Conjuntamente con la declaración anual del ejercicio.
+          initial_date: '2004-03-31'
+          end_date: null
+        - obligation: Pago definitivo mensual de IVA.
+          expiration: >-
+            A más tardar el día 17 del mes inmediato posterior al periodo que
+            corresponda.
+          initial_date: '2004-03-31'
+          end_date: null
+      digital_stamp: >-
+        ||2020/09/26|GHTF980303F7|CONSTANCIA DE SITUACIÓN
+        FISCAL|2044441088666600000034||
+      digital_stamp_chain: >-
+        ExpsnSA9t1adG7bn+Jj23kj43JK+XbMPxdOppwabhXD+pXseSqYowWWDna0mpUk3264lkj2345j23faNZB852dCDt9KAjel=
+      pdf: '=PDF-STRING='

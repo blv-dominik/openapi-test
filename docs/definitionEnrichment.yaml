@@ -1,0 +1,58 @@
+openapi: 3.0.2
+info:
+  title: Enrichment API
+  version: 1.20.1
+  description:
+    $ref: ./markdown/BelvoApiIntroduction.md
+  contact:
+    name: Need help?
+    url: 'https://developers.belvo.com'
+    email: support@belvo.com
+  x-logo:
+    url: 'https://files.readme.io/5111448-belvo-for-developers.svg'
+    altText: Belvo logo
+servers:
+  - url: 'https://sandbox.belvo.com'
+    description: Sandbox
+  - url: 'https://development.belvo.com'
+    description: Development
+security:
+  - basicAuth: []
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description:
+        $ref: ./markdown/BelvoBasicAuthentication.md
+tags:
+  - name: Enrichment API introduction
+    description:
+      $ref: ./markdown/EnrichmentApiIntroduction.md
+  - name: Incomes
+    description:
+      $ref: ./markdown/Incomes.md
+  - name: Recurring Expenses
+    description:
+      $ref: ./markdown/RecurringExpenses.md
+  - name: Risk Insights
+    description:
+      $ref: ./markdown/RiskInsights.md
+paths:
+  /api/incomes/:
+    $ref: paths/api@incomes@.yaml
+  '/api/incomes/{id}/':
+    $ref: 'paths/api@incomes@{id}@.yaml'
+  /api/recurring-expenses/:
+    $ref: paths/api@recurring-expenses.yaml
+  '/api/recurring-expenses/{id}/':
+    $ref: 'paths/api@recurring-expenses@{id}.yaml'
+  /api/risk-insights/:
+    $ref: paths/api@risk-insights.yaml
+  '/api/risk-insights/{id}/':
+    $ref: 'paths/api@risk-insights@{id}.yaml'
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true
+  samples-enabled: true
+  samples-languages: ['curl', 'node', 'ruby', 'python']

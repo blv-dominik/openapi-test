@@ -1,0 +1,48 @@
+type: object
+required:
+  - id
+  - link
+  - accounts
+  - created_at
+  - transactions_metrics
+  - balances_metrics
+  - cashflow_metrics
+  - credit_cards_metrics
+  - loans_metrics
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Belvo's unique ID for the risk insights request.
+    example: 076c66e5-90f5-4e01-99c7-50e32f65ae42
+  link:
+    type: string
+    format: uuid
+    description: The `link.id` the risk insights analysis belongs to.
+    example: 30cb4806-6e00-48a4-91c9-ca55968576c8
+  accounts:
+    type: array
+    nullable: true
+    description: An array of Belvo-generated account numbers (UUIDs) that were used during the risk insights analysis. If no accounts were found, we return an empty array.
+    items:
+        type: string
+        format: uuid
+        description: The Belvo-generated ID for the account.
+        example: 0d3ffb69-f83b-456e-ad8e-208d0998d71d
+    example: [0d3ffb69-f83b-456e-ad8e-208d0998d71d, 00293c8e-1152-440b-9892-3c071fb88672, cf638fba-ef45-4c10-bc6f-adecc4b2bf4e]
+  created_at:
+      type: string
+      format: date-time
+      description: >-
+        The ISO-8601 timestamp of when the data point was last updated in Belvo's database.
+      example: 2022-02-01T20:25:47.307911Z
+  transactions_metrics:
+    $ref: ./RiskInsightsTransactionMetrics.yaml
+  balances_metrics:
+    $ref: ./RiskInsightsBalanceMetrics.yaml
+  cashflow_metrics:
+    $ref: ./RiskInsightsCashflowMetrics.yaml
+  credit_cards_metrics:
+    $ref: ./RiskInsightsCreditCardMetrics.yaml
+  loans_metrics:
+    $ref: ./RiskInsightsLoansMetrics.yaml

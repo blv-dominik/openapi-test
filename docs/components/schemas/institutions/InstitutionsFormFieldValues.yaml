@@ -1,0 +1,26 @@
+type: object
+properties:
+  code:
+    type: string
+    description: The code of the document.
+    example: '001'
+  label:
+    type: string
+    description: |
+      The label for the field. For example:
+      - Cédula de Ciudadanía
+      - Cédula de Extranjería
+      - Pasaporte
+    example: Cédula de Ciudadanía
+  validation:
+    type: string
+    description: The type of input validation used for the field.
+    example: '^.{1,}$'
+  validation_message:
+    type: string
+    description: The message displayed when an invalid input is provided in the form field.
+    example: Invalid document number
+  placeholder:
+    type: string
+    description: The placeholder text in the form field.
+    example: DEF4444908M22

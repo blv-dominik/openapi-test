@@ -1,0 +1,126 @@
+type: object
+nullable: true
+required:
+  - period_unit
+  - type
+  - minimum_confidence
+  - lookback_periods
+  - full_periods
+  - periods_with_income
+  - total_number_of_sources
+  - std_income_per_period
+  - average_income_per_period
+  - median_income_per_period
+  - maximum_income_per_period
+  - minimum_income_per_period
+description: |
+  A list of aggregated data for the incomes.
+
+
+  ℹ️ If not income information can be found, we return an empty array.
+properties:
+  period_unit:
+    type: string
+    description: >
+      Period to be considered. At present all calculations are based on *rolling
+      months*.
+
+
+      Note: A *rolling month* is a period of 30 days. For example, 15-03-2021 to
+      14-04-2021.
+    example: MONTH
+  type:
+    type: string
+    enum:
+      - ALL
+      - CASH_DEPOSIT
+      - PENSION
+      - SALARY
+      - UNKNOWN
+    description: >-
+      The type of income used in the calculations. At present, Belvo takes into
+      consideration all the income types into the calculation.
+
+      We return one of the following enum values:
+
+        - `ALL`
+        - `CASH_DEPOSIT`
+        - `PENSION`
+        - `SALARY`
+        - `UNKNOWN`
+
+    example: ALL
+  minimum_confidence:
+    type: string
+    enum:
+      - MEDIUM
+      - HIGH
+    description: >
+      The lowest confidence score of the income transactions used in performing
+      the calculations.
+
+
+      When the `minimum_confidence` enum is equal to:
+
+      - `HIGH`, only transactions with high confidence score are used.
+
+      - `MEDIUM`, all transactions with a confidence score of medium or high are
+      used.
+    example: HIGH
+  lookback_periods:
+    type: integer
+    format: int32
+    description: Number of `period_unit`s used to generate insights and calculations.
+    example: 3
+  full_periods:
+    type: integer
+    format: int32
+    description: Number of `period_unit`s with data to perform calculations.
+    example: 2
+  periods_with_income:
+    type: integer
+    format: int32
+    description: >
+      Number of `period_unit`s with at least one income available with a
+      confidence of either `HIGH` or `MEDIUM`.
+    example: 3
+  total_number_of_sources:
+    type: integer
+    format: int32
+    description: The total number of income transactions in the last `period_unit`s.
+    example: 3
+  std_income_per_period:
+    type: number
+    format: float
+    description: >
+      The standard deviation of the income amount calculated per month, given
+      the past three `period_unit`s.
+    example: 1415.12
+  average_income_per_period:
+    type: number
+    format: float
+    description: >
+      The average income amount calculated per month, given the past three
+      `period_unit`s.
+    example: 2742.07
+  median_income_per_period:
+    type: number
+    format: float
+    description: >
+      The median income amount calculated per month, given the past three
+      `period_unit`s.
+    example: 1990.73
+  maximum_income_per_period:
+    type: number
+    format: float
+    description: >
+      The maximum income amount calculated per month, given the past three
+      `period_unit`s.
+    example: 4374.4
+  minimum_income_per_period:
+    type: number
+    format: float
+    description: >
+      The minimum income amount calculated per month, given the past three
+      `period_unit`s.
+    example: 1861.08

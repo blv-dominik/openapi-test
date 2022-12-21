@@ -1,0 +1,30 @@
+type: object
+title: Request Timeout
+description: >-
+  Belvo has a limit regarding the time it takes to log in, retrieve account data, and log out. A timeout occurs when there is a very high amount of data and everything could not be obtained within the allotted time.
+properties:
+  code:
+    type: string
+    description: >-
+      A unique error code (`request_timeout`) that allows you to classify and handle the error programmatically.
+      
+      
+      ℹ️ Check our DevPortal for more information on how to handle <a href="https://developers.belvo.com/docs/belvo-api-errors#408-request_timeout" target="_blank">408 request_timeout errors</a>.
+    example: request_timeout
+  message:
+    type: string
+    description: >-
+      A short description of the error. 
+      
+      
+      For `request_timeout` errors, the description is:
+        
+        - `The request timed out, you can retry asking for less data by changing your query parameters`.
+    example: The request timed out, you can retry asking for less data by changing your query parameters
+  request_id:
+    type: string
+    pattern: '[a-f0-9]{32}'
+    description: >-
+      A 32-character unique ID of the request (matching a regex pattern of: `[a-f0-9]{32}`). Provide this ID when contacting the Belvo
+      support team to accelerate investigations.
+    example: 9e7b283c6efa449c9c028a16b5c249fb

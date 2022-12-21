@@ -1,0 +1,50 @@
+type: object
+title: Monthly Tax Returns
+description: Request body for monthly tax returns
+required:
+  - link
+  - type
+  - date_from
+  - date_to
+properties:
+  link:
+    type: string
+    format: uuid
+    description: The fiscal `link.id` you want specific tax return information for.
+    example: d4617561-1c01-4b2f-83b6-a594f7b3bc57
+  attach_pdf:
+    type: boolean
+    default: false
+    description: >-
+      When this is set to `true`, you will receive the PDF as a binary string in
+      the response.
+    example: false
+  save_data:
+    type: boolean
+    default: true
+    description: >-
+      Indicates whether or not to persist the data in Belvo. By default, this is set to `true` and we return a 201 Created response.
+
+      When set to `false`, the data won't be persisted and we return a 200 OK response.
+    example: true
+  type:
+    type: string
+    default: monthly
+    description: |
+      The type of tax return to return. For monthly tax returns, this field must be set to `monthly`.
+  date_from:
+    type: string
+    description: >-
+      The starting date you want to get tax returns for, in `YYYY-MM-DD` format.
+
+
+      ⚠️ The value of `date_from` cannot be greater than `date_to`.
+    example: '2018-01-01'
+  date_to:
+    type: string
+    description: >-
+      The date you want to stop getting tax returns for, in `YYYY-MM-DD` format.
+
+
+      ⚠️ The value of `date_to` cannot be greater than today's date (in other words, no future dates).
+    example: '2019-01-01'

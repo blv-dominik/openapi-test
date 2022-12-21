@@ -1,0 +1,43 @@
+summary: Savings Account Transaction
+description: An example of a savings account transaction
+value:
+  - id: e5588958-48f2-427c-9300-945207532f5d
+    account:
+      id: 02589c41-ba22-4d44-8558-8111cc751318
+      link: 30cb4806-6e00-48a4-91c9-ca55968576c8
+      institution:
+        name: erebor_mx_retail
+        type: bank
+      collected_at: 2022-02-09T08:45:50.406032Z
+      created_at: 2022-02-09T08:46:20.406032Z
+      internal_identification: "996685090015"
+      name: Mi ahorro Erebor
+      number: "997468860036"
+      type: null
+      category: SAVINGS_ACCOUNT
+      bank_product_id: null
+      public_identification_name: CLABE
+      public_identification_value: "058597000011543422"
+      currency: MXN
+      balance:
+        current: 4.09
+        available: 4.09
+      loan_data: null
+      credit_data: null
+      last_accessed_at: null
+      balance_type: ASSET
+    created_at: 2022-07-20T22:09:35.556519Z
+    category: null
+    merchant: null
+    type: INFLOW
+    amount: 4.09
+    status: UNCATEGORIZED
+    balance: null
+    currency: MXN
+    reference: null
+    value_date: 2022-07-11
+    description: Interes
+    collected_at: 2022-07-20T22:09:33.767574Z
+    observations: null
+    accounting_date: null
+    internal_identification: 0089608418

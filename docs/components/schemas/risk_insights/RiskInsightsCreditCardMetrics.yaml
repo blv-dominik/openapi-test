@@ -1,0 +1,29 @@
+type: object
+nullable: true
+required:
+  - num_accounts
+  - sum_credit_limit
+  - sum_credit_used
+description: Aggregated metrics calculated based on the link's credit card accounts.
+properties:
+  num_accounts:
+      type: integer
+      format: int32
+      minimum: 0
+      description: |
+        Number of credit cards accounts associated to the link.
+      example: 2
+  sum_credit_limit:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        Sum total of all credit cards' limits.
+      example: 600.5
+  sum_credit_used:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        Sum total of all credit used.
+      example: 200.5

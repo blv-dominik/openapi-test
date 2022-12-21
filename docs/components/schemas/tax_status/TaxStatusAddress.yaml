@@ -1,0 +1,69 @@
+type: object
+required:
+ - postal_code
+nullable: true
+description: The tax payer's address details.
+properties:
+  postal_code:
+    type: string
+    nullable: true
+    description: |
+      The postcode of the address.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '12345'
+  street_type:
+    type: string
+    nullable: true
+    description: The `street` type.
+    example: CALLE
+  street:
+    type: string
+    nullable: true
+    description: The tax payers street.
+    example: LA MALINCHE
+  exterior_number:
+    type: string
+    nullable: true
+    description: The street number.
+    example: '432'
+  interior_number:
+    type: string
+    nullable: true
+    description: Additional address information.
+    example: PLANTA BAJA
+  suburb:
+    type: string
+    nullable: true
+    description: |
+      The suburb of the tax payer.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: COLINAS DEL BOSQUE
+  locality:
+    type: string
+    nullable: true
+    description: |
+      The locality of the address.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: TLALPAN
+  municipality:
+    type: string
+    nullable: true
+    description: The municipality of the address.
+    example: TLALPAN
+  state:
+    type: string
+    nullable: true
+    description: The state that the address is in.
+    example: CIUDAD DE MEXICO
+  between_street:
+    type: array
+    description: | 
+      Additional information about where the `street` is located.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    nullable: true
+    items:
+      $ref: ./TaxStatusAddressBetweenStreet.yaml

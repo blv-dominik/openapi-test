@@ -1,0 +1,245 @@
+type: object
+nullable: true
+required:
+  - num_transactions_1w
+  - num_transactions_1m
+  - num_transactions_3m
+  - num_incoming_transactions_1w
+  - num_incoming_transactions_1m
+  - num_incoming_transactions_3m
+  - num_outgoing_transactions_1w
+  - num_outgoing_transactions_1m
+  - num_outgoing_transactions_3m
+  - sum_incoming_amount_1w
+  - sum_incoming_amount_1m
+  - sum_incoming_amount_3m
+  - sum_outgoing_amount_1w
+  - sum_outgoing_amount_1m
+  - sum_outgoing_amount_3m
+  - max_incoming_amount_1w
+  - max_incoming_amount_1m
+  - max_incoming_amount_3m
+  - max_outgoing_amount_1w
+  - max_outgoing_amount_1m
+  - max_outgoing_amount_3m
+  - mean_incoming_amount_1w
+  - mean_incoming_amount_1m
+  - mean_incoming_amount_3m
+  - mean_outgoing_amount_1w
+  - mean_outgoing_amount_1m
+  - mean_outgoing_amount_3m
+description: Aggregated metrics calculated band on the user's transactions from checking, savings, credit card, and loan accounts.
+properties:
+  num_transactions_1w:
+      type: integer
+      format: int32
+      default: 0
+      description: |
+        The total number of transactions analyzed to determine the risk insights for the last week (incoming and outgoing).
+      example: 39
+  num_transactions_1m:
+      type: integer
+      format: int32
+      default: 0
+      description: |
+        The total number of transactions analyzed to determine the risk insights for the last month (incoming and outgoing).
+      example: 39
+  num_transactions_3m:
+      type: integer
+      format: int32
+      default: 0
+      description: |
+        The total number of transactions analyzed to determine the risk insights for the last three months (incoming and outgoing).
+      example: 39
+  num_incoming_transactions_1w:
+      type: integer
+      format: int32
+      default: 0
+      description: |
+        The total number of inflow transactions for the last week.
+
+        ℹ️ **Note**: If there are no transactions between the request date and the last seven or thirty days, the value is `0`.
+
+        If the account has not been open long enough to have the transaction data for a given period, we return `null`. For example, if the account has only been open for five days, we return values for `_1w` and `_1m`, however, the value for `_3m` will be `null`.
+      example: 20
+  num_incoming_transactions_1m:
+      type: integer
+      format: int32
+      default: 0
+      description: |
+        The total number of inflow transactions for the last month.
+
+        ℹ️ **Note**: If there are no transactions between the request date and the last seven or thirty days, the value is `0`.
+
+        If the account has not been open long enough to have the transaction data for a given period, we return `null`. For example, if the account has only been open for five days, we return values for `_1w` and `_1m`, however, the value for `_3m` will be `null`.
+      example: 20
+  num_incoming_transactions_3m:
+      type: integer
+      format: int32
+      default: 0
+      description: |
+        The total number of inflow transactions for the last three months.
+
+        ℹ️ **Note**: If there are no transactions between the request date and the last seven or thirty days, the value is `0`.
+
+        If the account has not been open long enough to have the transaction data for a given period, we return `null`. For example, if the account has only been open for five days, we return values for `_1w` and `_1m`, however, the value for `_3m` will be `null`.
+      example: 20
+  num_outgoing_transactions_1w:
+      type: integer
+      format: int32
+      default: 0
+      description: |
+        To total number of outflow transactions in the last week.
+
+        ℹ️ **Note**: If there are no transactions between the request date and the last seven or thirty days, the value is `0`.
+
+        If the account has not been open long enough to have the transaction data for a given period, we return `null`. For example, if the account has only been open for five days, we return values for `_1w` and `_1m`, however, the value for `_3m` will be `null`.
+      example: 19
+  num_outgoing_transactions_1m:
+      type: integer
+      format: int32
+      default: 0
+      description: |
+        To total number of outflow transactions in the last month.
+
+        ℹ️ **Note**: If there are no transactions between the request date and the last seven or thirty days, the value is `0`.
+
+        If the account has not been open long enough to have the transaction data for a given period, we return `null`. For example, if the account has only been open for five days, we return values for `_1w` and `_1m`, however, the value for `_3m` will be `null`.
+      example: 19
+  num_outgoing_transactions_3m:
+      type: integer
+      format: int32
+      default: 0
+      description: |
+        To total number of outflow transactions in the last three months.
+
+        ℹ️ **Note**: If there are no transactions between the request date and the last seven or thirty days, the value is `0`.
+
+        If the account has not been open long enough to have the transaction data for a given period, we return `null`. For example, if the account has only been open for five days, we return values for `_1w` and `_1m`, however, the value for `_3m` will be `null`.
+      example: 19
+  sum_incoming_amount_1w:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The total sum of all inflow transactions for the last week.
+      example: 10022.01
+  sum_incoming_amount_1m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The total sum of all inflow transactions for the last month.
+      example: 10022.01
+  sum_incoming_amount_3m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The total sum of all inflow transactions for the last three months.
+      example: 10022.01
+  sum_outgoing_amount_1w:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The total sum of all outflow transactions for the last week.
+      example: 10237.03
+  sum_outgoing_amount_1m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The total sum of all outflow transactions for the last month.
+      example: 10237.03
+  sum_outgoing_amount_3m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The total sum of all outflow transactions for the last three months.
+      example: 10237.03
+  max_incoming_amount_1w:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The highest value inflow transaction in the last week.
+      example: 3030.0
+  max_incoming_amount_1m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The highest value inflow transaction in the last month.
+      example: 3030.0
+  max_incoming_amount_3m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The highest value inflow transaction in the last three months.
+      example: 3030.0
+  max_outgoing_amount_1w:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The highest value outflow transaction in the last week.
+      example: 3027.44
+  max_outgoing_amount_1m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The highest value outflow transaction in the last month.
+      example: 3027.44
+  max_outgoing_amount_3m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The highest value outflow transaction in the last three months.
+      example: 3027.44
+  mean_incoming_amount_1w:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The mean incoming value of all transactions in the last week.
+      example: 3030.0
+  mean_incoming_amount_1m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The mean incoming value of all transactions in the last month.
+      example: 3030.0
+  mean_incoming_amount_3m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The mean incoming value of all transactions in the last three months.
+      example: 3030.0
+  mean_outgoing_amount_1w:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The mean outgoing value of all transaction in the last week.
+      example: 3027.44
+  mean_outgoing_amount_1m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The mean outgoing value of all transaction in the last month.
+      example: 3027.44
+  mean_outgoing_amount_3m:
+      type: number
+      format: float
+      nullable: true
+      description: |
+        The mean outgoing value of all transaction in the last three months.
+      example: 3027.44
