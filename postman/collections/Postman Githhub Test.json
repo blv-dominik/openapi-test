@@ -22096,20 +22096,42 @@
 		"type": "basic",
 		"basic": [
 			{
-				"key": "username",
-				"value": "<Basic Auth Username>",
+				"key": "password",
+				"value": "{{secretPassword}}",
 				"type": "string"
 			},
 			{
-				"key": "password",
-				"value": "<Basic Auth Password>",
+				"key": "username",
+				"value": "{{secretId}}",
 				"type": "string"
 			}
 		]
 	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "89c40658-9fc0-4b49-ba89-fb761db65540",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4ade03ec-1b27-4ac1-8f5e-f2affcaba261",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
-			"id": "10a5c9c3-cc8a-4cd3-a17d-f44bd9ead525",
+			"id": "9c1a3e04-aca6-4a23-8d6f-f3c8d6144db1",
 			"key": "baseUrl",
 			"value": "https://sandbox.belvo.com",
 			"type": "string"
