@@ -18,6 +18,19 @@
 							"item": [
 								{
 									"name": "Get a link's details",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "6ec09939-c898-46da-b05e-4ce35fc10a5c",
+												"exec": [
+													"// Please work ",
+													"console.log(\"Work baby!\")"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
 									"id": "4172edc7-8b97-4f0f-bb86-d6d225ddcd29",
 									"protocolProfileBehavior": {
 										"disableBodyPruning": true
