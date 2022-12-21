@@ -1,0 +1,34 @@
+type: object
+required: 
+  - costs
+  - administration_expenses
+  - distribution_and_sales_expenses
+  - financial_expenses
+  - total_costs_and_deductible_expenses
+description: Object containing the reported annual costs and applicable deductions.
+properties:
+  costs:
+    type: number
+    format: float
+    description: Total costs for the company to operate.
+    example: 1881843000.0
+  administration_expenses:
+    type: number
+    format: float
+    description: Total costs of the company related to training, company offsites, or similar.
+    example: 3266000.0
+  distribution_and_sales_expenses:
+    type: number
+    format: float
+    description: Total costs the company incurred in order to distribute or sell their product. 
+    example: 0.0
+  financial_expenses:
+    type: number
+    format: float
+    description: Total value of any fees incurred by the company to operate (such as bank fees).
+    example: 0.0
+  total_costs_and_deductible_expenses:
+    type: number
+    format: float
+    description: Total value of all costs and dedictible expenses.
+    example: 191449000.0

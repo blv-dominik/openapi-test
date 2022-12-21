@@ -1,0 +1,51 @@
+type: object
+nullable: true
+description: Additional data provided by the institution for credit card transactions.
+properties:
+  collected_at:
+    type: string
+    nullable: true
+    example: 2019-09-27T13:01:41.941Z
+    format: date-time
+    description: >-
+      The ISO-8601 timestamp when the data point was collected.
+  bill_name:
+    type: string
+    nullable: true
+    description: |
+      The title of the monthly credit card bill the transaction belongs to. The format of the returned value is institution specific, however, some common examples are:
+
+      - diciembre-2021
+      - dec-2021
+      - dec-21
+    example: apr-2020
+  bill_status:
+    type: string
+    nullable: true
+    enum:
+      - PAID
+      - CLOSED
+      - OPEN
+      - FUTURE
+      - null
+    description: >-
+      The status of the bill that the transaction appears on. Can be one of:
+      
+        - `PAID`: The bill has been paid in full.
+        - `CLOSED`: The bill has been closed by the institution.
+        - `OPEN`: The bill is currently open. (Note: This is the main bill that Belvo retrieves balance data from).
+        - `FUTURE`: The bill is pending.
+        
+      ℹ️ Note: Some banks consider CLOSED as PAID. 
+    example: PAID
+  bill_amount:
+    type: number
+    format: float
+    nullable: true
+    description: The aggregate bill amount, as of `collected_at`.
+    example: 300.00
+  previous_bill_total:
+    type: string
+    nullable: true
+    description: 'The total amount of the previous month''s bill, if available.'
+    example: '9614.30'

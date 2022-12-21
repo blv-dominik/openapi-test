@@ -1,0 +1,21 @@
+type: object
+nullable: true
+required:
+ - type
+ - value
+description: Breakdown of the fees applied to the loan.
+properties:
+  type:
+    type: string
+    enum:
+      - OPERATION_FEE
+      - INSURANCE_FEE
+      - OTHERS
+    description: The type of fee.
+    example: "OPERATION_FEE"
+  value:
+      type: number
+      format: float
+      description: |
+        The total value of the fee. Same currency of the Loan.
+      example: 5.60

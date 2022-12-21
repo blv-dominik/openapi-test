@@ -1,0 +1,14 @@
+type: object
+required:
+  - name
+  - value
+properties:
+  name:
+    type: string
+    description: The type of identification number for the fund.
+    example: CNPJ
+  value:
+    type: string
+    nullable: true
+    description: The fund's identification number.
+    example: 05.954.445/0221-68

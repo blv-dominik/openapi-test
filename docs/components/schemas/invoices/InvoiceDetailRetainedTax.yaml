@@ -1,0 +1,30 @@
+type: object
+required:
+ - tax
+ - tax_percentage
+ - retained_tax_amount
+properties:
+  collected_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: >-
+      The ISO-8601 timestamp when the data point was collected.
+    example: 2019-09-27T13:01:41.941Z
+  tax:
+    type: string
+    nullable: true
+    description: 'The type of retained tax (for example, ISR, IVA or IEPS).'
+    example: ISR
+  tax_percentage:
+    type: number
+    format: float
+    nullable: true
+    description: The percentage of tax retained.
+    example: 10
+  retained_tax_amount:
+    type: number
+    format: float
+    nullable: true
+    description: The amount of retained tax.
+    example: 209.79

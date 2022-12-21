@@ -1,0 +1,30 @@
+type: object
+title: Unsupported Operation
+description: >-
+  This error occurs when you try to access some data operation that Belvo does not support for an institution. For example, trying to access the Balances resource for fiscal institutions.
+properties:
+  code:
+    type: string
+    description: >-
+      A unique error code (`unsupported_operation`) that allows you to classify and handle the error programmatically.
+      
+      
+      ℹ️ Check our DevPortal for more information on how to handle <a href="https://developers.belvo.com/docs/belvo-api-errors#400-unsupported_operation" target="_blank">400 unsupported_operation errors</a>.
+    example: unsupported_operation
+  message:
+    type: string
+    description: >-
+      A short description of the error. 
+      
+      
+      For `unsupported_operation` errors, the description is:
+        
+        - `The resource you are trying to access is not supported by this institution`.
+    example: The resource you are trying to access is not supported by this institution
+  request_id:
+    type: string
+    pattern: '[a-f0-9]{32}'
+    description: >-
+      A 32-character unique ID of the request (matching a regex pattern of: `[a-f0-9]{32}`). Provide this ID when contacting the Belvo
+      support team to accelerate investigations.
+    example: 9e7b283c6efa449c9c028a16b5c249fb

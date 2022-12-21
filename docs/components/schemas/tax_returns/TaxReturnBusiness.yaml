@@ -1,0 +1,91 @@
+type: object
+additionalProperties: true
+title: Tax Return Business
+required:
+ - informacion_general
+ - estado_resultados
+ - pdf
+ - receipt_pdf
+ - collected_at
+ - estado_posicion_financiera_balance
+ - conciliacion_entre_resultado_contable_fiscal
+ - cifras_cierre_ejercicio
+ - determinacion_del_impuesto_sobre_la_renta
+ - detalle_pago_r1_isr_personas_morales
+properties:
+  id:
+    type: string
+    format: uuid
+    description: >-
+      Unique identifier created by Belvo used to reference the current Tax
+      Return.
+    example: 0d3ffb69-f83b-456e-ad8e-208d0998d71d
+  collected_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: >-
+      The ISO-8601 timestamp when the data point was collected.
+    example: 2019-09-27T13:01:41.941Z
+  created_at:
+    type: string
+    format: date-time
+    description: >-
+      The ISO-8601 timestamp of when the data point was last updated in Belvo's database.
+    example: 2022-02-09T08:45:50.406032Z
+  informacion_general:
+    type: object
+    nullable: true
+    description: >-
+      General information regarding the tax return (year, RFC, return type,
+      person/company name, and so on).
+  datos_adicionales:
+    type: object
+    nullable: true
+    description: Additional data regarding the tax return.
+  estado_resultados:
+    type: object
+    nullable: true
+    description: Detailed information about the legal entity's yearly profit and loss.
+  estado_posicion_financiera_balance:
+    type: object
+    nullable: true
+    description: Details regarding balance sheet of the legal entity.
+  conciliacion_entre_resultado_contable_fiscal:
+    type: object
+    nullable: true
+    description: Details regarding the accounting reconciliation.
+  deducciones_autorizadas:
+    type: object
+    nullable: true
+    description: Details regarding the legal entity's deductions.
+  cifras_cierre_ejercicio:
+    type: object
+    nullable: true
+    description: Details regarding key numbers at the end of the fiscal exercise.
+  determinacion_del_impuesto_sobre_la_renta:
+    type: object
+    nullable: true
+    description: Details regarding the final tax return.
+  dividendos_o_utilidades_distribuidos:
+    type: object
+    nullable: true
+    description: Details regarding distributed dividends.
+  detalle_pago_r1_isr_personas_morales:
+    type: object
+    nullable: true
+    description: Details of the tax payment.
+  pdf:
+    type: string
+    format: binary
+    nullable: true
+    description: Tax return PDF as a binary.
+    example: '=PDF-STRING='
+  receipt_pdf:
+    type: string
+    format: binary
+    nullable: true
+    description: >-
+      The acknowledgement receipt from the fiscal institution confirming that
+      they received the tax return.
+    example: '=PDF-STRING='

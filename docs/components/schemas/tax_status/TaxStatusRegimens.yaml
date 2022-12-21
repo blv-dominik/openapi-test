@@ -1,0 +1,29 @@
+type: object
+required:
+ - regimen
+ - initial_date
+ - end_date
+properties:
+  end_date:
+    type: string
+    format: date
+    nullable: true
+    description: |
+      The end date of the regimen.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: null
+  initial_date:
+    type: string
+    format: date
+    nullable: true
+    description: |
+      The start date of the regimen.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '2020-12-06'
+  regimen:
+    type: string
+    nullable: true
+    description: The description of the regimen.
+    example: Régimen de Ingresos por Dividendos (socios y accionistas)

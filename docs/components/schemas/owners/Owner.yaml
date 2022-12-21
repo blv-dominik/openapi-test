@@ -1,0 +1,80 @@
+type: object
+required:
+ - internal_identification
+ - display_name
+ - email
+ - phone_number
+ - address
+ - collected_at
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Belvo's unique identifier used to reference the current owner.
+    example: c749315b-eec2-435d-a458-06912878564f
+  link:
+    type: string
+    format: uuid
+    description: Belvo's unique ID for the current Link.
+    example: 30cb4806-6e00-48a4-91c9-ca55968576c8
+  internal_identification:
+    type: string
+    nullable: true
+    description: The institution's internal identifier for the owner.
+    example: 7e5838e4
+  collected_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: >-
+      The ISO-8601 timestamp when the data point was collected.
+    example: 2019-09-27T13:01:41.941Z
+  created_at:
+    type: string
+    format: date-time
+    description: >-
+      The ISO-8601 timestamp of when the data point was last updated in Belvo's database.
+    example: 2022-02-09T08:45:50.406032Z
+  display_name:
+    type: string
+    nullable: true
+    maxLength: 128
+    description: 'The full name of the owner, as provided by the bank.'
+    example: John Doe
+  email:
+    type: string
+    description: The account owner's registered email address.
+    nullable: true
+    format: email
+    maxLength: 256
+    example: johndoe@belvo.com
+  phone_number:
+    type: string
+    nullable: true
+    description: The account owner's registered phone number.
+    example: +52-XXX-XXX-XXXX
+  address:
+    type: string
+    description: The accounts owners registered address.
+    nullable: true
+    example: 'Carrer de la Llacuna, 162, 08018 Barcelona'
+  document_id:
+    $ref: ./OwnerDocumentId.yaml
+  last_name:
+    deprecated: true
+    nullable: true
+    type: string
+    description: |
+      *This field has been deprecated.*
+
+      *The last name of the account owner.*
+    example: null
+  second_last_name:
+    deprecated: true
+    nullable: true
+    type: string
+    description: |
+      *This field has been deprecated.*
+
+      *The second last name of the account owner.*
+    example: null

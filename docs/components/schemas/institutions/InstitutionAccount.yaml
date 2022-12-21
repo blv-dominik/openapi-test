@@ -1,0 +1,22 @@
+type: object
+description: Details regarding the institution.
+properties:
+  name:
+    type: string
+    example: erebor_mx_retail
+    description: >-
+      The name of the institution, as designated by Belvo.
+
+      Please see our [Institutions](https://developers.belvo.com/docs/institution) DevPortal article for a detailed list of institution names.
+  type:
+    type: string
+    enum:
+      - bank
+      - fiscal
+    description: |
+      The type of institution.
+
+      Can be either:
+
+        - `bank`
+        - `fiscal`

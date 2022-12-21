@@ -1,0 +1,14 @@
+type: object
+required:
+  - reporting_type
+  - reporting_value
+description: Object containing information about where the tax payer reports their income.
+properties:
+  reporting_type:
+    type: string
+    description: The type of reporting ID. For DIAN, this is the sectional address code (*Codigo Dirrecion Seccional*)
+    example: sectional_address_code
+  reporting_value:
+    type: string
+    description: The value of the reporting ID.
+    example: "32"

@@ -1,0 +1,97 @@
+type: object
+required:
+ - pdf
+ - collected_at
+properties:
+  id:
+    type: string
+    format: uuid
+    description: >-
+      Unique identifier created by Belvo used to reference the current Tax
+      Status.
+    example: 21e9e25b-10a8-48a5-9e6a-4072b364b53f
+  link:
+    type: string
+    format: uuid
+    description: The Link ID that the tax status is associated with.
+    example: c2280c05-cbeb-4a29-ae53-8f837a77995b
+  collected_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: >-
+      The ISO-8601 timestamp when the data point was collected.
+    example: 2020-04-23T21:32:55.336Z
+  created_at:
+    type: string
+    format: date-time
+    description: >-
+      The ISO-8601 timestamp of when the data point was last updated in Belvo's database.
+    example: 2022-02-09T08:45:50.406032Z
+  place_and_date_of_issuance:
+    type: string
+    nullable: true
+    description: The place and date of that the tax status was issued.
+    example: 'TLALPAN , CIUDAD DE MEXICO A 19 DE MARZO DE 2020'
+  official_name:
+    type: string
+    nullable: true
+    description: The name of the person or business.
+    example: John Doe
+  id_cif:
+    type: string
+    nullable: true
+    description: |
+      The taxpayer's *Cédula de Identificación Fiscal* (CIF) ID.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '12345678901'
+  tax_payer_information:
+    $ref: ./TaxStatusTaxPayerInformation.yaml
+  address:
+    $ref: ./TaxStatusAddress.yaml
+  economic_activity:
+    type: array
+    nullable: true
+    description: |
+      A list of economic activity objects.
+    items:
+      $ref: ./TaxStatusEconomicActivity.yaml
+  regimens:
+    type: array
+    nullable: true
+    description: |
+      A list of regimen objects.
+    items:
+      $ref: ./TaxStatusRegimens.yaml
+  obligations:
+    type: array
+    nullable: true
+    description: |
+      Details regarding a business's obligations.
+
+      ℹ️ For non-business accounts, this field will return empty.
+    items:
+      $ref: ./TaxStatusObligations.yaml
+  digital_stamp:
+    type: string
+    nullable: true
+    description: The validation certificate of the document.
+    example: >-
+      ||2020/04/26|GHTF980303F7|CONSTANCIA DE SITUACIÓN
+      FISCAL|2044441088666600000034||
+  digital_stamp_chain:
+    type: string
+    nullable: true
+    description: |
+      A data chain containing the basic structure of a fiscal digital check. For Mexico, this is the Comprobante Fiscal Digital por Internet (CFDI).
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: >-
+      EtenSA9t1adG7bn+Jj23kj43JK+XbMPxdOppwabhXD+pXseSqYowWWDna0mpUk3264lkj2345j23faNZB852dCDt9KAjow=
+  pdf:
+    type: string
+    format: binary
+    nullable: true
+    description: Tax status PDF as a binary string.
+    example: '=PDF-STRING='

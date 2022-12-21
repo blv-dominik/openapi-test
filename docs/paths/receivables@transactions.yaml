@@ -1,0 +1,320 @@
+get:
+  tags:
+    - Receivable Transactions
+  operationId: ListReceivableTransactions
+  description: >-
+    Get a paginated list of all the existing receivable transactions in your Belvo account. We
+    return up to 100 results per page.
+  summary: List all receivable transactions
+  parameters:
+    - name: page
+      required: false
+      in: query
+      description: A page number within the paginated result set.
+      schema:
+        type: integer
+        format: int32
+        example: 1
+    - name: link
+      in: query
+      description: |
+        The `link.id` you want to filter by.
+
+        ℹ️ We highly recommend adding either the `link.id` or the `account.id` filters in order to improve your performance.
+      schema:
+        type: string
+        format: uuid
+        example: 8848bd0c-9c7e-4f53-a732-ec896b11d4c4
+    - name: account
+      in: query
+      description: |
+        The `account.id` you want to filter by.
+    
+        ℹ️ We highly recommend adding either the `link.id` or the `account.id` filters in order to improve your performance.
+      schema:
+        type: string
+        format: uuid
+        example: d979df3a-5d0f-4cc9-9bd4-b75c28b45963
+    - name: account__in
+      in: query
+      description: Return receivable transactions only for these `account.id`s.
+      schema:
+        type: string
+        example: 24ccab1d-3a86-4136-a6eb-e04bf52b356f,beb2b197-3cf7-428d-bef3-f415c0d57509
+    - name: created_at__gt
+      in: query
+      description: Return receivable transactions that were last updated in Belvo's database after this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-05-05
+    - name: created_at__gte
+      in: query
+      description: Return receivable transactions that were last updated in Belvo's database after or on this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-05-04
+    - name: created_at__lt
+      in: query
+      description: Return receivable transactions that were last updated in Belvo's database before this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-04-01
+    - name: created_at__lte
+      in: query
+      description: Return receivable transactions that were last updated in Belvo's database before or on this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-03-30
+    - name: created_at__range
+      in: query
+      description: Return receivable transactions that were last updated in Belvo's database between two dates (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+      schema:
+        type: string
+        example: 2022-03-03,2022-05-04
+    - name: link__in
+      in: query
+      description: Return information for these `link.id`s.
+      schema:
+        type: string
+        example: 8848bd0c-9c7e-4f53-a732-ec896b11d4c4,cc2b13cf-336e-497c-9fad-e074b580df65
+    - name: value_date
+      in: query
+      description: Return receivable transactions for exactly this date (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-05-05
+    - name: value_date__gt
+      in: query
+      description: Return receivable transactions for after this date (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-05-06
+    - name: value_date__gte
+      in: query
+      description: Return receivable transactions for this date or later (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-05-04
+    - name: value_date__lt
+      in: query
+      description: Return receivable transactions for before this date (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-03-02
+    - name: value_date__lte
+      in: query
+      description: Return receivable transactions for this date or earlier (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-03-01
+    - name: value_date__range
+      in: query
+      description: Return receivable transactions for this date range (`YYYY-MM-DD` or full ISO-8601 timestamp).
+      schema:
+        type: string
+        example: 2022-03-01,2022-05-06
+  responses:
+    '200':
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: ../components/responses/ReceivablesTransactionsPaginatedResponse.yaml
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+  # x-readme:
+  #     code-samples:
+  #       - language: python
+  #         name: Belvo Python SDK
+  #         code: |
+  #           # For more information about our SDKs go to:
+  #           # https://developers.belvo.com/docs/belvo-sdks
+
+  #           from belvo.client import Client
+
+  #           # Login to Belvo API
+  #           client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+  #           # List Receivable Transactions
+  #           for transaction in client.RecevableTransactions.list():
+  #           pprint(transaction)
+
+  #       - language: ruby
+  #         name: Belvo Ruby SDK
+  #         code: |
+  #           # For more information about our SDKs go to:
+  #           # https://developers.belvo.com/docs/belvo-sdks
+
+  #           require 'belvo'
+
+  #           sandbox = Belvo::Client.new(
+  #             'Secret Key ID',
+  #             'Secret Key PASSWORD',
+  #             'sandbox'
+  #           )
+
+  #           client.investments_transaction.list
+
+  #       - language: node
+  #         name: Belvo Node SDK
+  #         code: |
+  #           // For more information about our SDKs go to:
+  #           // https://developers.belvo.com/docs/belvo-sdks
+
+  #           var belvo = require('belvo').default;
+
+  #           var client = new belvo(
+  #             'Secret Key ID',
+  #             'Secret Key PASSWORD',
+  #             'sandbox'
+  #           );
+
+  #           client.connect()
+  #             .then(function () {
+  #               client.RecevableTransactions.list()
+  #                 .then(function (res) {
+  #                   console.log(res);
+  #                 })
+  #                 .catch(function (error) {
+  #                   console.log(error);
+  #                 });
+  #           });
+post:
+  tags:
+    - Receivable Transactions
+  operationId: RetrieveReceivableTransactions
+  summary: Retrieve receivable transactions for a link
+  description: Retrieve all receivable transactions for an existing link.
+  parameters: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/requestBodies/ReceivableTransactionRequest.yaml
+  responses:
+    '200':
+      description: Ok (when `save_data=false`)
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/receivables/ReceivablesTransaction.yaml
+    '201':
+      description: Created (when `save_data=true`)
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/receivables/ReceivablesTransaction.yaml
+    '400':
+      description: Bad request error
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              anyOf:
+              - $ref: ../components/errors/TooManySessionsError.yaml
+              - $ref: ../components/errors/SessionExpiredError.yaml
+              - $ref: ../components/errors/ValidationError.yaml
+              - $ref: ../components/errors/InstitutionDownError.yaml
+              - $ref: ../components/errors/InstitutionUnavailableError.yaml
+              - $ref: ../components/errors/InstitutionInactiveError.yaml
+              - $ref: ../components/errors/UnsupportedOperationError.yaml
+              - $ref: ../components/errors/InvalidLinkError.yaml
+              - $ref: ../components/errors/UnconfirmedLinkError.yaml
+    '401':
+      description: Authentication to Belvo API failed
+      content:
+        application/json:
+          schema:
+            type: array
+            description: >-
+              This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+            items:
+              $ref: ../components/errors/UnauthorizedError.yaml
+    '428':
+      description: MFA Token Required
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: ../components/responses/TokenRequiredResponse.yaml
+    '500':
+      description: Unexpected Error
+      content:
+        application/json:
+          schema:
+            type: array
+            title: Unexpected Error
+            description: >-
+              This error occurs when we (Belvo) have encountered an internal system error (sorry about that) or due to an unsupported response from the institution.
+                
+            items:
+              $ref: ../components/errors/UnexpectedError.yaml
+  # x-readme:
+  #     code-samples:
+  #       - language: python
+  #         name: Belvo Python SDK
+  #         code: |
+  #           # For more information about our SDKs go to:
+  #           # https://developers.belvo.com/docs/belvo-sdks
+
+  #           from belvo.client import Client
+
+  #           # Login to Belvo API
+  #           client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+  #           # Retrieve Receivable Transactions
+  #           client.RecevableTransactions.create('link-id')
+
+  #       - language: ruby
+  #         name: Belvo Ruby SDK
+  #         code: |
+  #           # For more information about our SDKs go to:
+  #           # https://developers.belvo.com/docs/belvo-sdks
+
+  #           require 'belvo'
+
+  #           sandbox = Belvo::Client.new(
+  #             'Secret Key ID',
+  #             'Secret Key PASSWORD',
+  #             'sandbox'
+  #           )
+
+  #           client.investments_transaction.retrieve(
+  #             link: 'link-id'
+  #           )
+
+  #       - language: node
+  #         name: Belvo Node SDK
+  #         code: |
+  #           // For more information about our SDKs go to:
+  #           // https://developers.belvo.com/docs/belvo-sdks
+
+  #           var belvo = require('belvo').default;
+
+  #           var client = new belvo(
+  #             'Secret Key ID',
+  #             'Secret Key PASSWORD',
+  #             'sandbox'
+  #           );
+
+  #           client.connect()
+  #             .then(function () {
+  #               client.RecevableTransactions.retrieve('linkID')
+  #                 .then(function (res) {
+  #                   console.log(res);
+  #                 })
+  #                 .catch(function (error) {
+  #                   console.log(error);
+  #                 });
+  #           });

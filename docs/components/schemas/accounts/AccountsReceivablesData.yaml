@@ -1,0 +1,34 @@
+type: object
+required:
+ - current
+ - available
+ - anticipated
+ - collected_at
+nullable: true
+description: >-
+    Additional details regarding the receivables account, if applicable.
+properties:
+  current:
+    type: number
+    format: float
+    nullable: true
+    example: 2193.83
+    description: The total sum of all receivables (`available` + `anticipated`)
+  available:
+    type: number
+    format: float
+    nullable: true
+    example: 800.37
+    description: The amount that the owner of the account will receive according to an established date.
+  anticipated:
+    type: number
+    format: float
+    nullable: true
+    example: 1393.46
+    description: The amount that the owner of the account received earlier than contracted.
+  collected_at:
+    type: string
+    format: date-time
+    description: >-
+      The ISO-8601 timestamp when the data point was collected.
+    example: 2022-02-09T08:45:50.406032Z

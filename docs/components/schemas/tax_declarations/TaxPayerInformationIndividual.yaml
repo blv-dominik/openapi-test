@@ -1,0 +1,35 @@
+type: object
+required: 
+  - first_last_name
+  - second_last_name
+  - first_name
+  - other_names
+  - main_economic_activity
+  - document_id
+  - reporting_id
+description: Object containing information about the tax payer.
+properties:
+  first_last_name:
+    type: string
+    description: The tax payer's first last name.
+    example: Restrepo
+  second_last_name:
+    type: string
+    description:  The tax payer's second last name.
+    example: Vives
+  first_name:
+    type: string
+    description: The tax payer's first name.
+    example: Carlos
+  other_names:
+    type: string
+    description: Additional names of the tax payer.
+    example: Alberto
+  main_economic_activity:
+    type: string
+    description: The main economic activity the tax payer is involved in.
+    example: "0010"
+  document_id:
+    $ref: DocumentIdIndividual.yaml
+  reporting_id:
+    $ref: ReportingId.yaml

@@ -1,0 +1,34 @@
+lint:
+# the lint options
+# We need to turn off some linting rules as otherwise our Travis-CI won't build the image.
+  rules:
+      no-invalid-media-type-examples: # Our examples, converted from JSON, also throw warnings
+        severity: off
+      no-path-trailing-slash: # Our API must have the trailing slashes
+        severity: off
+      info-license: # This is not a necessary check
+        severity: off
+# apis:
+#   belvo: 
+#     root: docs/definition.yaml
+# extends:
+#   - recommended
+# rules:
+#   no-invalid-media-type-examples: off
+#     # severity: off
+#   no-path-trailing-slash: off
+#     # severity: off
+#   info-license: off
+#     # severity: off
+# features.openapi:
+#   theme:
+#     colors:
+#       primary:
+#         main: "#32329f"
+#   generateCodeSamples:
+#     languages:
+#       - lang: curl
+#       - lang: Node.js
+#       - lang: JavaScript
+#       - lang: PHP
+#       - lang: Python

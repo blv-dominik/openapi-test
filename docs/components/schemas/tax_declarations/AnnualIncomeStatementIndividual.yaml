@@ -1,0 +1,16 @@
+type: object
+required: 
+  - gross_income
+  - non_taxable_income
+  - net_income
+  - annual_totals
+description: Object containing the reported annual incomes, deductions, and final balances of the tax payer.
+properties:
+  gross_income:
+    $ref: GrossIncomeIndividual.yaml
+  non_taxable_income:
+    $ref: NonTaxableIncomeIndividual.yaml
+  net_income:
+    $ref: NetIncomeIndividual.yaml
+  annual_totals:
+    $ref: AnnualTotalsIndividual.yaml

@@ -1,0 +1,60 @@
+summary: Credit Card Transaction
+description: An example of a credit card transaction
+value:
+  - id: 9e432f18-36ca-4bd6-a3f3-1971e58dc1e8
+    account:
+      id: 02589c41-ba22-4d44-8558-8111cc751318
+      link: 30cb4806-6e00-48a4-91c9-ca55968576c8
+      institution:
+        name: erebor_mx_retail
+        type: bank
+      collected_at: 2022-02-09T08:45:50.406032Z
+      created_at: 2022-02-09T08:46:20.406032Z
+      category: CREDIT_CARD
+      type: Tarjetas de crédito
+      name: Erebor Gold
+      number: null
+      balance:
+        current: 5874.13
+        available: 5621.12
+      currency: MXN
+      bank_product_id: null
+      internal_identification: null
+      public_identification_name: null
+      public_identification_value: null
+      last_accessed_at: 2021-03-09T10:28:40.000Z
+      balance_type: LIABILITY
+      credit_data:
+        credit_limit: 192000
+        collected_at: 2022-02-09T08:45:50.406032Z
+        cutting_date: '2019-12-11'
+        next_payment_date: '2019-12-01'
+        minimum_payment: 2400
+        no_interest_payment: 37390.83
+        monthly_payment: null
+        end_date: null
+        last_payment_date: null
+        last_period_balance: null
+        interest_rate: 4
+      loan_data: null
+      funds_data: null
+    collected_at: 2022-02-09T08:45:50.406032Z
+    value_date: 2019-10-23
+    accounting_date: '2019-10-23T13:01:41.941Z'
+    amount: 2145.45
+    balance: 16907.96
+    currency: MXN
+    description: 'SEVEN BUDDHAS RFC:XXXXXXXXXX'
+    observations: OPTIONAL OBSERVATIONS
+    merchant:
+      logo: 'https://logo.clearbit.com/asesor-contable.es'
+      website: 'https://merchants-r-us.com'
+      merchant_name: Merchants R Us Global
+    category: Food & Groceries
+    reference: '8703'
+    type: OUTFLOW
+    status: PROCESSED
+    credit_card_data:
+      bill_name: apr-2020
+      previous_bill_total: '2000.00'
+      collected_at: 2022-02-09T08:45:50.406032Z

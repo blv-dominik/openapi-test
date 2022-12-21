@@ -1,0 +1,132 @@
+type: object
+properties:
+  id:
+    type: integer
+    format: int32
+    description: The ID of the institution as designated by Belvo.
+    example: 1003
+  name:
+    type: string
+    example: erebor_mx_retail
+    description: >-
+      The name of the institution, as designated by Belvo.
+
+      Please see our [Institutions](https://developers.belvo.com/docs/institution) DevPortal article for a detailed list of institution names.
+  type:
+    type: string
+    enum:
+      - bank
+      - fiscal
+    description: |
+      The type of institution.
+
+      Can be either:
+
+        - `bank`
+        - `fiscal`
+    example: bank
+  website:
+    type: string
+    nullable: true
+    example: 'https://www.erebor.com/'
+    description: The URL of the institution's website.
+  display_name:
+    type: string
+    example: Erebor Mexico
+    description: The customer-facing name of the institution.
+  country_codes:
+    type: array
+    description: "The country codes where the institution is available, for example:\n- \U0001F1E7\U0001F1F7 BR (Brazil)\n- \U0001F1E8\U0001F1F4 CO (Colombia)\n- \U0001F1F2\U0001F1FD MX (Mexico)  \n"
+    items:
+      type: string
+      example: MX
+  primary_color:
+    type: string
+    example: '#056dae'
+    description: The primary color on the institution's website.
+  logo:
+    type: string
+    nullable: true
+    example: 'https://belvo-api-media.s3.amazonaws.com/logos/erebor_logo.png'
+    description: The URL of the institution's logo.
+  icon_logo:
+    type: string
+    nullable: true
+    example: 'https://statics.belvo.io/widget/images/institutions/erebor.svg'
+    description: The URL of the institution's icon logo.
+  text_logo:
+    type: string
+    nullable: true
+    example: 'https://statics.belvo.io/widget/images/institutions/erebor.svg'
+    description: The URL of the institution's text logo.
+  form_fields:
+    type: array
+    items:
+      $ref: ./InstitutionsFormField.yaml
+    # anyOf:
+    #   - type: array
+    #     title: Array of objects
+    #     items:
+    #       $ref: ./InstitutionsFormField.yaml
+    #   - type: object
+    #     title: Object with form_field objects
+    #     $ref: ./InstitutionsFormField.yaml
+    # description: The form fields on the institution's website that require user credentials.
+  features:
+    type: array
+    description: >
+      The features that the institution supports. If the institution has no
+      special features, then Belvo returns an empty array.
+
+
+      Here is a list of the available features:
+
+      - `token_required` indicates that the institution may require a token
+      during link creation or when making any other requests.
+    items:
+      $ref: ./InstitutionsFeature.yaml
+  resources:
+    type: array
+    description: >
+      A list of Belvo resources that you can use with the institution. This list includes one or more of the following resources:
+
+        - `ACCOUNTS`
+        - `BALANCES`
+        - `INCOMES`
+        - `INVESTMENTS_PORTFOLIOS` *This field has been deprecated.*
+        - `INVESTMENTS_TRANSACTIONS` *This field has been deprecated.*
+        - `INVOICES`
+        - `OWNERS`
+        - `RECURRING_EXPENSES`
+        - `RISK_INSIGHTS`
+        - `TRANSACTIONS`
+        - `TAX_COMPLIANCE_STATUS`
+        - `TAX_STATUS`
+        - `TAX_RETURNS`
+    items:
+      type: string
+      description: A Belvo resource that the institution supports.
+      example: ACCOUNTS
+    example: ["ACCOUNTS", "BALANCES", "INCOMES", "OWNERS", "RECURRING_EXPENSES", "RISK_INSIGHTS", "TRANSACTIONS"]
+  integration_type:
+    type: string
+    enum:
+      - credentials
+      - openbanking
+    description: >
+      The type of technology used to access the institution.
+
+
+      - `credentials`: Uses Belvo's scraping technology, combined with user
+      credentials, to perform requests.
+
+      - `openbanking`: Uses the bank's openbanking API to perform requests.
+    example: credentials
+  status:
+      type: string
+      enum:
+        - healthy
+        - down
+      description: |
+        Indicates whether Belvo's integration with the institution is currently active (`healthy`) or undergoing maintenance (`down`).
+      example: healthy

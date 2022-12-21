@@ -1,0 +1,115 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Belvo's unique ID for the current Link.
+    example: 30cb4806-6e00-48a4-91c9-ca55968576c8
+  institution:
+    type: string
+    description: |
+      Belvo's name for the institution.
+    example: erebor_mx_retail
+  access_mode:
+    type: string
+    nullable: true
+    enum:
+      - single
+      - recurrent
+      - null
+    description: >
+      The link type.
+
+      For more information, see our
+      [Links](https://developers.belvo.com/docs/links-and-institutions#links)
+      article.
+
+      We return one of the following enum values:
+        - `single`
+        - `recurrent`
+        - `null`
+
+    example: recurrent
+  last_accessed_at:
+    type: string
+    nullable: true
+    format: date-time
+    description: >-
+      The ISO-8601 timestamp of Belvo's most recent successful access to the institution for the given link.
+    example: 2019-09-27T13:02:03.584Z
+  created_at:
+    type: string
+    format: date-time
+    description: >-
+      The ISO-8601 timestamp of when the data point was last updated in Belvo's database.
+    example: 2022-02-09T08:45:50.406032Z
+  external_id:
+    type: string
+    minLength: 3
+    nullable: true
+    description: >-
+      The `external_id` you provided as an additional identifier for the link.
+      For more information, see our [Link creation
+      article](https://developers.belvo.com/docs/link-creation-best-practices#adding-your-own-identifier).
+    example: 56ab5706-6e00-48a4-91c9-ca55968678d9
+  institution_user_id:
+    type: string
+    pattern: '[A-Za-z0-9\-=_]{44}'
+    description: >-
+      <div style="background-color:#f4f6f8; border-left: 6px solid #0663F9;padding: 12px;margin-left: 25px; border-radius: 4px; margin-right: 25px">
+      <strong>Info:</strong> Only applicable for links created <b>after 08-02-2022</b>.
+      </div>
+
+
+      A unique 44-character string that can be used to identify a user at a given institution.
+
+
+      📚 Check out our [Avoiding duplicated links](https://developers.belvo.com/docs/link-creation-best-practices#avoiding-duplicated-links) DevPortal article for more information and tips on how to use it.
+
+    example: sooE7XJWEKypZJR603ecaWYk-8Ap0oD8Nr1pBQ4eG9c=
+  status:
+    type: string
+    enum:
+      - valid
+      - invalid
+      - unconfirmed
+      - token_required
+    description: >
+      The current status of the link. For more information, see our
+      [Link](https://developers.belvo.com/docs/links-and-institutions#links)
+      article in the devportal.
+
+      We return one of the following enum values:
+        - `valid`
+        - `invalid`
+        - `unconfirmed`
+        - `token_required`
+
+  created_by:
+    type: string
+    format: uuid
+    description: The unique ID for the user that created this link.
+    example: bcef7f35-67f2-4b19-b009-cb38795faf09
+  refresh_rate:
+    type: string
+    nullable: true
+    default: 7d
+    enum:
+      - 6h
+      - 12h
+      - 24h
+      - 7d
+      - 30d
+      - null
+    description: >
+      The update refresh rate for the recurrent link. For more information, check out our [recurrent link documentation](https://developers.belvo.com/docs/links-and-institutions#recurrent-links) in our DevPortal.
+
+      We return one of the following enum values:
+        - `6h`
+        - `12h`
+        - `24h`
+        - `7d` (default)
+        - `30d` (once a month)
+        - `null` (for single links)
+
+    example: 7d

@@ -1,0 +1,47 @@
+summary: Pension Account
+description: Example of a pension account.
+value:
+  - id: 3d5b0f90-90df-455d-a647-5b74feb746f6
+    link: fbbb5ea7-4605-437f-b5c5-667fd037a303
+    institution:
+      name: erebor_br_retail
+      type: bank
+    collected_at: 2022-02-09T08:45:50.406032Z
+    created_at: 2022-02-09T08:46:20.406032Z
+    category: PENSION_FUND_ACCOUNT
+    balance_type: ASSET
+    type: Contas
+    name: Conta corrente
+    number: '37903487'
+    balance:
+      available: 26305.33
+      current: 26305.33
+    currency: BRL
+    bank_product_id: null
+    internal_identification: null
+    public_identification_name: PENSION_PLAN_ID
+    public_identification_value: '626249048387247512'
+    last_accessed_at: 2021-03-09T08:19:05.000Z
+    credit_data: null
+    loan_data: null
+    funds_data:
+      - collected_at: 2022-02-09T08:45:50.406032Z
+        name: CICLO DE VIDA 2040 I
+        type: PGBL
+        balance: '94793'
+        percentage: '9'
+        public_identifications:
+          - name: CNPJ
+            value: 11.233.333/4424-01
+          - name: SUSEP
+            value: 13311.2333222/3333-44
+      - collected_at: 2022-02-09T08:45:50.406032Z
+        name: CICLO DE VIDA 2020 I
+        type: PGBL
+        balance: '50834'
+        percentage: '91'
+        public_identifications:
+          - name: CNPJ
+            value: 11.222.333/4444-02
+          - name: SUSEP
+            value: 11111.222222/3333-44

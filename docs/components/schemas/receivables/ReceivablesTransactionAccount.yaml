@@ -1,0 +1,13 @@
+type: object
+description: Basic information about the account associated with the transaction.
+required: 
+  - id
+  - institution
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Belvo's unique ID for the account associated with the transaction.
+    example: a7a3104c-5a3c-4536-81e1-14523097f645
+  institution:
+    $ref: ../institutions/InstitutionAccount.yaml

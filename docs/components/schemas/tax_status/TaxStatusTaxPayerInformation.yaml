@@ -1,0 +1,91 @@
+type: object
+required:
+ - rfc
+ - start_operations_date
+ - status_padron
+ - last_status_change_date
+nullable: true
+description: Details regarding the taxpayer.
+properties:
+  rfc:
+    type: string
+    nullable: true
+    description: |
+      The tax payers's identification number.
+
+      For Mexico (SAT), this is the tax payer's RFC number.
+
+      For Colombia (DIAN), this is the tax payer's NIT number. 
+    example: BEMP12345G58
+  curp:
+    type: string
+    nullable: true
+    description: |
+      The tax payers's Clave Única de Registro de Población (CURP) number.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: BEMP12345HKGLLT00
+  name:
+    type: string
+    nullable: true
+    description: The tax payers's first name.
+    example: JOHN
+  first_last_name:
+    type: string
+    nullable: true
+    description: The tax payers's first last name.
+    example: DOE
+  second_last_name:
+    type: string
+    nullable: true
+    description: The tax payers's second last name.
+    example: SCHMOE
+  start_operations_date:
+    type: string
+    format: date 
+    nullable: true
+    description: |
+      Date when the tax payer commenced taxable commercial activities.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '2016-02-16'
+  status_padron:
+    type: string
+    nullable: true
+    description: >-
+      Status of the taxpayer in the Federal Register of Taxpayers (RFC). Can be
+      `ACTIVO` or `INACTIVO`.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: ACTIVO
+  last_status_change_date:
+    type: string
+    format: date
+    nullable: true
+    description: |
+      Date when `status_padron` was most recently updated.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '2016-02-16'
+  commercial_name:
+    type: string
+    nullable: true
+    description: The name of the company designated for consumers and the general public.
+    example: JOHNDOE
+  social_name:
+    type: string
+    nullable: true
+    description: >-
+      The unique and exclusive name within the national territory that companies
+      receive for legal or administrative purposes.
+    example: John Doe SA DE CV
+  email:
+    type: string
+    nullable: true
+    description: Contact email address for the tax payer.
+    example: john_doe@gmail.com
+  phone:
+    type: string
+    nullable: true
+    description: Contact phone number for the tax payer.
+    example: '1234567890'

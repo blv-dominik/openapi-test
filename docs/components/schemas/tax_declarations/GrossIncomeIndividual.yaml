@@ -1,0 +1,28 @@
+type: object
+required: 
+  - earned_income
+  - fee_based_income
+  - capital_income
+  - non_labor_income
+description: Object containing the declared gross income of the tax payer.
+properties:
+  earned_income:
+    type: number
+    format: float
+    description: Income received from employment.
+    example: 115004000.0
+  fee_based_income:
+    type: number
+    format: float
+    description: Income received from emitted invoices (for example, income that independent contractors or freelancers receive). 
+    example: 0.00
+  capital_income:
+    type: number
+    format: float
+    description: Income received from an investment (such as dividends or from renting a property).
+    example: 0.00
+  non_labor_income:
+    type: number
+    format: float
+    description: Income that cannot be classified into the other three fields (such as income from cryptocurrencies or regular transfers from parents).
+    example: 0.00

@@ -1,0 +1,160 @@
+type: object
+required:
+ - collected_at
+ - invoice_identification
+ - version
+ - code
+ - issued_at
+ - certified_at
+ - cancelled_at
+ - sender_id
+ - sender_name
+ - receiver_nationality
+ - receiver_id
+ - receiver_name
+ - total_invoice_amount
+ - total_taxable_amount
+ - total_exempt_amount
+ - total_retained_amount
+ - retention_breakdown
+ - xml
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Belvo's unique identifier used to reference the current tax retention statement.
+    example: c749315b-eec2-435d-a458-06912878564f
+  link:
+    type: string
+    format: uuid
+    description: The `link.id` the tax retention belongs to.
+    example: 19697249-01b8-443e-a451-76bfc5fbeebf
+  collected_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: |
+      The ISO-8601 timestamp of when the data point was collected.
+    example: 2022-02-09T08:45:50.406032Z
+  created_at:
+    type: string
+    format: date-time
+    description: |
+      The ISO-8601 timestamp of when the data point was last updated in Belvo's database.
+    example: 2022-02-09T08:46:20.406032Z
+  invoice_identification:
+    type: string
+    format: uuid
+    nullable: true
+    description: |
+      The fiscal institution's unique ID for the invoice that the tax retention relates to.
+    example: def404af-5eef-4112-aa99-d1ec8493b89a
+  version:
+    type: string
+    nullable: true
+    description: |
+      The CFDI version of the tax retentions.
+    example: "1.0"
+  code:
+    type: integer
+    format: int32
+    nullable: true
+    description: |
+      The tax retention code. For more information, see our [SAT Catalogs DevPortal article](https://developers.belvo.com/docs/sat-catalogs#retention-code).
+    example: 25
+  issued_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: |
+      The ISO-8601 timestamp of when the tax retention was issued.
+    example: 2019-01-03T21:10:40.000Z
+  certified_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: |
+      The ISO-8601 timestamp of when the tax retention was certified.
+    example: 2019-01-03T21:10:41.000Z
+  cancelled_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: |
+      The ISO-8601 timestamp of when the tax retention was canceled (if applicable).
+    example: null
+  sender_id:
+    type: string
+    nullable: true
+    description: |
+      The fiscal ID of the invoice sender.
+    example: JKUF980404P0
+  sender_name:
+    type: string
+    nullable: true
+    description: |
+      The name of the invoice sender.
+    example: Roberto Nunez Batman
+  receiver_nationality:
+    type: string
+    format: enum
+    nullable: true
+    description: |
+      Whether the invoice receiver is a Mexican national or not. If the receiver is not considered a Mexican national, the retained taxes can be calculated differently. Possible values:
+        - `NATIONAL`
+        - `FOREIGN`
+    example: NATIONAL
+  receiver_id:
+    type: string
+    nullable: true
+    description: |
+      The fiscal ID of the invoice receiver.
+    example: GYGK3207809L1
+  receiver_name:
+    type: string
+    nullable: true
+    description: |
+      The name of the invoice receiver.
+    example: ACME LTD
+  total_invoice_amount:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The total amount of the invoice that the tax retention relates to.
+    example: 53249.8
+  total_exempt_amount:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      Total amount that is exempt from taxation.
+    example: 1000.8
+  total_retained_amount:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      Total tax retained.
+    example: 1550.7
+  total_taxable_amount:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The total amount that can be taxed. Calculated as `total_invoice_amount` - `total_exempt_amount`.
+    example: 43249
+  retention_breakdown:
+    type: array
+    nullable: true
+    description: >-
+      A breakdown of the retained taxes.
+    items:
+      $ref: ./RetentionBreakdown.yaml
+  xml:
+    type: string
+    format: xml
+    nullable: true
+    description: |
+      The tax retention document in XML form.
+    example: '=XML-STRING='

@@ -1,0 +1,46 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    description: Belvo's unique ID for the balance request.
+    example: 076c66e5-90f5-4e01-99c7-50e32f65ae42
+  account:
+    $ref: ../accounts/Account.yaml
+  value_date:
+    type: string
+    format: date
+    description: The date when the `balance` was available, in `YYYY-MM-DD` format.
+    example: 2019-10-23
+  balance:
+    type: number
+    format: float
+    description: The funds available in the account by the end of the `value_date`.
+    example: 50000
+  current_balance:
+    deprecated: true
+    type: number
+    nullable: true
+    description: |
+      *This field has been deprecated. Please use the `balance` field instead.*
+
+    example: null
+  statement:
+    deprecated: true
+    type: string
+    nullable: true
+    description: |
+      *This field has been deprecated.*
+
+      *The ID of the banking statement used to extract the `balance`.*
+    example: null
+  collected_at:
+    type: string
+    deprecated: true
+    nullable: true
+    format: date-time
+    description: |
+      This field has been deprecated.
+
+      The ISO-8601 timestamp when the data point was collected.
+    example: null

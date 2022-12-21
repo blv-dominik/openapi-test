@@ -1,0 +1,33 @@
+type: object
+title: Too Many Sessions
+description: >-
+  This error occurs when:
+
+    - a user is attempting to log in to their institution via Belvo while also already being logged in to their institution on a web browser or mobile app.
+    - you make a request for information while Belvo is scraping data from the institution for that user.
+properties:
+  code:
+    type: string
+    description: >-
+      A unique error code (`too_many_sessions`) that allows you to classify and handle the error programmatically.
+      
+      
+      ℹ️ Check our DevPortal for more information on how to handle <a href="https://developers.belvo.com/docs/belvo-api-errors#400-too_many_sessions" target="_blank">400 too_many_sessions errors</a>.
+    example: too_many_sessions
+  message:
+    type: string
+    description: >-
+      A short description of the error. 
+      
+      
+      For `too_many_sessions` errors, the description is:
+        
+        - `Impossible to login, a session is already opened with the institution for these credentials`.
+    example: Impossible to login, a session is already opened with the institution for these credentials
+  request_id:
+    type: string
+    pattern: '[a-f0-9]{32}'
+    description: >-
+      A 32-character unique ID of the request (matching a regex pattern of: `[a-f0-9]{32}`). Provide this ID when contacting the Belvo
+      support team to accelerate investigations.
+    example: 9e7b283c6efa449c9c028a16b5c249fb

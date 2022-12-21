@@ -1,0 +1,33 @@
+type: object
+title: Tax Declaration Individual
+additionalProperties: false
+properties:
+  count:
+    type: integer
+    format: int32
+    description: The total number of results in your Belvo account.
+    example: 130
+  next:
+    type: string
+    nullable: true
+    description: >
+      The URL to next page of results. Each page consists of up to 100 items. If
+      there are not enough results for an additional page, the value is `null`.
+
+
+      In our documentation example, we use `{endpoint}` as a placeholder value.
+      In production, this value will be replaced by the actual endpoint you are
+      currently using (for example, `accounts` or `owners`).
+    example: 'https://sandbox.belvo.com/api/{endpoint}/?page=2'
+  previous:
+    type: string
+    nullable: true
+    description: >-
+      The URL to the previous page of results. If there is no previous page, the
+      value is `null`.
+    example: null
+  results:
+    type: array
+    description: Array of Individual Tax Declaration objects.
+    items:
+      $ref: ../schemas/tax_declarations/TaxDeclarationIndividual.yaml

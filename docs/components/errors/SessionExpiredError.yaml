@@ -1,0 +1,30 @@
+type: object
+title: Session Expired
+description: >-
+  This error occurs when you try to resume a request session that has already expired. This is usually because the user took too long to provide their authentication token.
+properties:
+  code:
+    type: string
+    description: >-
+      A unique error code (`session_expired`) that allows you to classify and handle the error programmatically.
+      
+      
+      ℹ️ Check our DevPortal for more information on how to handle <a href="https://developers.belvo.com/docs/belvo-api-errors#400-session_expired" target="_blank">400 session_expired errors</a>.
+    example: session_expired
+  message:
+    type: string
+    description: >-
+      A short description of the error. 
+      
+      
+      For `session_expired` errors, the description is:
+        
+        - `The session you are trying to resume has expired, please start again from register/retrieve endpoint`.
+    example: The session you are trying to resume has expired, please start again from register/retrieve endpoint
+  request_id:
+    type: string
+    pattern: '[a-f0-9]{32}'
+    description: >-
+      A 32-character unique ID of the request (matching a regex pattern of: `[a-f0-9]{32}`). Provide this ID when contacting the Belvo
+      support team to accelerate investigations.
+    example: 9e7b283c6efa449c9c028a16b5c249fb

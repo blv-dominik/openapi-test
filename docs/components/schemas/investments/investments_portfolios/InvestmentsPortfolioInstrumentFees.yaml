@@ -1,0 +1,15 @@
+type: object
+nullable: true
+required:
+ - type
+ - value
+properties:
+  type:
+    type: string
+    description: The fee type incurred when making the purchase of the instrument.
+    example: OPERATION_FEE
+  value:
+    type: number
+    format: float
+    description: The value of `fees.type`. The currency of the fee is the same as the currency of the instrument.
+    example: 123.09

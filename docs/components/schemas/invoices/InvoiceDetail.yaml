@@ -1,0 +1,87 @@
+type: object
+required:
+ - description
+ - product_identification
+ - quantity
+ - unit_amount
+ - unit_description
+ - unit_code
+ - pre_tax_amount
+ - tax_percentage
+ - tax_amount
+ - total_amount
+properties:
+  description:
+    type: string
+    nullable: true
+    description: >-
+      The description of the invoice item (an invoice can have one or more
+      items).
+    example: December 2019 accounting fees
+  product_identification:
+    type: string
+    nullable: true
+    description: "The identification code of the product or the service, as defined by the legal entity in the country.\n- \U0001F1F2\U0001F1FD [Mexico](http://200.57.3.89/Pys/catPyS.aspx)\n"
+    example: '84101600'
+  quantity:
+    type: integer
+    format: int32
+    nullable: true
+    description: The quantity of this invoice item.
+    example: 10
+  unit_code:
+    type: string
+    nullable: true
+    description: "The unit of measure, as defined by the legal entity in the country. \n- \U0001F1F2\U0001F1FD Mexico [SAT catalog reference](https://developers.belvo.com/docs/sat-catalogs#unit-code)\n"
+    example: E48
+  unit_description:
+    type: string
+    nullable: true
+    description: "The description of the item, as defined by the legal entity in the country.\n- \U0001F1F2\U0001F1FD Mexico [SAT catalog reference](https://developers.belvo.com/docs/sat-catalogs#unit-code)\n"
+    example: Unidad de servicio
+  unit_amount:
+    type: number
+    format: float
+    nullable: true
+    description: The price of one a singular item.
+    example: 200
+  pre_tax_amount:
+    type: number
+    format: float
+    nullable: true
+    description: >-
+      The total price for this item before tax is applied (`quantity` x
+      `unit_amount`).
+    example: 400
+  tax_percentage:
+    type: number
+    format: float
+    nullable: true
+    description: The tax percentage to apply.
+    example: 16
+  tax_amount:
+    type: number
+    format: float
+    nullable: true
+    description: >-
+      The amount of tax for this invoice item (`pre_tax_amount` x
+      `tax_percentage`).
+    example: 64
+  total_amount:
+    type: number
+    format: float
+    nullable: true
+    description: The total price for this invoice item (`pre_tax_amount` + `tax_amount`).
+    example: 464
+  retained_taxes:
+    type: array
+    description: The retained tax on the invoice item.
+    items:
+      $ref: ./InvoiceDetailRetainedTax.yaml
+  collected_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: >-
+      The ISO-8601 timestamp when the data point was collected.
+    example: 2019-09-27T13:01:41.941Z

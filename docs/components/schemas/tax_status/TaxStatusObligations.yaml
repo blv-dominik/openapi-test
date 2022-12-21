@@ -1,0 +1,40 @@
+type: object
+description: |
+  Details regarding a business's obligations.
+
+  ℹ️ For non-business accounts, this field will return empty.
+properties:
+  obligation:
+    type: string
+    nullable: true
+    description: |
+      The description of the obligation.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: Declaración informativa de IVA con la anual de ISR
+  expiration:
+    type: string
+    nullable: true
+    description: |
+      The deadline to fulfill the obligation, as imposed by the tax authority.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: Conjuntamente con la declaración anual del ejercicio.
+  initial_date:
+    type: string
+    format: date
+    nullable: true
+    description: |
+      The date when obligation started.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '2020-12-06'
+  end_date:
+    type: string
+    format: date
+    nullable: true
+    description: |
+      The date when obligation ended.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: null

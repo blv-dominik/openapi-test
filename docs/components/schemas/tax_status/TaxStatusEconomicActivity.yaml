@@ -1,0 +1,35 @@
+type: object
+properties:
+  economic_activity:
+    type: string
+    nullable: true
+    description: The description of the economic activity.
+    example: Asalariado
+  initial_date:
+    type: string
+    format: date
+    nullable: true
+    description: The start date of the economic activity.
+    example: '2020-12-06'
+  end_date:
+    type: string
+    format: date
+    nullable: true
+    description: | 
+      The end date of the economic activity.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: null
+  order:
+    type: string
+    nullable: true
+    description: The order of the economic activity.
+    example: '2'
+  percentage:
+    type: string
+    nullable: true
+    description: |
+      The percentage of the economic activity.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '1'

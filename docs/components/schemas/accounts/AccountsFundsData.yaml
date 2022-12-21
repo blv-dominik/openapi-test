@@ -1,0 +1,32 @@
+type: object
+properties:
+  name:
+    type: string
+    nullable: true
+    example: FIX X
+    description: The pension fund name.
+  type:
+    type: string
+    nullable: true
+    example: CNPJ
+    description: Type of pension fund.
+  public_identifications:
+    type: array
+    nullable: true
+    description: The fund's public IDs.
+    items:
+      $ref: ./AccountsFundsDataPublicIdentifications.yaml
+  balance:
+    type: number
+    format: float
+    nullable: true
+    example: 88427.94
+    description: The amount in the fund.
+  percentage:
+    type: number
+    format: float
+    nullable: true
+    example: 100.00
+    description: >-
+      How much this fund, as a percentage, contributes to the pension
+      account's total.

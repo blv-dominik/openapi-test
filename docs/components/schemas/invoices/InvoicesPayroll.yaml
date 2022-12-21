@@ -1,0 +1,83 @@
+type: object
+nullable: true
+required:
+ - version
+ - type
+ - payment_date
+ - date_from
+ - date_to
+ - days
+ - amount
+description: |
+  Details regarding the payroll payment. Only applicable for payroll invoices.
+
+  **Note**: This field is not applicable for DIAN Colombia.
+properties:
+  days:
+    type: integer
+    format: int32
+    nullable: true
+    description: |
+      The number of days covered by the payment.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 30
+  type:
+    type: string
+    nullable: true
+    description: |
+      The payroll type, as defined by the legal entity of the country.
+      
+      - 🇲🇽 Mexico [SAT catalog reference article](https://developers.belvo.com/docs/sat-catalogs#payroll-type)
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: O
+  amount:
+    type: number
+    format: float
+    description: |
+      The total amount of the payroll payment.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 20400.1
+  version:
+    type: string
+    description: |
+      The version of the payroll object.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '1.2'
+  date_from:
+    type: string
+    format: date
+    nullable: true
+    description: |
+      The start date of the payment period.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '2018-07-01'
+  date_to:
+    type: string
+    format: date
+    nullable: true
+    description: |
+      The end date of the payment period.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: '2018-07-31'
+  collected_at:
+    type: string
+    format: date-time
+    nullable: true
+    description: >-
+      The ISO-8601 timestamp when the data point was collected.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 2019-09-27T13:01:41.941Z
+  payment_date:
+    type: string
+    format: date
+    description: |
+      The payment date.
+
+      **Note**: This field is not applicable for DIAN Colombia.

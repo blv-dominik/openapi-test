@@ -1,0 +1,37 @@
+type: object
+required:
+ - base_amount
+ - tax_type
+ - retained_amount
+ - payment_status
+description: A breakdown of the retained taxes
+properties:
+  base_amount:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The base amount that was used to calculate the tax retention.
+    example: 0.03
+  tax_type:
+    type: string
+    nullable: true
+    description: |
+      Optional attribute to indicate the type of tax withheld for the period or year according to the [SAT catalog](https://developers.belvo.com/docs/sat-catalogs#retention-code).
+    example: "01"
+  retained_amount:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The amount retained.
+    example: 0
+  payment_status:
+    type: string
+    format: enum
+    nullable: true
+    description: |
+      Indicates whether or not the tax has been paid or not. Can be either:
+        - `PAID`
+        - `PROVISIONED`
+    example: PAID

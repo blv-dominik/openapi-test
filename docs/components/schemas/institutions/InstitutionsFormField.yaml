@@ -1,0 +1,37 @@
+type: object
+properties:
+  name:
+    type: string
+    description: 'The username, password, or username type field.'
+    example: username
+  type:
+    type: string
+    description: 'The input type for the form field. For example, string.'
+    example: text
+  label:
+    type: string
+    description: |
+      The label of the form field. For example:
+      - Client number
+      - Key Bancanet
+      - Document
+    example: Client number
+  validation:
+    type: string
+    description: The type of input validation used for the field.
+    example: '^.{1,}$'
+  placeholder:
+    type: string
+    description: The placeholder text in the form field.
+    example: ABC333333A33
+  validation_message:
+    type: string
+    description: The message displayed when an invalid input is provided in the form field.
+    example: Invalid client number
+  values:
+    type: array
+    description: >-
+      If the form field is for documents, the institution may require additional
+      input regarding the document type.
+    items:
+      $ref: ./InstitutionsFormFieldValues.yaml

@@ -1,0 +1,31 @@
+type: object
+title: Unauthorized Error
+description: >-
+  This error occurs when you try to make an API call using incorrect Belvo API credentials (either your secret key or secret password, or both, are incorrect).
+properties:
+  code:
+    type: string
+    description: >-
+      A unique error code (`authentication_failed`) that allows you to classify and handle the error programmatically.
+      
+      
+      ℹ️ Check our DevPortal for more information on how to handle <a href="https://developers.belvo.com/docs/belvo-api-errors#401-authentication_failed" target="_blank">401 authentication_failed errors</a>.
+
+    example: authentication_failed
+  message:
+    type: string
+    description: >-
+      A short description of the error. 
+      
+      
+      For `authentication_failed` errors, the description is:
+
+        - `Invalid Secret Keys`.
+    example: Invalid Secret Keys
+  request_id:
+    type: string
+    pattern: '[a-f0-9]{32}'
+    description: >-
+      A 32-character unique ID of the request (matching a regex pattern of: `[a-f0-9]{32}`). Provide this ID when contacting the Belvo
+      support team to accelerate investigations.
+    example: 9e7b283c6efa449c9c028a16b5c249fb

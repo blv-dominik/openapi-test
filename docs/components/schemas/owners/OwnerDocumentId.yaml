@@ -1,0 +1,17 @@
+type: object
+required:
+ - document_type
+ - document_number
+description: Information regarding the identification document the owner provided to the bank.
+nullable: true
+properties:
+  document_type:
+    type: string
+    nullable: true
+    description: "The type of document the owner provided to the institution to open the account. For example: \n\n- \U0001F1E7\U0001F1F7 `CPF` or `CNPJ`\n- \U0001F1E8\U0001F1F4 `Cedula de Ciudadania`\n- \U0001F1F2\U0001F1FD `CURP`\n"
+    example: CPF
+  document_number:
+    type: string
+    nullable: true
+    description: The document's identification number.
+    example: 235578435-S

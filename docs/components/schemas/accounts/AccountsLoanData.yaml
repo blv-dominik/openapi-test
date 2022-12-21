@@ -1,0 +1,170 @@
+type: object
+nullable: true
+required:
+ - principal
+ - monthly_payment
+ - outstanding_balance
+ - interest_rates
+ - collected_at
+description: The loan options associated with this account.
+properties:
+  collected_at:
+    type: string
+    format: date-time
+    description: >-
+      The ISO-8601 timestamp when the data point was collected.
+    example: 2022-02-09T08:45:50.406032Z
+  contract_amount:
+    type: number
+    format: float
+    nullable: true
+    description: The initial total loan amount, calculated by the institution, when the contract was signed. This amount includes the principal + interest + taxes + fees.
+    example: 202000.00
+  principal:
+    type: number
+    format: float
+    nullable: true
+    description: Total amount of the loan (the amount the user receives).
+    example: 192000.00
+  loan_type:
+    type: string
+    nullable: true
+    description: The type of the loan, according to the institution.
+    example: "Consignado"
+  payment_day:
+    type: string
+    nullable: true
+    description: The day of the month by which the owner needs to pay the loan (`YYYY-MM-DD`).
+    example: "27"
+  outstanding_principal:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      Outstanding loan amount, that is, how much remains to pay on the principal (not including interest).
+    example: 142023.00
+  outstanding_balance:
+    type: number
+    format: float
+    nullable: true
+    description: The amount remaining to pay in total, including interest.
+    example: 182000.00
+  monthly_payment:
+    type: number
+    format: float
+    nullable: true
+    description: The recurrent monthly payment, if applicable.
+    example: 1000.00
+  interest_rates:
+    type: array
+    nullable: true
+    description: Breakdown of the interest applied to the loan.
+    items:
+      $ref: ./AccountsLoanDataInterestRate.yaml
+  fees:
+    type: array
+    nullable: true
+    description: Breakdown of the fees applied to the loan.
+    items:
+      $ref: ./AccountsLoanDataFees.yaml
+  number_of_installments_total:
+    type: integer
+    format: int32
+    nullable: true
+    description: The total number of installments required to pay the loan.
+    example: 60
+  number_of_installments_outstanding:
+    type: integer
+    format: int32
+    nullable: true
+    description: The number of installments left to pay.
+    example: 48
+  contract_start_date:
+    type: string
+    format: date
+    nullable: true
+    description: The date when the loan contract was signed (`YYYY-MM-DD`).
+    example: "2020-03-01"
+  contract_end_date:
+    type: string
+    format: date
+    description: The date when the loan is expected to be completed.
+    example: "2027-10-01"
+  contract_number:
+    type: string
+    nullable: true
+    description: The contract number of the loan, as given by the institution.
+    example: 890ASLDJF87SD00
+  credit_limit:
+    type: number
+    nullable: true
+    deprecated: true
+    description: |
+      This field has been deprecated.
+
+      Please see `principal` instead.
+    example: null
+  last_period_balance:
+    type: number
+    deprecated: true
+    nullable: true
+    description: |
+      This field has been deprecated.
+
+      Please see `outstanding_balance` instead.
+    example: null
+  interest_rate:
+    type: number
+    nullable: true
+    deprecated: true
+    description: |
+      This field has been deprecated.
+
+      Please see the `interest_rates` object instead.
+    example: null
+  limit_day:
+    type: string
+    deprecated: true
+    nullable: true
+    description: |
+      This field has been deprecated.
+
+      Please see `payment_day` instead.
+
+    example: null
+  cutting_day:
+    type: string
+    deprecated: true
+    nullable: true
+    description: |
+      This field has been deprecated.
+
+      The closing day of the month for the loan.
+    example: null
+  cutting_date:
+    type: string
+    deprecated: true
+    nullable: true
+    description: |
+      This field has been deprecated.
+
+      The closing date of the loan period.
+    example: null
+  last_payment_date:
+    type: string
+    deprecated: true
+    nullable: true
+    description: |
+      This field has been deprecated.
+
+      The date when the last loan payment was made.
+    example: null
+  no_interest_payment:
+    type: number
+    deprecated: true
+    nullable: true
+    description: |
+      This field has been deprecated.
+
+      The minimum amount required to pay to avoid generating interest.
+    example: null

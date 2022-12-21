@@ -1,0 +1,20 @@
+summary: Banking
+description: An example of a banking account owner.
+value:
+  id: 2b22f123-7c3a-4518-9ac2-863eb5d4613c
+  link: c38fb126-fc98-4d6c-8c80-587a97dd56cf
+  collected_at: 2022-02-09T08:45:50.406032Z
+  created_at: 2022-02-09T08:46:20.406032Z
+  display_name: Maria Martinez Martin
+  first_name: null
+  last_name: null
+  second_last_name: null
+  email: maria@acme.com
+  phone_number: '90090508357'
+  address: |-
+    Retorno Gran Canaria 453 723
+    Cancun, COL 10447
+  document_id:
+    document_type: CPF
+    document_number: 235578435-S
+  internal_identification: null

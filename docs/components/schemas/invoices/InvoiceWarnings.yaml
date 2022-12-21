@@ -1,0 +1,29 @@
+type: object
+required:
+ - code
+ - message
+description: |
+  Object containing information about any warnings related to this invoice.
+
+  **Note**: This field is not applicable for DIAN Colombia.
+nullable: true
+properties:
+  code:
+    type: string
+    nullable: true
+    description: |
+      The warning code.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: sat_xml_limit_reached
+  message:
+    type: string
+    nullable: true
+    description: |
+      The description of the warning.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: >-
+      The daily limit for XML downloads set by SAT was reached so this invoice
+      might be missing data. Please check https://tinyurl.com/yydzhy5d for more
+      information on this error.

@@ -1,0 +1,28 @@
+type: object
+required: 
+  - total_exempt_income
+  - total_applicable_deductions
+  - total_exemptions_and_deductions
+  - total_ordinary_net_income
+description: Object containing the tax payers total exempt, deducted, and ordinary net incomes.
+properties:
+  total_exempt_income:
+    type: number
+    format: float
+    description: Total income that is not taxable, according to the institution.
+    example: 115004000.0
+  total_applicable_deductions:
+    type: number
+    format: float
+    description: Total deductions that the taxpayer can apply to their income, according to the institution.
+    example: 0.00
+  total_exemptions_and_deductions:
+    type: number
+    format: float
+    description: Sum total of all exempt and deductions that can be applied to the taxpayer's income.
+    example: 0.00
+  total_ordinary_net_income:
+    type: number
+    format: float
+    description: Sum total of the taxpayer's income (gross income - exemptions - deductions).
+    example: 0.00

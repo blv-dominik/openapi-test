@@ -1,0 +1,26 @@
+type: object
+required: 
+  - total_gross_equity
+  - total_debts
+  - total_net_equity
+description: Object containing the general fiscal situation of the taxpayer.
+properties:
+  total_gross_equity:
+    type: number
+    format: float
+    description: The total gross equity of the tax payer.
+    example: 4648000.0
+  total_debts:
+    type: number
+    format: float
+    description: The total debts of the tax_payer
+    example: 77626000.0
+  total_net_equity:
+    type: number
+    format: float
+    description: The total net equity value of the taxpayer.
+    example: 0.0
+  
+  
+
+    

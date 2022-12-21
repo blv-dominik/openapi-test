@@ -1,0 +1,75 @@
+type: object
+required:
+ - invoice_identification
+ - currency
+ - payment_method
+ - previous_balance
+ - amount_paid
+ - outstanding_balance
+description: List of all the related deferred invoices affected by the payment.
+properties:
+  invoice_identification:
+    type: string
+    nullable: true
+    description: |
+      The fiscal institution's unique ID for the related deferred invoice.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 7EE015F3-6311-11EA-B02A-00155D014007
+  currency:
+    type: string
+    nullable: true
+    description: |
+      The currency of the related invoice. For example:
+          
+      - 🇧🇷 BRL (Brazilian Real)
+      - 🇨🇴 COP (Colombian Peso)
+      - 🇲🇽 MXN (Mexican Peso)
+        
+        Please note that other currencies other than in the list above may be returned.
+
+        **Note**: This field is not applicable for DIAN Colombia.
+    example: MXN
+  payment_method:
+    type: string
+    nullable: true
+    description: |
+      The payment method of the related invoice.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: PPD
+  partiality_number:
+    type: integer
+    format: int32
+    description: |
+      The payment installment number.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 1
+  previous_balance:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The invoice amount before the payment.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 18877.84
+  amount_paid:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The amount paid in this installment.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 8000
+  outstanding_balance:
+    type: number
+    format: float
+    nullable: true
+    description: |
+      The amount remaining to be paid.
+
+      **Note**: This field is not applicable for DIAN Colombia.
+    example: 10877.84
