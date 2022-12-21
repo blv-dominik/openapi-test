@@ -62,7 +62,7 @@
 												}
 											]
 										},
-										"description": "Get the details of a specific link."
+										"description": "Get the details of a specific link.\n\nAdding some additional documentation to see if it'll also be pushed to github,"
 									},
 									"response": [
 										{
