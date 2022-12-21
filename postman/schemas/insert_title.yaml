@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  title: Dom's test
+  title: Belvo API Docs
   version: 1.20.1
   description: >
     # Introduction
@@ -289,7 +289,7 @@ components:
         id:
           type: string
           format: uuid
-          description: Belvo's unique ID used to reference the current Link.
+          description: Belvo's unique ID for the current Link.
           example: 30cb4806-6e00-48a4-91c9-ca55968576c8
         institution:
           type: string
@@ -298,9 +298,11 @@ components:
           example: erebor_mx_retail
         access_mode:
           type: string
+          nullable: true
           enum:
             - single
             - recurrent
+            - null
           description: >
             The link type.
 
@@ -311,6 +313,7 @@ components:
             We return one of the following enum values:
               - `single`
               - `recurrent`
+              - `null`
           example: recurrent
         last_accessed_at:
           type: string
@@ -329,6 +332,7 @@ components:
           example: '2022-02-09T08:45:50.406032Z'
         external_id:
           type: string
+          minLength: 3
           nullable: true
           description: >-
             The `external_id` you provided as an additional identifier for the
@@ -377,6 +381,7 @@ components:
           example: bcef7f35-67f2-4b19-b009-cb38795faf09
         refresh_rate:
           type: string
+          nullable: true
           default: 7d
           enum:
             - 6h
@@ -384,6 +389,7 @@ components:
             - 24h
             - 7d
             - 30d
+            - null
           description: >
             The update refresh rate for the recurrent link. For more
             information, check out our [recurrent link
@@ -396,6 +402,7 @@ components:
               - `24h`
               - `7d` (default)
               - `30d` (once a month)
+              - `null` (for single links)
           example: 7d
     PaginatedResponseLink:
       type: object
@@ -488,10 +495,11 @@ components:
           example: password
         external_id:
           type: string
+          minLength: 3
           description: >-
             An additional identifier for the link, provided by you, to store in
             the Belvo database. **Cannot** include any Personal Identifiable
-            Information (PII).
+            Information (PII). **Must** be at least three characters long.
 
 
             If we identify that the identifier contains PII, we will force a
@@ -1318,7 +1326,6 @@ components:
           enum:
             - bank
             - fiscal
-            - gig
           description: |
             The type of institution.
 
@@ -1326,7 +1333,6 @@ components:
 
               - `bank`
               - `fiscal`
-              - `gig` *This field has been deprecated.*
     AccountsBalance:
       type: object
       required:
@@ -1423,7 +1429,7 @@ components:
           description: The closing date of the credit period.
         next_payment_date:
           type: string
-          description: The due date for the next payment.
+          description: The due date for the next payment (`YYYY-MM-DD`).
           example: '2019-12-13'
           nullable: true
         minimum_payment:
@@ -1558,7 +1564,9 @@ components:
         payment_day:
           type: string
           nullable: true
-          description: The day of the month by which the owner needs to pay the loan.
+          description: >-
+            The day of the month by which the owner needs to pay the loan
+            (`YYYY-MM-DD`).
           example: '27'
         outstanding_principal:
           type: number
@@ -1608,7 +1616,7 @@ components:
           type: string
           format: date
           nullable: true
-          description: The date when the loan contract was signed.
+          description: The date when the loan contract was signed (`YYYY-MM-DD`).
           example: '2020-03-01'
         contract_end_date:
           type: string
@@ -1727,79 +1735,19 @@ components:
           items:
             $ref: '#/components/schemas/AccountsFundsDataPublicIdentifications'
         balance:
-          type: string
+          type: number
+          format: float
           nullable: true
-          example: '88427.94'
+          example: 88427.94
           description: The amount in the fund.
         percentage:
-          type: string
+          type: number
+          format: float
           nullable: true
-          example: '100'
+          example: 100
           description: >-
             How much this fund, as a percentage, contributes to the pension
             account's total.
-    AccountsGigPaymentData:
-      type: object
-      deprecated: true
-      description: >-
-        *This field has been deprecated.*
-
-
-        *Additional data provided by the institution on the payment methods
-        configured in the user profiles. This data is **only** provided by gig
-        economy institutions.*
-      nullable: true
-      properties:
-        method:
-          type: string
-          nullable: true
-          deprecated: true
-          description: >-
-            *This field has been deprecated.*
-
-
-            *The payment method type set up by the user (`BANK_ACCOUNT`, `CARD`,
-            or `CASH`).*
-          example: BANK_ACCOUNT
-        issuer:
-          type: string
-          nullable: true
-          deprecated: true
-          description: >-
-            *This field has been deprecated.*
-
-
-            *The payment `method` issuer set up by the user (bank institution or
-            card issuer).*
-          example: AZTECA - BANCO AZTECA SA
-        number:
-          type: string
-          nullable: true
-          deprecated: true
-          description: |-
-            *This field has been deprecated.*
-
-            *The bank account or card number used for the payment.*
-          example: '123184016786312246'
-        holder_name:
-          type: string
-          nullable: true
-          deprecated: true
-          description: |-
-            *This field has been deprecated.*
-
-            *The name of the payment `method` holder.*
-          example: Elisa Rojas Rivas
-        collected_at:
-          type: string
-          format: date-time
-          nullable: true
-          deprecated: true
-          description: |-
-            *This field has been deprecated.*
-
-            *The ISO-8601 timestamp when the data point was collected.*
-          example: '2019-09-27T13:01:41.941Z'
     AccountsReceivablesData:
       type: object
       required:
@@ -1893,8 +1841,6 @@ components:
           enum:
             - CHECKING_ACCOUNT
             - CREDIT_CARD
-            - DELIVERY_ACCOUNT
-            - DRIVER_ACCOUNT
             - INVESTMENT_ACCOUNT
             - LOAN_ACCOUNT
             - PENSION_FUND_ACCOUNT
@@ -1906,8 +1852,6 @@ components:
             We return one of the following enum values:
               - `CHECKING_ACCOUNT`
               - `CREDIT_CARD`
-              - `DELIVERY_ACCOUNT` *This field has been deprecated.*
-              - `DRIVER_ACCOUNT` *This field has been deprecated.*
               - `INVESTMENT_ACCOUNT`
               - `LOAN_ACCOUNT`
               - `PENSION_FUND_ACCOUNT`
@@ -1992,8 +1936,6 @@ components:
           nullable: true
           items:
             $ref: '#/components/schemas/AccountsFundsData'
-        gig_payment_data:
-          $ref: '#/components/schemas/AccountsGigPaymentData'
         receivables_data:
           $ref: '#/components/schemas/AccountsReceivablesData'
         bank_product_id:
@@ -2175,186 +2117,6 @@ components:
           type: string
           description: The name of the merchant.
           example: Merchants R Us Global
-    TransactionBreakdown:
-      type: object
-      deprecated: true
-      description: >-
-        *This field has been deprecated.*
-
-        *List of items representing the breakdown of the total amount in a
-        transactions.*
-      nullable: true
-      properties:
-        amount:
-          type: number
-          format: float
-          deprecated: true
-          description: |-
-            *This field has been deprecated.*
-            *The price of the transaction (trip or delivery order).*
-          example: 10
-        reference:
-          type: string
-          deprecated: true
-          nullable: true
-          description: >-
-            *This field has been deprecated.*
-
-            *Additional information from the gig institution regarding the
-            breakdown.*
-          example: base_fare
-        description:
-          type: string
-          deprecated: true
-          description: >-
-            *This field has been deprecated.*
-
-            *The description of the breakdown. In some cases this field may
-            provide information on how the `breakdown.amount` was calculated.*
-          example: Trip
-    TransactionGigData:
-      type: object
-      nullable: true
-      deprecated: true
-      description: >-
-        *This field has been deprecated.*
-
-
-
-        *Additional data provided by the institution on the transaction. This
-        data is provided only by gig economy institutions.*
-      properties:
-        pickup_at:
-          type: string
-          format: date-time
-          deprecated: true
-          description: |-
-            *This field has been deprecated.*
-            *Pickup ISO-8601 timestamp for one trip transaction or delivery.*
-          nullable: true
-          example: '2019-11-28T10:27:44.813Z'
-        dropoff_at:
-          type: string
-          format: date-time
-          deprecated: true
-          description: |-
-            *This field has been deprecated.*
-            *Dropoff ISO-8601 timestamp for one trip transaction or delivery.*
-          nullable: true
-          example: '2019-11-28T10:27:44.813Z'
-        request_at:
-          type: string
-          format: date-time
-          deprecated: true
-          description: >-
-            *This field has been deprecated.*
-
-            *ISO-8601 timestamp when one trip transaction or delivery was
-            requested.*
-          nullable: true
-          example: '2019-11-28T10:27:44.813Z'
-        pickup_address:
-          type: string
-          deprecated: true
-          description: |-
-            *This field has been deprecated.*
-            *Pickup address for the trip or delivery.*
-          nullable: true
-          example: Carrer de la Llacuna, 162, 08018 Barcelona
-        dropoff_address:
-          type: string
-          deprecated: true
-          description: |-
-            *This field has been deprecated.*
-            *Dropoff address for the trip or delivery.*
-          nullable: true
-          example: Carrer de la Llacuna, 162, 08018 Barcelona
-        pickup_latitude:
-          type: string
-          deprecated: true
-          nullable: true
-          description: |
-            *This field has been deprecated.*
-
-            *Latitude of the `pickup_address`.*
-          example: null
-        pickup_longitude:
-          type: string
-          deprecated: true
-          nullable: true
-          description: |
-            *This field has been deprecated.*
-
-            *Longitude of the `pickup_address`.*
-          example: null
-        dropoff_latitude:
-          type: string
-          deprecated: true
-          nullable: true
-          description: |
-            *This field has been deprecated.*
-
-            *Latitude of the `dropoff_address`.*
-          example: null
-        dropoff_longitude:
-          type: string
-          deprecated: true
-          nullable: true
-          description: |
-            *This field has been deprecated.*
-
-            *Longitude of the `dropoff_address`.*
-          example: null
-        distance:
-          type: number
-          format: float
-          deprecated: true
-          description: |-
-            *This field has been deprecated.*
-            *Distance in kilometers for the trip or delivery.*
-          nullable: true
-          example: 12
-        payment_method:
-          type: string
-          deprecated: true
-          description: >-
-            *This field has been deprecated.*
-
-            *Payment method for the transaction. For example, `CASH` or
-            `IN_APP`.*
-          nullable: true
-          example: CASH
-        vehicle_type:
-          type: string
-          deprecated: true
-          description: |-
-            *This field has been deprecated.*
-            *Vehicle type used.*
-          nullable: true
-          example: CAR
-        merchant_type:
-          type: string
-          deprecated: true
-          description: |-
-            *This field has been deprecated.*
-            *Merchant type for the delivery.*
-          nullable: true
-          example: Restaurant
-        breakdown:
-          type: array
-          deprecated: true
-          nullable: true
-          items:
-            $ref: '#/components/schemas/TransactionBreakdown'
-        collected_at:
-          type: string
-          format: date-time
-          deprecated: true
-          nullable: true
-          description: |-
-            *This field has been deprecated.*
-            *The ISO-8601 timestamp when the data point was collected.*
-          example: '2019-09-27T13:01:41.941Z'
     TransactionCreditCardData:
       type: object
       nullable: true
@@ -2557,7 +2319,7 @@ components:
               - `Transfers`
               - `Unknown`*
 
-              *For clients not using our Transaction Categorization product, we return `null` instead.
+              \* For clients not using our Transaction Categorization product, we return `null` instead.
           example: Food & Groceries
         reference:
           type: string
@@ -2592,8 +2354,6 @@ components:
               - `PENDING`
               - `PROCESSED`
               - `UNCATEGORIZED`
-        gig_data:
-          $ref: '#/components/schemas/TransactionGigData'
         credit_card_data:
           $ref: '#/components/schemas/TransactionCreditCardData'
     TransactionsPaginatedResponse:
@@ -2915,7 +2675,6 @@ components:
           enum:
             - bank
             - fiscal
-            - gig
           description: |
             The type of institution.
 
@@ -2923,7 +2682,6 @@ components:
 
               - `bank`
               - `fiscal`
-              - `gig` *This field has been deprecated.*
           example: bank
         website:
           type: string
@@ -2989,8 +2747,8 @@ components:
               - `ACCOUNTS`
               - `BALANCES`
               - `INCOMES`
-              - `INVESTMENTS_PORTFOLIOS`
-              - `INVESTMENTS_TRANSACTIONS`
+              - `INVESTMENTS_PORTFOLIOS` *This field has been deprecated.*
+              - `INVESTMENTS_TRANSACTIONS` *This field has been deprecated.*
               - `INVOICES`
               - `OWNERS`
               - `RECURRING_EXPENSES`
@@ -3098,46 +2856,6 @@ components:
           nullable: true
           description: The document's identification number.
           example: 235578435-S
-    OwnersGigData:
-      type: object
-      nullable: true
-      deprecated: true
-      description: |
-        *This field has been deprecated.*
-
-        *Additional information from the gig institution regarding the owner.*
-
-        > **Note**: This field is only valid for gig institutions.
-      properties:
-        collected_at:
-          type: string
-          format: date-time
-          deprecated: true
-          description: |-
-            *This field has been deprecated.*
-            *The ISO timestamp when the data point was collected.*
-          example: '2019-09-27T13:01:41.941Z'
-        status:
-          type: string
-          nullable: true
-          deprecated: true
-          description: >-
-            *This field has been deprecated.*
-
-            *The current status of the gig account's owner, according to the
-            institution.*
-          example: INACTIVE
-        acceptance_rate:
-          type: number
-          format: float
-          nullable: true
-          deprecated: true
-          description: >-
-            *This field has been deprecated.*
-
-            *The percentage rate of how often the owner accepts a delivery or
-            trip request.*
-          example: 97
     Owner:
       type: object
       required:
@@ -3156,7 +2874,7 @@ components:
         link:
           type: string
           format: uuid
-          description: Belvo's unique ID used to reference the current Link.
+          description: Belvo's unique ID for the current Link.
           example: 30cb4806-6e00-48a4-91c9-ca55968576c8
         internal_identification:
           type: string
@@ -3201,17 +2919,6 @@ components:
           example: Carrer de la Llacuna, 162, 08018 Barcelona
         document_id:
           $ref: '#/components/schemas/OwnerDocumentId'
-        gig_data:
-          $ref: '#/components/schemas/OwnersGigData'
-        first_name:
-          deprecated: true
-          nullable: true
-          type: string
-          description: |
-            *This field has been deprecated.*
-
-            *The first name of the account owner.*
-          example: null
         last_name:
           deprecated: true
           nullable: true
@@ -5954,11 +5661,9 @@ components:
           enum:
             - MONTHLY
           default: MONTHLY
-          description: >
+          description: |
             The frequency at which this recurring expense occurs.
-
-            ℹ️ **Note:** As part of the BETA, Belvo only identifies `MONTHLY`
-            frequencies.
+            ℹ️ **Note:** Belvo only identifies `MONTHLY` frequencies.
           example: MONTHLY
         average_transaction_amount:
           type: number
@@ -5990,8 +5695,7 @@ components:
             categorization
             documentation](https://developers.belvo.com/docs/banking#transaction-categorization).
 
-            ℹ️ **Note:** As part of the BETA - the most common categories that
-            will be returned are:
+            ℹ️ **Note:** The most common categories that will be returned are:
 
             - `Online Platforms & Leisure` (Netflix, Spotify, Gym Memberships)
 
@@ -6013,8 +5717,8 @@ components:
           description: >
             The type of recurring expense.
 
-            As part of the BETA, Belvo returns either `SUBSCRIPTION` or
-            `REGULAR` payment types for a transaction category.
+            Belvo returns either `SUBSCRIPTION` or `REGULAR` payment types for a
+            transaction category.
           example: SUBSCRIPTION
     RecurringExpensesPaginatedResponse:
       type: object
@@ -6153,7 +5857,7 @@ components:
         id:
           type: string
           format: uuid
-          description: Belvo's unique ID used to reference the current instrument.
+          description: Belvo's unique ID for the current instrument.
           example: 30cb4806-6e00-48a4-91c9-ca55968576c8
         public_id:
           type: array
@@ -6296,7 +6000,7 @@ components:
         id:
           type: string
           format: uuid
-          description: Belvo's unique ID used to reference the current portfolio.
+          description: Belvo's unique ID for the current portfolio.
           example: 30cb4806-6e00-48a4-91c9-ca55968576c8
         name:
           type: string
@@ -6406,279 +6110,6 @@ components:
           description: Array of investment portfolio objects.
           items:
             $ref: '#/components/schemas/InvestmentsPortfolio'
-    InvestmentsInstrumentTransactionPortfolio:
-      type: object
-      description: Basic information about the parent portfolio.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Belvo's unique ID used to reference the current portfolio.
-          example: 30cb4806-6e00-48a4-91c9-ca55968576c8
-        name:
-          type: string
-          description: |
-            The name of the portfolio, as given in the institution.
-          example: Fundos de Investimento
-        type:
-          type: string
-          enum:
-            - FIXED_INCOME
-            - OTHER
-            - PENSION
-            - VARIABLE_INCOME
-          description: |
-            The portfolio type.
-
-            We return one of the following enum values:
-
-              - `FIXED_INCOME`
-              - `OTHER`
-              - `PENSION`
-              - `VARIABLE_INCOME`
-          example: FIXED_INCOME
-    InvestmentsInstrumentTransactionInstrument:
-      type: object
-      description: Basic information about the parent instrument.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Belvo's unique ID used to reference the current instrument.
-          example: 30cb4806-6e00-48a4-91c9-ca55968576c8
-        name:
-          type: string
-          description: The name of the instrument, as given by the institution.
-          example: Itau Açoes Estrategia S&P 500
-        type:
-          type: string
-          enum:
-            - BOND
-            - DEPOSIT
-            - ETF
-            - FUND
-            - OTHER
-            - PENSION
-            - STOCK
-          description: >
-            The instrument type. For more information about instruments, please
-            see our [Investments DevPortal
-            article](https://developers.belvo.com/docs/investments#instruments).
-
-
-            We return one of the following enum values:
-
-              - `BOND`
-              - `DEPOSIT`
-              - `ETF`
-              - `FUND`
-              - `OTHER`
-              - `PENSION`
-              - `STOCK`
-          example: FUND
-    InvestmentsInstrumentTransaction:
-      type: object
-      required:
-        - settlement_date
-        - operation_date
-        - description
-        - quantity
-        - amount
-        - price
-        - fees
-        - currency
-        - portfolio
-        - instrument
-        - type
-        - collected_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: >-
-            Belvo's unique identifier used to reference the current instrument
-            transaction.
-          example: f3cd25ba-d109-4ddf-8d29-624c26cbee3f
-        link:
-          type: string
-          format: uuid
-          description: The `link.id` the transaction belongs to.
-          example: f3cd25ba-d109-4ddf-8d29-624c26cbee3f
-        collected_at:
-          type: string
-          format: date-time
-          nullable: true
-          description: The ISO-8601 timestamp when the data point was collected.
-          example: '2022-02-09T08:45:50.406032Z'
-        created_at:
-          type: string
-          format: date-time
-          description: >-
-            The ISO-8601 timestamp of when the data point was last updated in
-            Belvo's database.
-          example: '2022-02-09T08:45:50.406032Z'
-        portfolio:
-          $ref: '#/components/schemas/InvestmentsInstrumentTransactionPortfolio'
-        instrument:
-          $ref: '#/components/schemas/InvestmentsInstrumentTransactionInstrument'
-        settlement_date:
-          type: string
-          format: date
-          description: Date when the transaction was processed by the bank.
-          example: '2021-08-13'
-        operation_date:
-          type: string
-          format: date
-          nullable: true
-          description: Date when the transaction was initiated by the user.
-          example: '2021-08-07'
-        description:
-          type: string
-          description: Additional description for the transaction.
-          example: Stock acquisition
-        type:
-          type: string
-          enum:
-            - BUY
-            - SELL
-            - CANCEL
-            - CASH
-            - FEE
-            - TRANSFER
-            - DIVIDEND
-          description: |
-            The type of transaction.
-
-            We return one of the following enum values:
-
-              - `BUY`
-              - `SELL`
-              - `CANCEL`
-              - `CASH`
-              - `FEE`
-              - `TRANSFER`
-              - `DIVIDEND`
-          example: BUY
-        quantity:
-          type: number
-          format: float
-          nullable: true
-          description: Number of shares purchased in this transaction.
-          example: 18.2556
-        amount:
-          type: number
-          format: float
-          nullable: true
-          description: |
-            The total amount of the transaction.
-
-            ℹ️ **Note:** Does not include the transaction fees.
-          example: 18000.25
-        price:
-          type: number
-          format: float
-          nullable: true
-          description: The market price for one share at the time of the transaction.
-          example: 1000
-        currency:
-          type: string
-          description: >
-            The currency of the transaction. For example:
-
-            - 🇧🇷 BRL (Brazilian Real)
-
-            - 🇨🇴 COP (Colombian Peso)
-
-            - 🇲🇽 MXN (Mexican Peso)
-
-
-
-            Please note that other currencies other than in the list above may
-            be returned.
-          example: BRL
-        fees:
-          type: number
-          format: float
-          nullable: true
-          description: The total fees paid to conduct the transaction.
-          example: 184.5
-    InvestmentsTransactionsPaginatedResponse:
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int32
-          description: The total number of results in your Belvo account.
-          example: 130
-        next:
-          type: string
-          nullable: true
-          description: >
-            The URL to next page of results. Each page consists of up to 100
-            items. If there are not enough results for an additional page, the
-            value is `null`.
-
-
-            In our documentation example, we use `{endpoint}` as a placeholder
-            value. In production, this value will be replaced by the actual
-            endpoint you are currently using (for example, `accounts` or
-            `owners`).
-          example: https://sandbox.belvo.com/api/{endpoint}/?page=2
-        previous:
-          type: string
-          nullable: true
-          description: >-
-            The URL to the previous page of results. If there is no previous
-            page, the value is `null`.
-          example: null
-        results:
-          type: array
-          description: Array of link objects.
-          items:
-            $ref: '#/components/schemas/InvestmentsInstrumentTransaction'
-    InstrumentTransactionRequest:
-      type: object
-      required:
-        - link
-        - date_from
-        - date_to
-      properties:
-        link:
-          type: string
-          format: uuid
-          description: The `link.id` that you want to get information for.
-          example: 2ccd5e15-194a-4a19-a45a-e7223c7e6717
-        date_from:
-          type: string
-          pattern: '[0-9]{4}-[0-9]{2}-[0-9]{2}'
-          description: >-
-            The date from which you want to start getting transactions for, in
-            `YYYY-MM-DD` format.
-
-
-            ⚠️ The value of `date_from` cannot be greater than `date_to`.
-          example: '2020-08-05'
-        date_to:
-          type: string
-          pattern: '[0-9]{4}-[0-9]{2}-[0-9]{2}'
-          description: >-
-            The date you want to stop getting transactions for, in `YYYY-MM-DD`
-            format.
-
-
-            ⚠️ The value of `date_to` cannot be greater than today's date (in
-            other words, no future dates).
-          example: '2020-10-05'
-        token:
-          type: string
-          description: The OTP token generated by the bank.
-          example: 1234ab
-        save_data:
-          type: boolean
-          default: true
-          description: >-
-            Indicates whether or not to persist the data in Belvo. When set to
-            `false`, the data won't be persisted.
     ReceivablesTransactionAccount:
       type: object
       description: Basic information about the account associated with the transaction.
@@ -6689,9 +6120,7 @@ components:
         id:
           type: string
           format: uuid
-          description: >-
-            Belvo's unique ID used to reference the account associated with the
-            transaction.
+          description: Belvo's unique ID for the account associated with the transaction.
           example: a7a3104c-5a3c-4536-81e1-14523097f645
         institution:
           $ref: '#/components/schemas/InstitutionAccount'
@@ -6763,9 +6192,7 @@ components:
           type: string
           format: uuid
           readOnly: true
-          description: >-
-            Belvo's unique ID used to reference the current receivable
-            transaction.
+          description: Belvo's unique ID for the current receivable transaction.
           example: 30cb4806-6e00-48a4-91c9-ca55968576c8
         account:
           $ref: '#/components/schemas/ReceivablesTransactionAccount'
@@ -7911,6 +7338,960 @@ components:
 
             When set to `false`, the data won't be persisted and we return a 200
             OK response.
+    DocumentInformationIndividual:
+      type: object
+      required:
+        - name
+        - type
+        - form_number
+        - year
+      description: Object containing detailed information about the fiscal document.
+      properties:
+        name:
+          type: string
+          description: The name of the tax document.
+          example: >-
+            Declaracion de Renta y Complementario o de Ingresos y Patrimonio
+            para Personas Juridicas y Asimiladas y Personas Naturales y
+            Asimiladas no Residentes y Sucesiones Iliquidas de Causantes no
+            Residentes
+        type:
+          type: string
+          description: >-
+            The type of tax declaration form. For DIAN, this will be either
+            `110` or `210`.
+          example: '110'
+        form_number:
+          type: string
+          description: Institution-provided identifier for the tax declaration.
+          example: '2117680087604'
+        year:
+          type: integer
+          nullable: true
+          description: |
+            The year of this tax declaration.
+          example: 2021
+    DocumentIdIndividual:
+      type: object
+      required:
+        - document_type
+        - document_number
+      description: Object containing information about the ID document of the tax payer.
+      properties:
+        document_type:
+          type: string
+          description: The type of ID document.
+          example: NIT
+        document_number:
+          type: string
+          description: The number of the ID document.
+          example: '7113223466'
+    ReportingId:
+      type: object
+      required:
+        - reporting_type
+        - reporting_value
+      description: >-
+        Object containing information about where the tax payer reports their
+        income.
+      properties:
+        reporting_type:
+          type: string
+          description: >-
+            The type of reporting ID. For DIAN, this is the sectional address
+            code (*Codigo Dirrecion Seccional*)
+          example: sectional_address_code
+        reporting_value:
+          type: string
+          description: The value of the reporting ID.
+          example: '32'
+    TaxPayerInformationIndividual:
+      type: object
+      required:
+        - first_last_name
+        - second_last_name
+        - first_name
+        - other_names
+        - main_economic_activity
+        - document_id
+        - reporting_id
+      description: Object containing information about the tax payer.
+      properties:
+        first_last_name:
+          type: string
+          description: The tax payer's first last name.
+          example: Restrepo
+        second_last_name:
+          type: string
+          description: The tax payer's second last name.
+          example: Vives
+        first_name:
+          type: string
+          description: The tax payer's first name.
+          example: Carlos
+        other_names:
+          type: string
+          description: Additional names of the tax payer.
+          example: Alberto
+        main_economic_activity:
+          type: string
+          description: The main economic activity the tax payer is involved in.
+          example: '0010'
+        document_id:
+          $ref: '#/components/schemas/DocumentIdIndividual'
+        reporting_id:
+          $ref: '#/components/schemas/ReportingId'
+    EquityStatementIndividual:
+      type: object
+      required:
+        - total_gross_equity
+        - total_debts
+        - total_net_equity
+      description: Object containing the general fiscal situation of the taxpayer.
+      properties:
+        total_gross_equity:
+          type: number
+          format: float
+          description: The total gross equity of the tax payer.
+          example: 4648000
+        total_debts:
+          type: number
+          format: float
+          description: The total debts of the tax_payer
+          example: 77626000
+        total_net_equity:
+          type: number
+          format: float
+          description: The total net equity value of the taxpayer.
+          example: 0
+    GrossIncomeIndividual:
+      type: object
+      required:
+        - earned_income
+        - fee_based_income
+        - capital_income
+        - non_labor_income
+      description: Object containing the declared gross income of the tax payer.
+      properties:
+        earned_income:
+          type: number
+          format: float
+          description: Income received from employment.
+          example: 115004000
+        fee_based_income:
+          type: number
+          format: float
+          description: >-
+            Income received from emitted invoices (for example, income that
+            independent contractors or freelancers receive).
+          example: 0
+        capital_income:
+          type: number
+          format: float
+          description: >-
+            Income received from an investment (such as dividends or from
+            renting a property).
+          example: 0
+        non_labor_income:
+          type: number
+          format: float
+          description: >-
+            Income that cannot be classified into the other three fields (such
+            as income from cryptocurrencies or regular transfers from parents).
+          example: 0
+    NonTaxableIncomeIndividual:
+      type: object
+      required:
+        - earned_income
+        - fee_based_income
+        - capital_income
+        - non_labor_income
+      description: Object containing the declared non-taxable income of the tax payer.
+      properties:
+        earned_income:
+          type: number
+          format: float
+          description: Income received from employment.
+          example: 115004000
+        fee_based_income:
+          type: number
+          format: float
+          description: >-
+            Income received from emitted invoices (for example, income
+            independent contractors or freelancers receive).
+          example: 0
+        capital_income:
+          type: number
+          format: float
+          description: >-
+            Income received from an investment (such as dividends or from
+            renting a property).
+          example: 0
+        non_labor_income:
+          type: number
+          format: float
+          description: >-
+            Income that cannot be classified into the other three fields (such
+            as income from cryptocurrencies or regular transfers from parents).
+          example: 0
+    NetIncomeIndividual:
+      type: object
+      required:
+        - earned_income
+        - fee_based_income
+        - capital_income
+        - non_labor_income
+      description: >-
+        Object containing the declared net income of the tax payer. The values
+        are calculated as the `gross_income` - `non_taxable_income`.
+      properties:
+        earned_income:
+          type: number
+          format: float
+          description: Income received from employment.
+          example: 115004000
+        fee_based_income:
+          type: number
+          format: float
+          description: >-
+            Income received from emitted invoices (for example, income
+            independent contractors or freelancers receive).
+          example: 0
+        capital_income:
+          type: number
+          format: float
+          description: >-
+            Income received from an investment (such as dividends or from
+            renting a property).
+          example: 0
+        non_labor_income:
+          type: number
+          format: float
+          description: >-
+            Income that cannot be classified into the other three fields (such
+            as income from cryptocurrencies or regular transfers from parents).
+          example: 0
+    AnnualTotalsIndividual:
+      type: object
+      required:
+        - total_exempt_income
+        - total_applicable_deductions
+        - total_exemptions_and_deductions
+        - total_ordinary_net_income
+      description: >-
+        Object containing the tax payers total exempt, deducted, and ordinary
+        net incomes.
+      properties:
+        total_exempt_income:
+          type: number
+          format: float
+          description: Total income that is not taxable, according to the institution.
+          example: 115004000
+        total_applicable_deductions:
+          type: number
+          format: float
+          description: >-
+            Total deductions that the taxpayer can apply to their income,
+            according to the institution.
+          example: 0
+        total_exemptions_and_deductions:
+          type: number
+          format: float
+          description: >-
+            Sum total of all exempt and deductions that can be applied to the
+            taxpayer's income.
+          example: 0
+        total_ordinary_net_income:
+          type: number
+          format: float
+          description: >-
+            Sum total of the taxpayer's income (gross income - exemptions -
+            deductions).
+          example: 0
+    AnnualIncomeStatementIndividual:
+      type: object
+      required:
+        - gross_income
+        - non_taxable_income
+        - net_income
+        - annual_totals
+      description: >-
+        Object containing the reported annual incomes, deductions, and final
+        balances of the tax payer.
+      properties:
+        gross_income:
+          $ref: '#/components/schemas/GrossIncomeIndividual'
+        non_taxable_income:
+          $ref: '#/components/schemas/NonTaxableIncomeIndividual'
+        net_income:
+          $ref: '#/components/schemas/NetIncomeIndividual'
+        annual_totals:
+          $ref: '#/components/schemas/AnnualTotalsIndividual'
+    PensionIncomeStatementIndividual:
+      type: object
+      required:
+        - net_pension_income
+        - net_taxable_pension_income
+      description: Object containing the tax payer's total pension income.
+      properties:
+        net_pension_income:
+          type: number
+          format: float
+          description: The total net pension of the taxpayer.
+          example: 0
+        net_taxable_pension_income:
+          type: number
+          format: float
+          description: The total taxable pension income of the taxpayer.
+          example: 0
+    TaxAssessmentIndividual:
+      type: object
+      required:
+        - fortuitous_profit_tax
+        - total_tax_on_taxable_net_income
+        - net_income_tax
+        - total_tax_due
+        - previous_year_balance
+        - total_withheld_tax
+        - balance_payable
+        - balance_refundable
+        - total_payment
+      description: >-
+        Object containing the calculated tax assessment of the tax payer. This
+        includes the total taxable income, the income tax applied, and taxes
+        already withheld.
+      properties:
+        fortuitous_profit_tax:
+          type: number
+          format: float
+          description: >-
+            The tax applied on your unexpected income (such as lottery wins or
+            house sales).
+          example: 0
+        total_tax_on_taxable_net_income:
+          type: number
+          format: float
+          description: >-
+            The calculated total tax that can be applied on the tax payer's
+            taxable income (total income - exemptions - deductions).
+          example: 9144000
+        net_income_tax:
+          type: number
+          format: float
+          description: >-
+            After additional deductions that you can apply, this will be the net
+            income tax. If not further deduction are identified, this value will
+            be the same as `total_tax_on_taxable_net_income`.
+          example: 9144000
+        total_tax_due:
+          type: number
+          format: float
+          description: >-
+            After further deductions, this is the final calculated tax that the
+            taxpayer is required to pay.
+          example: 9144000
+        previous_year_balance:
+          type: number
+          format: float
+          description: >
+            Only applicable for DIAN.
+
+
+
+            The amount the tax payer has as a "credit" fromt he previous year
+            (this is equal to the `balance_refundable`) of the previous year.
+          example: 1514000
+        total_withheld_tax:
+          type: number
+          format: float
+          description: The total tax already withheld in the current fiscal year.
+          example: 7714000
+        balance_payable:
+          type: number
+          format: float
+          description: How much the tax payer is required to pay.
+          example: 0
+        balance_refundable:
+          type: number
+          format: float
+          description: >-
+            How much the tax payer is expected to receive. For DIAN, this will
+            count as credit for the next fiscal year (see
+            `previous_year_balance`).
+          example: 84000
+        total_payment:
+          type: number
+          format: float
+          description: >-
+            The total the tax payer is required to pay, taking into account
+            deductions and fiscal credits.
+          example: 0
+    TaxDeclarationIndividual:
+      type: object
+      title: Individual Tax Declaration
+      required:
+        - id
+        - link
+        - collected_at
+        - created_at
+        - document_information
+        - tax_payer_information
+        - equity_statement
+        - annual_income_statement
+        - pension_income_statement
+        - tax_assessment
+        - date_issued
+        - pdf
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Belvo's unique ID for the current tax declaration.
+          example: 1c83ead8-6665-429c-a17a-ddc76cb3a95e
+        link:
+          type: string
+          format: uuid
+          description: >-
+            Belvo's unique ID of the user that this tax declaration is
+            associated with.
+          example: 8a95ca1a-1a7a-4ce0-8599-f8ff1dc792ac
+        collected_at:
+          type: string
+          format: date-time
+          description: The ISO-8601 timestamp when the data point was collected.
+          example: '2020-04-23T21:32:55.336854+00:00'
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            The ISO-8601 timestamp of when the data point was last updated in
+            Belvo's database.
+          example: '2020-04-23T21:30:20.336854+00:00'
+        document_information:
+          $ref: '#/components/schemas/DocumentInformationIndividual'
+        tax_payer_information:
+          $ref: '#/components/schemas/TaxPayerInformationIndividual'
+        equity_statement:
+          $ref: '#/components/schemas/EquityStatementIndividual'
+        annual_income_statement:
+          $ref: '#/components/schemas/AnnualIncomeStatementIndividual'
+        pension_income_statement:
+          $ref: '#/components/schemas/PensionIncomeStatementIndividual'
+        tax_assessment:
+          $ref: '#/components/schemas/TaxAssessmentIndividual'
+        date_issued:
+          type: string
+          format: date
+          description: The date the tax declaration was issued by the fiscal institution.
+          example: '2022-09-02'
+        pdf:
+          type: string
+          nullable: true
+          description: The PDF of the tax declaration, as a binary string.
+          example: '==BINARY-STRING=='
+    TaxDeclarationIndividualPaginated:
+      type: object
+      title: Tax Declaration Individual
+      additionalProperties: false
+      properties:
+        count:
+          type: integer
+          format: int32
+          description: The total number of results in your Belvo account.
+          example: 130
+        next:
+          type: string
+          nullable: true
+          description: >
+            The URL to next page of results. Each page consists of up to 100
+            items. If there are not enough results for an additional page, the
+            value is `null`.
+
+
+            In our documentation example, we use `{endpoint}` as a placeholder
+            value. In production, this value will be replaced by the actual
+            endpoint you are currently using (for example, `accounts` or
+            `owners`).
+          example: https://sandbox.belvo.com/api/{endpoint}/?page=2
+        previous:
+          type: string
+          nullable: true
+          description: >-
+            The URL to the previous page of results. If there is no previous
+            page, the value is `null`.
+          example: null
+        results:
+          type: array
+          description: Array of Individual Tax Declaration objects.
+          items:
+            $ref: '#/components/schemas/TaxDeclarationIndividual'
+    DocumentInformationBusiness:
+      type: object
+      required:
+        - name
+        - type
+        - form_number
+        - year
+      description: Object containing detailed information about the fiscal document.
+      properties:
+        name:
+          type: string
+          description: The name of the tax document.
+          example: >-
+            Declaracion de Renta y Complementario o de Ingresos y Patrimonio
+            para Personas Juridicas y Asimiladas y Personas Naturales y
+            Asimiladas no Residentes y Sucesiones Iliquidas de Causantes no
+            Residentes
+        type:
+          type: string
+          description: >-
+            The type of tax declaration form. For DIAN, this will be either
+            `110` or `210`.
+          example: '110'
+        form_number:
+          type: string
+          description: The institution-provided identifier for the tax declaration.
+          example: '2117680087604'
+        year:
+          type: integer
+          nullable: true
+          description: |
+            The year of this tax declaration.
+          example: 2021
+    DocumentIdBusiness:
+      type: object
+      required:
+        - document_type
+        - document_number
+      description: Object containing information about the ID document of the tax payer.
+      properties:
+        document_type:
+          type: string
+          description: The type of ID document.
+          example: NIT
+        document_number:
+          type: string
+          description: The number of the ID document.
+          example: '8312224477'
+    TaxPayerInformationBusiness:
+      type: object
+      required:
+        - first_last_name
+        - second_last_name
+        - first_name
+        - other_names
+        - company_name
+        - main_economic_activity
+        - document_id
+        - reporting_id
+      description: Object containing information about the tax payer.
+      properties:
+        first_last_name:
+          type: string
+          nullable: true
+          description: The tax payer's first last name.
+          example: Restrepo
+        second_last_name:
+          type: string
+          nullable: true
+          description: The tax payer's second last name.
+          example: Vives
+        first_name:
+          type: string
+          nullable: true
+          description: The tax payer's first name.
+          example: Carlos
+        other_names:
+          type: string
+          nullable: true
+          description: Additional names of the tax payer.
+          example: Alberto
+        company_name:
+          type: string
+          description: The name of the company, as registered at the institution.
+          example: Trusty Spanners
+        main_economic_activity:
+          type: string
+          description: The main economic activity the tax payer is involved in.
+          example: '0032'
+        document_id:
+          $ref: '#/components/schemas/DocumentIdBusiness'
+        reporting_id:
+          $ref: '#/components/schemas/ReportingId'
+    EquityStatementBusiness:
+      type: object
+      required:
+        - cash_and_cash_equivalents
+        - investments_and_derivative_financial_instruments
+        - accounts_documents_and_finance_leases_receivable
+        - inventory
+        - property_plant_and_equipment_investment_properties
+        - total_gross_equity
+        - debts
+        - total_net_equity
+      description: Object containing the general fiscal situation of the taxpayer.
+      properties:
+        cash_and_cash_equivalents:
+          type: number
+          format: float
+          description: >-
+            Total cash (or cash equivalents) that the business currently holds
+            at the end of the fiscal year.
+          example: 4648000
+        investments_and_derivative_financial_instruments:
+          type: number
+          format: float
+          description: >-
+            Total value of all investments, stocks, or similar, that the company
+            has.
+          example: 77626000
+        accounts_documents_and_finance_leases_receivable:
+          type: number
+          format: float
+          description: >-
+            Total of all payments the company expects to receive (for example,
+            from partial invoices that have not been paid yet).
+          example: 0
+        inventory:
+          type: number
+          format: float
+          description: Total financial value of the company's sellable inventory.
+          example: 0
+        property_plant_and_equipment_investment_properties:
+          type: number
+          format: float
+          description: >-
+            Total value of real estate, plant infrastructure, or equipment that
+            has been purchased.
+          example: 0
+        total_gross_equity:
+          type: number
+          format: float
+          description: Total gross equity.
+          example: 220860000
+        debts:
+          type: number
+          format: float
+          description: Total debts that the company currently has.
+          example: 207030000
+        total_net_equity:
+          type: number
+          format: float
+          description: >-
+            The total net equity of the company (`total_gross_equity` -
+            `debts`).
+          example: 13830000
+    AnnualIncomeStatementBusiness:
+      type: object
+      required:
+        - gross_income_from_ordinary_activities
+        - dividends
+        - other_income
+        - total_gross_income
+        - returns_rebates_and_discounts_on_sales
+        - total_net_income
+      description: >-
+        Object containing the reported annual incomes, deductions, and final
+        balances of the tax payer.
+      properties:
+        gross_income_from_ordinary_activities:
+          type: number
+          format: float
+          description: >-
+            Total gross income that the company generated from their main
+            economic activity.
+          example: 210043000
+        dividends:
+          type: number
+          format: float
+          description: Total income that the company generated from dividends.
+          example: 0
+        other_income:
+          type: number
+          format: float
+          description: >-
+            Total income that the company generated from activities not
+            associated with their main economic activity.
+          example: 0
+        total_gross_income:
+          type: number
+          format: float
+          description: Total gross income the company generated.
+          example: 210043000
+        returns_rebates_and_discounts_on_sales:
+          type: number
+          format: float
+          description: >-
+            Total value of cancelled orders, corrected invoices, or similar,
+            that can be discounted from the `total_gross_income`.
+          example: 0
+        total_net_income:
+          type: number
+          format: float
+          description: >-
+            Total net income of the company, taking into account
+            `returns_rebates_and_discounts_on_sales`.
+          example: 210043000
+    AnnualCostsAndDeductionsStatementBusiness:
+      type: object
+      required:
+        - costs
+        - administration_expenses
+        - distribution_and_sales_expenses
+        - financial_expenses
+        - total_costs_and_deductible_expenses
+      description: Object containing the reported annual costs and applicable deductions.
+      properties:
+        costs:
+          type: number
+          format: float
+          description: Total costs for the company to operate.
+          example: 1881843000
+        administration_expenses:
+          type: number
+          format: float
+          description: >-
+            Total costs of the company related to training, company offsites, or
+            similar.
+          example: 3266000
+        distribution_and_sales_expenses:
+          type: number
+          format: float
+          description: >-
+            Total costs the company incurred in order to distribute or sell
+            their product.
+          example: 0
+        financial_expenses:
+          type: number
+          format: float
+          description: >-
+            Total value of any fees incurred by the company to operate (such as
+            bank fees).
+          example: 0
+        total_costs_and_deductible_expenses:
+          type: number
+          format: float
+          description: Total value of all costs and dedictible expenses.
+          example: 191449000
+    TaxAssessmentBusiness:
+      type: object
+      required:
+        - net_income_taxable
+        - fortuitous_profit_tax
+        - total_tax_on_taxable_net_income
+        - net_income_tax
+        - total_tax_due
+        - total_withholdings_for_the_taxable_year_to_be_declared
+        - total_withheld_tax
+        - total_balance_payable
+        - total_balance_in_favor
+        - total_payment
+      description: >-
+        Object containing the calculated tax assessment of the tax payer. This
+        includes the total taxable income, the income tax applied, and taxes
+        already withheld.
+      properties:
+        net_income_taxable:
+          type: number
+          format: float
+          description: The net income on which tax can be applied.
+          example: 18594000
+        fortuitous_profit_tax:
+          type: number
+          format: float
+          description: >-
+            The tax applied on your unexpected income (such as lottery wins or
+            house sales).
+          example: 0
+        total_tax_on_taxable_net_income:
+          type: number
+          format: float
+          description: >-
+            The calculated total tax that can be applied on the tax payer's
+            taxable income (total income - exemptions - deductions).
+          example: 5764000
+        net_income_tax:
+          type: number
+          format: float
+          description: >-
+            After additional deductions that you can apply, this will be the net
+            income tax. If no further deduction are identified, this value will
+            be the same as `total_tax_on_taxable_net_income`.
+          example: 5764000
+        total_tax_due:
+          type: number
+          format: float
+          description: >-
+            After further deductions, this is the final calculated tax that the
+            taxpayer is required to pay.
+          example: 5764000
+        total_withholdings_for_the_taxable_year_to_be_declared:
+          type: number
+          format: float
+          description: How much the tax payer has already paid througout the fiscal year.
+          example: 7361000
+        total_balance_payable:
+          type: number
+          format: float
+          description: How much the tax payer is required to pay.
+          example: 0
+        total_balance_in_favor:
+          type: number
+          format: float
+          description: How much the tax payer is expected to receive.
+          example: 1889000
+        total_payment:
+          type: number
+          format: float
+          description: >-
+            The total the tax payer is required to pay, taking into account
+            deductions and fiscal credits.
+          example: 0
+    TaxDeclarationBusiness:
+      type: object
+      title: Business Tax Declaration
+      required:
+        - id
+        - link
+        - collected_at
+        - created_at
+        - document_information
+        - tax_payer_information
+        - equity_statement
+        - annual_income_statement
+        - annual_costs_and_deductions_statement
+        - tax_assessment
+        - date_issued
+        - pdf
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Belvo's unique ID for the current tax declaration.
+          example: 1c83ead8-6665-429c-a17a-ddc76cb3a95e
+        link:
+          type: string
+          format: uuid
+          description: >-
+            Belvo's unique ID of the user that this tax declaration is
+            associated with.
+          example: 8a95ca1a-1a7a-4ce0-8599-f8ff1dc792ac
+        collected_at:
+          type: string
+          format: date-time
+          description: The ISO-8601 timestamp when the data point was collected.
+          example: '2020-04-23T21:32:55.336854+00:00'
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            The ISO-8601 timestamp of when the data point was last updated in
+            Belvo's database.
+          example: '2020-04-23T21:30:20.336854+00:00'
+        document_information:
+          $ref: '#/components/schemas/DocumentInformationBusiness'
+        tax_payer_information:
+          $ref: '#/components/schemas/TaxPayerInformationBusiness'
+        equity_statement:
+          $ref: '#/components/schemas/EquityStatementBusiness'
+        annual_income_statement:
+          $ref: '#/components/schemas/AnnualIncomeStatementBusiness'
+        annual_costs_and_deductions_statement:
+          $ref: '#/components/schemas/AnnualCostsAndDeductionsStatementBusiness'
+        tax_assessment:
+          $ref: '#/components/schemas/TaxAssessmentBusiness'
+        date_issued:
+          type: string
+          format: date
+          description: The date the tax declaration was issued by the fiscal institution.
+          example: '2022-09-02'
+        pdf:
+          type: string
+          nullable: true
+          description: The PDF of the tax declaration, as a binary string.
+          example: '==BINARY-STRING=='
+    TaxDeclarationBusinessPaginated:
+      type: object
+      title: Tax Declaration Business
+      additionalProperties: false
+      properties:
+        count:
+          type: integer
+          format: int32
+          description: The total number of results in your Belvo account.
+          example: 130
+        next:
+          type: string
+          nullable: true
+          description: >
+            The URL to next page of results. Each page consists of up to 100
+            items. If there are not enough results for an additional page, the
+            value is `null`.
+
+
+            In our documentation example, we use `{endpoint}` as a placeholder
+            value. In production, this value will be replaced by the actual
+            endpoint you are currently using (for example, `accounts` or
+            `owners`).
+          example: https://sandbox.belvo.com/api/{endpoint}/?page=2
+        previous:
+          type: string
+          nullable: true
+          description: >-
+            The URL to the previous page of results. If there is no previous
+            page, the value is `null`.
+          example: null
+        results:
+          type: array
+          description: Array of Business Tax Declaration objects.
+          items:
+            $ref: '#/components/schemas/TaxDeclarationBusiness'
+    TaxDeclarationsRequest:
+      type: object
+      title: Tax Declarations
+      description: Request body for tax declrarations
+      required:
+        - link
+        - type
+        - year_to
+        - year_from
+      properties:
+        link:
+          type: string
+          format: uuid
+          description: >-
+            The fiscal `link.id` you want specific tax declaration information
+            for.
+          example: d4617561-1c01-4b2f-83b6-a594f7b3bc57
+        year_from:
+          type: string
+          description: >
+            The starting year you want to get tax declaration for, in `YYYY`
+            format.
+          example: '2018'
+        year_to:
+          type: string
+          description: >
+            The year you want to stop getting tax declaration for, in `YYYY`
+            format.
+          example: '2019'
+        attach_pdf:
+          type: boolean
+          default: false
+          description: >-
+            When this is set to `true`, you will receive the PDF as a binary
+            string in the response.
+          example: false
+        save_data:
+          type: boolean
+          default: true
+          description: >-
+            Indicates whether or not to persist the data in Belvo. By default,
+            this is set to `true` and we return a 201 Created response.
+
+            When set to `false`, the data won't be persisted and we return a 200
+            OK response.
+          example: true
   examples:
     AccountsBankingChecking:
       summary: Checking Account
@@ -7940,7 +8321,6 @@ components:
           credit_data: null
           loan_data: null
           funds_data: null
-          gig_payment_data: null
     AccountsBankingCreditCard:
       summary: Credit Card Account
       description: Example of a credit card account.
@@ -7979,7 +8359,6 @@ components:
             last_period_balance: null
           loan_data: null
           funds_data: null
-          gig_payment_data: null
     AccountsBankingLoan:
       summary: Loan Account
       description: Example of a loan account.
@@ -8028,7 +8407,6 @@ components:
             contract_end_date: '2027-10-01'
             contract_number: ER8072930097
           funds_data: null
-          gig_payment_data: null
     AccountsBankingPension:
       summary: Pension Account
       description: Example of a pension account.
@@ -8077,7 +8455,6 @@ components:
                   value: 11.222.333/4444-02
                 - name: SUSEP
                   value: 11111.222222/3333-44
-          gig_payment_data: null
     AccountsBankingSavings:
       summary: Savings Account
       description: Example of a savings account.
@@ -8106,7 +8483,6 @@ components:
           credit_data: null
           loan_data: null
           funds_data: null
-          gig_payment_data: null
     AccountsBankingCheckingDetail:
       summary: Checking Account
       description: Example of a checking account.
@@ -8135,7 +8511,6 @@ components:
         credit_data: null
         loan_data: null
         funds_data: null
-        gig_payment_data: null
     AccountsBankingCreditCardDetail:
       summary: Credit Card Account
       description: Example of a credit card account.
@@ -8174,7 +8549,6 @@ components:
           last_period_balance: null
         loan_data: null
         funds_data: null
-        gig_payment_data: null
     AccountsBankingLoanDetail:
       summary: Loan Account
       description: Example of a loan account.
@@ -8223,7 +8597,6 @@ components:
           contract_end_date: '2027-10-01'
           contract_number: ER8072930097
         funds_data: null
-        gig_payment_data: null
     AccountsBankingPensionDetail:
       summary: Pension Account
       description: Example of a pension account.
@@ -8272,7 +8645,6 @@ components:
                 value: 11.222.333/4444-02
               - name: SUSEP
                 value: 11111.222222/3333-44
-        gig_payment_data: null
     AccountsBankingSavingsDetail:
       summary: Savings Account
       description: Example of a savings account.
@@ -8301,7 +8673,6 @@ components:
         credit_data: null
         loan_data: null
         funds_data: null
-        gig_payment_data: null
     TransactionsCheckingPaginated:
       summary: Checking Account Transaction
       description: An example of a checking account transaction
@@ -8442,7 +8813,6 @@ components:
                 interest_rate: 4
               loan_data: null
               funds_data: null
-              gig_payment_data: null
             collected_at: '2022-02-09T08:45:50.406032Z'
             value_date: '2019-10-23'
             accounting_date: '2019-10-23T13:01:41.941Z'
@@ -8459,7 +8829,6 @@ components:
             reference: '8703'
             type: OUTFLOW
             status: PROCESSED
-            gig_data: null
             credit_card_data:
               bill_name: apr-2020
               previous_bill_total: '2000.00'
@@ -8593,7 +8962,6 @@ components:
               interest_rate: 4
             loan_data: null
             funds_data: null
-            gig_payment_data: null
           collected_at: '2022-02-09T08:45:50.406032Z'
           value_date: '2019-10-23'
           accounting_date: '2019-10-23T13:01:41.941Z'
@@ -8610,7 +8978,6 @@ components:
           reference: '8703'
           type: OUTFLOW
           status: PROCESSED
-          gig_data: null
           credit_card_data:
             bill_name: apr-2020
             previous_bill_total: '2000.00'
@@ -8744,7 +9111,6 @@ components:
             interest_rate: 4
           loan_data: null
           funds_data: null
-          gig_payment_data: null
         collected_at: '2022-02-09T08:45:50.406032Z'
         value_date: '2019-10-23'
         accounting_date: '2019-10-23T13:01:41.941Z'
@@ -8761,7 +9127,6 @@ components:
         reference: '8703'
         type: OUTFLOW
         status: PROCESSED
-        gig_data: null
         credit_card_data:
           bill_name: apr-2020
           previous_bill_total: '2000.00'
@@ -8899,7 +9264,6 @@ components:
               document_type: CPF
               document_number: 235578435-S
             internal_identification: null
-            gig_data: null
     OwnerBankingAccount:
       summary: Banking
       description: An example of a banking account owner.
@@ -8921,7 +9285,6 @@ components:
             document_type: CPF
             document_number: 235578435-S
           internal_identification: null
-          gig_data: null
     OwnerBankingAccountDetail:
       summary: Banking
       description: An example of a banking account owner.
@@ -8943,7 +9306,6 @@ components:
           document_type: CPF
           document_number: 235578435-S
         internal_identification: null
-        gig_data: null
     InvoiceIngresoPaginated:
       summary: Invoice Ingreso
       description: Example of an *Igreso* type invoice.
@@ -13094,8 +13456,7 @@ tags:
       (SAT) in Mexico.
 
 
-      <img src="https://files.readme.io/fc3891f-institutions_api_reference.png"
-      alt="fiscal-endpoints" width="650">
+      ![](https://files.readme.io/69a4676-Banking__Tax.png)
 
 
       You can see a complete list of institutions by either consulting our
@@ -13117,7 +13478,6 @@ tags:
       </div>
 
 
-
       You will need to register a **Link** before accessing information from
       that specific end-user, such as account or transaction details.
 
@@ -13134,13 +13494,10 @@ tags:
       </div>
 
 
-
       You have the possibility to register two types of links:
 
 
-
       ### Recurrent links (default)
-
 
 
       With recurrent links, Belvo automatically refreshes information weekly and
@@ -13150,10 +13507,8 @@ tags:
       up-to-date information, without needing to connect to the institution.
 
 
-
       <img src="https://files.readme.io/7b6c0d4-Recurrent_Link_FLow.png"
       alt="fiscal-endpoints" width="950">
-
 
 
       You can also make POST calls directly to the institution, as with single
@@ -13162,9 +13517,7 @@ tags:
       optimal experience.
 
 
-
       ### Single links
-
 
 
       Single links are used to perform ad hoc data access to accounts, owners,
@@ -13199,27 +13552,23 @@ tags:
       | ---------------------- |
 
       | `api/accounts/`             | Get information about your customer's bank
-      accounts.                      | Banking and Gig        |
+      accounts.                      | Banking        |
 
       | `api/balances/`             | Get the balance at the end of each day for
       your customer's bank accounts. | Banking                |
 
       | `api/owners/`               | Get the details of an account
-      owner.                                      | Banking and Gig        |
+      owner.                                      | Banking        |
 
       | `api/transactions/`         | Get a list of bank transactions with
-      metadata.                            | Banking and Gig        |
+      metadata.                            | Banking        |
 
       | `investments/portfolios/`   | Get information about your customer's
       investment portfolios.              | Banking                |
-
-      | `investments/transactions/` | Get a list of investment transactions with
-      metadata.                      | Banking                |
   - name: Accounts
-    description: >
+    description: >-
       An **account** is the representation of a bank account inside a financial
-      institution. A user can have one or more accounts in an institution.
-
+      institution. A user can have one or more accounts in an institution. 
 
 
       For example, one user (or link) can have a checking account, several
@@ -13234,38 +13583,399 @@ tags:
 
       - the balance for each account (savings, checking, credit card, loan, and
       so on)
+
+
+
+      > 🚧 Scheduled field deprecation
+
+      > 
+
+      > Please note that we will soon be deprecating the following fields in our
+      `loan_data` object:
+
+      > 
+
+      > - `cutting_date`
+
+      > - `cutting_day`
+
+      > - `credit_limit`: replaced by the `principal` field.
+
+      > - `interest_rate`: replaced by the `interest_rates` object.
+
+      > - `last_payment_date`
+
+      > - `last_period_balance`: replaced by the `outstanding_balance ` field.
+
+      > - `limit_day`
+
+      > - `limit_date`: replaced by the `payment_day ` field.
+
+      > - `no_interest_payment`
+
+      > - `payment_due_day`
+
+
+      ### **🔦 Filterable fields**
+
+
+      Please see the table below for an alphabetized list of fields that you can
+      filter your responses by. For more information on how to use filters, see
+      our [Filtering
+      responses](https://developers.belvo.com/docs/searching-and-filtering)
+      article.
+
+
+      | Field                         | Available Filters                      |
+
+      | ----------------------------- | -------------------------------------- |
+
+      | `balance__available`          | `=`, `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `balance__current`            | `=`, `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `bank_product_id`             | `=`                                    |
+
+      | `category`                    | `=`, `in`                              |
+
+      | `created_at `                 | `gt`, `gte`, `lt`, `lte`, `range`      |
+
+      | `currency`                    | `=`\*, `in`                            |
+
+      | `id`                          | `=`, `in`                              |
+
+      | `institution`                 | `=`, `in`                              |
+
+      | `internal_identification`     | `=`                                    |
+
+      | `link`                        | `=`, `in`                              |
+
+      | `name`                        | `=`, `icontains`                       |
+
+      | `number`                      | `=`, `in`                              |
+
+      | `public_identification_name`  | `=`                                    |
+
+      | `public_identification_value` | `=`                                    |
+
+      | `type`                        | `=`, `in`                              |
+
+
+      ```curl cURL
+
+      ## Filtering results to have savings accounts with a balance
+
+      ## between 5000 and 8000 Colombian pesos
+
+      https://sandbox.belvo.com/api/accounts/?category=savings&balance__available__range=5000,8000&currency=COP
+
+      ```
+
+      ```javascript Node
+
+      // Filtering results to have savings accounts with a balance
+
+      // between 5000 and 8000 Colombian pesos
+
+      client.accounts.list({
+        filters: {
+          category: "savings",
+          balance__available__range: "5000,8000",
+          currency: "COP"
+        }
+      })
+
+      ```
+
+      ```python Python
+
+      ## Filtering results to have savings accounts with a balance
+
+      ## between 5000 and 8000 Colombian pesos
+
+      client.Accounts.list(category="savings",balance__available__range="5000,8000",currency="COP")
+
+      ```
+
+      ```ruby Ruby
+
+      ## Filtering results to have savings accounts with a balance
+
+      ## between 5000 and 8000 Colombian pesos
+
+      client.accounts.list(params: {
+        category: "savings",
+        balance__available__range: "5000,8000",
+        currency: "COP"
+      })
+
+      ```
   - name: Transactions
     description: >-
       A **transaction** contains the detailed information of each movement
       inside an account. For example, a purchase at a store or a restaurant.
+
+
+      ### **🔦 Filterable fields**
+
+
+      Please see the table below for an alphabetized list of fields that you can
+      filter your responses by. For more information on how to use filters, see
+      our [Filtering
+      responses](https://developers.belvo.com/docs/searching-and-filtering)
+      article.
+
+
+      | Field                         | Available Filters                      |
+
+      | ----------------------------- | -------------------------------------- |
+
+      | `account`                     | `=`, `in`                              |
+
+      | `account**balance**available` | `=`, `lt`, `lte`, `range`              |
+
+      | `account**balance**current`   | `=`, `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `account_type`                | `=`, `in`                              |
+
+      | `accounting_date`             | `=`, `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `amount`                      | `=`, `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `credit_card_data__bill_name` | `=`, `in`                              |
+
+      | `created_at `                 | `gt`, `gte`, `lt`, `lte`, `range`      |
+
+      | `currency`                    | `=`, `in`                              |
+
+      | `id`                          | `=`, `in`                              |
+
+      | `institution`                 | `=`, `in`                              |
+
+      | `link`                        | `=`, `in`                              |
+
+      | `reference`                   | `=`, `in`                              |
+
+      | `status`                      | `=`, `in`                              |
+
+      | `type`                        | `=`, `in`                              |
+
+      | `value_date`                  | `=`, `gt`, `gte`, `lt`, `lte`, `range` |
+
+
+      ```curl cURL
+
+      # Filtering results to have transactions just from one link
+
+      https://api.belvo.com/api/transactions/?link=link_id
+
+
+      # Filtering results to have transactions just form one link and between a
+      date range
+
+      https://api.belvo.com/api/transactions/?link=link_id&value_date__range=2020-10-01,2020-12-01
+
+
+      ```
+
+      ```javascript Node
+
+      // Filtering results to have transactions just from one link
+
+
+      client.transactions.list({
+        filters: {
+          link: "link_id"
+        }
+      })
+
+
+      // Filtering results to have transactions just form one link and between a
+      date range
+
+      client.transactions.list({
+        filters: {
+          link: "link_id",
+          value_date__range: "2020-10-01,2020-12-01"
+        }
+      })
+
+
+      ```
+
+      ```python Python
+
+      # Filtering results to have links just from two institutions
+
+      client.Transactions.list(link="link_id")
+
+
+      # Filtering results from one institution and a certain status
+
+      client.Transactions.list(link="link_id",
+      value_date__range="2020-10-01,2020-12-01")
+
+
+      ```
+
+      ```ruby Ruby
+
+      # Filtering results to have links just from two institutions
+
+      client.transactions.list(params: {
+        link: "link_id"
+      })
+
+
+      # Filtering results from one institution and a certain status
+
+      client.transactions.list(params: {
+        link: "link_id",
+        value_date__range: "2020-10-01,2020-12-01"
+      })
+
+      ```
   - name: Balances
     description: >-
       A **balance** represents the amount of funds available in a checking or
       savings account over a period of time.
 
 
-      - If your Balance request is not for a checking or savings account, we
-      return an empty array.
+      <ul>
+        <li>
+          If your Balance request is not for a checking or savings account, we return
+          an empty array.
+        </li>
+        <li>
+          If we cannot calculate the balance for a given day within your requested
+          period, the <code>balance</code> and <code>current_balance</code> fields
+          will return <code>null</code> for that day.
+        </li>
+      </ul>
 
-      - If we cannot calculate the balance for a given day within your requested
-      period, the `balance` and `current_balance` fields will return `null` for
-      that day.
 
+      > 📘 
 
+      > 
 
-      <div style="background-color:#f4f6f8; border-left: 6px solid
-      #5bc0de;padding: 12px;margin-left: 25px; border-radius: 4px; margin-right:
-      25px"> Savings accounts that do not have any associated transactions (for
-      example, some *poupança* accounts in Brazil) will not contain accurate
+      > Savings accounts that do not have any associated transactions (for
+      example, some _poupança_ accounts in Brazil) will not contain accurate
       Balance information. We do not recommend using the Balance endpoint for
-      these types of accounts.
+      these types of accounts. 
 
+      > 
 
-      Savings accounts vary from institution to institution, so we recommend
+      > Savings accounts vary from institution to institution, so we recommend
       that you first use our [Retrieve transactions for a
       link](https://developers.belvo.com/reference/retrievetransactions)
       request, adding the `account` in the request body, to see if the Savings
-      account has any associated transactions. </div>
+      account has any associated transactions.
+
+
+
+      ### **🔦 Filterable fields**
+
+
+      Please see the table below for an alphabetized list of fields that you can
+      filter your responses by. For more information on how to use filters, see
+      our [Filtering
+      responses](https://developers.belvo.com/docs/searching-and-filtering)
+      article.
+
+
+      | Field             | Available Filters                      |
+
+      | ----------------- | -------------------------------------- |
+
+      | `account`         | `=`, `in`                              |
+
+      | `account_type`    | `=`, `in`                              |
+
+      | `balance`         | `=`, `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `currency`        | `=`, `in`                              |
+
+      | `current_balance` | `=`, `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `id`              | `=`, `in`                              |
+
+      | `institution`     | `=`, `in`                              |
+
+      | `link`            | `=`, `in`                              |
+
+      | `value_date`      | `=`, `gt`, `gte`, `lt`, `lte`, `range` |
+
+
+      ```curl cURL
+
+      # Filtering results to have balances greater than 5000
+
+      https://api.belvo.com/api/balances/?balance__gt=5000 
+
+
+      # Filtering results to have balances greater than 5000 and in Brazilian
+      Reis
+
+      https://api.belvo.com/api/balances/?balance__gt=5000&currency=BRL
+
+      ```
+
+      ```javascript Node
+
+      //  Filtering results to have balances greater than 5000
+
+      client.balances.list({
+        filters: {
+          balance__gt: 5000
+        }
+      })
+
+
+      //  Filtering results to have balances greater than 5000 and in Brazilian
+      Reis
+
+
+      client.balances.list({
+        filters: {
+          balance__gt: 5000,
+          currency: "BRL"
+        }
+      })
+
+      ```
+
+      ```python Python
+
+      # Filtering results to have balances greater than 5000
+
+      client.Balances.list(balance__gt=5000)
+
+
+      # Filtering results to have balances greater than 5000 and in Brazilian
+      Reis
+
+      client.Balances.list(balance__gt=5000, currency="BRL")
+
+      ```
+
+      ```ruby Ruby
+
+      # Filtering results to have balances greater than 5000
+
+      client.balances.list(params: {
+        balance__gt: 5000
+      })
+
+
+      # Filtering results to have balances greater than 5000 and in Brazilian
+      Reis
+
+      client.balances.list(params: {
+        balance__gt: 5000,
+        currency: "BRL"
+      })
+
+      ```
   - name: Owners
     description: >-
       An **owner** represents the person who has access to a Link and is the
@@ -13281,68 +13991,168 @@ tags:
       - key contact information
 
       - information about the ID document they used when opening the account
-  - name: Investment Portfolios (BETA)
+
+
+      ### **🔦 Filterable fields**
+
+
+      Please see the table below for an alphabetized list of fields that you can
+      filter your responses by. For more information on how to use filters, see
+      our [Filtering
+      responses](https://developers.belvo.com/docs/searching-and-filtering)
+      article.
+
+
+      | Field         | Available Filters                 |
+
+      | ------------- | --------------------------------- |
+
+      | `created_at ` | `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `email`       | `=`                               |
+
+      | `id`          | `=`, `in`                         |
+
+      | `link`        | `=`, `in`                         |
+
+
+      ```curl cURL
+
+      # Filtering results so that you get the emails of one link:
+
+      https://sandbox.belvo.com/api/owners/?email=filtering@belvo.com
+
+
+      ```
+
+      ```javascript Node
+
+      // Filtering results so that you get the emails of one link:
+
+      client.owners.list({
+        filters: {
+          email: "filtering@belvo.com"
+        }
+      })
+
+
+      ```
+
+      ```python Python
+
+      # Filtering results so that you get the emails of one link:
+
+      client.Owners.list(email="filtering@belvo.com")
+
+
+      ```
+
+      ```ruby Ruby
+
+      # Filtering results so that you get the emails of one link:
+
+      client.owners.list(params: {
+        email: "filtering@belvo.com"
+      })
+
+
+      })
+
+      ```
+  - name: Investment Portfolios
     description: >-
-      <div style="background-color:#bce9af;padding: 6px; border-radius: 4px">
-            <strong>🎉 In Beta </strong><br>
-            This resource is currently in open beta for all users. If you see any issues, don't hesitate to contact our support team. 
-            </div>
+      At the moment we only support the following institutions and investment
+      products:
+
+
+      | Institution                     | Portfolio                         |
+      Instruments                 |
+
+      | ------------------------------- | --------------------------------- |
+      --------------------------- |
+
+      | Banco de Brazil Retail (Brazil) | `FIXED_INCOME`                    |
+      `DEPOSIT`                   |
+
+      | Banco Inter Retail (Brazil)     | `FIXED_INCOME`                    |
+      `DEPOSIT`                   |
+
+      | Bradesco Retail (Brazil)        | `FIXED_INCOME`, `VARIABLE_INCOME` |
+      `DEPOSIT`, `FUND`           |
+
+      | CaixaBank Retail (Brazil)       | `FIXED_INCOME`, `VARIABLE_INCOME` |
+      `DEPOSIT`, `FUND`           |
+
+      | Itau Retail (Brazil)            | `FIXED_INCOME`, `VARIABLE_INCOME` |
+      `DEPOSIT`, `FUND`, `STOCKS` |
+
+      | Santander Retail (Brazil)       | `FIXED_INCOME`, `VARIABLE_INCOME` |
+      `DEPOSIT`, `BOND`, `FUND`   |
 
 
 
-      Investment Portfolios are in open BETA for everyone to use. At the moment
-      we only support the following institutions and investment products:
+      ### **🔦 Filterable fields**
 
 
-      |Institution|Portfolio|Instruments|
+      Please see the table below for an alphabetized list of fields that you can
+      filter your responses by. For more information on how to use filters, see
+      our [Filtering
+      responses](https://developers.belvo.com/docs/searching-and-filtering)
+      article.
 
-      |---|---|---|
 
-      |Banco de Brazil Retail (Brazil)|`FIXED_INCOME`|`DEPOSIT`|
+      | Field         | Available Filters                 |
 
-      |Banco Inter Retail (Brazil)|`FIXED_INCOME`|`DEPOSIT`|
+      | ------------- | --------------------------------- |
 
-      |Bradesco Retail (Brazil)|`FIXED_INCOME`, `VARIABLE_INCOME` |`DEPOSIT`,
-      `FUND`|
+      | `created_at ` | `gt`, `gte`, `lt`, `lte`, `range` |
 
-      |BTG Investimentos (Brazil) | `FIXED_INCOME`, `VARIABLE_INCOME`|`DEPOSIT`,
-      `BOND`, `FUND`, `STOCKS`|
+      | `link`        | `=`, `in`                         |
 
-      |CaixaBank Retail (Brazil) | `FIXED_INCOME`, `VARIABLE_INCOME`|`DEPOSIT`,
-      `FUND`|
 
-      |Itau Retail (Brazil)|`FIXED_INCOME`, `VARIABLE_INCOME`|`DEPOSIT`, `FUND`,
-      `STOCKS`|
+      ```curl cURL
 
-      |Orama Retail (Brazil)|`FIXED_INCOME`, `VARIABLE_INCOME`|`BOND`, `FUND`,
-      `STOCKS`|
+      # Filtering results so that you get the portfolios of one link:
 
-      |Santander Retail (Brazil)|`FIXED_INCOME`, `VARIABLE_INCOME`|`DEPOSIT`,
-      `BOND`, `FUND`|
+      https://sandbox.belvo.com/investments/portfolios/?link=89c91f42-df34-4c5d-a4f1-6e1e40438af4
 
-      |XP Investimentos (Brazil) | `FIXED_INCOME`, `VARIABLE_INCOME`|`DEPOSIT`,
-      `BOND`, `FUND`, `STOCKS`|
-  - name: Investment Transactions (BETA)
+
+      ```
+
+      ```javascript Node
+
+      // Filtering results so that you get the portfolios of one link:
+
+      client. investmentsPortfolios.list({
+        filters: {
+          link: "89c91f42-df34-4c5d-a4f1-6e1e40438af4"
+        }
+      })
+
+
+      ```
+
+      ```python Python
+
+      # Filtering results so that you get the portfolios of one link:
+
+      client.
+      InvestmentsPortfolios.list(link="89c91f42-df34-4c5d-a4f1-6e1e40438af4")
+
+
+      ```
+
+      ```ruby Ruby
+
+      # Filtering results so that you get the portfolios of one link:
+
+      client. investments_portfolio.list(params: {
+        link: "89c91f42-df34-4c5d-a4f1-6e1e40438af4"
+      })
+
+      ```
+  - name: Receivable Transactions
     description: >-
-      <div style="background-color:#bce9af;padding: 6px; border-radius: 4px">
-            <strong>🎉 In Beta </strong><br>
-            This resource is currently in open beta for all users. If you see any issues, don't hesitate to contact our support team. 
-            </div>
-
-
-      Investment Transactions are in open BETA for everyone to use. At the
-      moment we only support the following institutions:
-
-
-      - XP Investimentos (Brazil)
-  - name: Receivable Transactions (BETA)
-    description: >-
-      <div style="background-color:#bce9af;padding: 6px; border-radius: 4px">
-            <strong>🎉 In Beta </strong><br>
-            This resource is currently in open beta for all users. If you see any issues, don't hesitate to contact our support team. 
-            </div>
-
-
       With our receivable transactions resource, you can gain access to every
       transaction processed by the end user (business) conducted through a POS
       terminal. For each transaction, we return the:
@@ -13381,6 +14191,98 @@ tags:
           <strong>Info: </strong> The incomes resource is <b>only</b> available for Checking and Savings
       accounts associated with banking links.
        </div>
+
+
+       ### **🔦 Filterable fields**
+
+      Please see the table below for an alphabetized list of fields that you can
+      filter your responses by. For more information on how to use filters, see
+      our [Filtering
+      responses](https://developers.belvo.com/docs/searching-and-filtering)
+      article.
+
+
+      | Field        | Available Filters                 |
+
+      | ------------ | --------------------------------- |
+
+      | `account`    | `=`, `in`                         |
+
+      | `created_at` | `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `id`         | `=`, `in`                         |
+
+
+      ```curl cURL
+
+      # Filtering results to have incomes from one link:
+
+      https://sandbox.belvo.com/api/incomes/?link=link-id
+
+
+      # Filtering results to have incomes from one link and from two of their
+      accounts:
+
+      https://sandbox.belvo.com/api/incomes/?link=link-id&account__in=account-id1,account-id2
+
+      ```
+
+      ```javascript Node
+
+      // Filtering results to have incomes from one link:
+
+      client.incomes.list({
+        filters: {
+          link: "link-id"
+        }
+      })
+
+
+      // Filtering results to have incomes from one link and from two of their
+      accounts:
+
+
+      client.incomes.list({
+        filters: {
+          link: "link-id",
+          account__in: "account-id1,account-id2"
+        }
+      })
+
+      ```
+
+      ```python Python
+
+      # Filtering results to have incomes from one link:
+
+      client.Incomes.list(link="link-id")
+
+
+      # Filtering results to have incomes from one link and from two of their
+      accounts:
+
+      client.Incomes.list(link="link-id", account__in="account-id1,account-id2")
+
+      ```
+
+      ```ruby Ruby
+
+      # Filtering results to have incomes from one link:
+
+      client.incomes.list(params: {
+        link: "link-id"
+      })
+
+
+      # Filtering results to have incomes from one link and from two of their
+      accounts:
+
+      client.incomes.list(params: {
+        link: "link-id",
+        account__in: "account-id1,account-id2"
+      })
+
+      ```
   - name: Recurring Expenses
     description: >-
       Belvo's Recurring Expenses API allows you to identify a user's regular
@@ -13389,12 +14291,74 @@ tags:
       information for up to 365 days.
 
 
-
       <div style="background-color:#f4f6f8; border-left: 6px solid
       #0663F9;padding: 12px;margin-left: 25px; border-radius: 4px; margin-right:
       25px">
           <strong>Info: </strong> The recurring expenses resource is <b>only</b> available for Checking and Savings accounts associated with banking links.
        </div>
+
+       ### **🔦 Filterable fields**
+
+      Please see the table below for an alphabetized list of fields that you can
+      filter your responses by. For more information on how to use filters, see
+      our [Filtering
+      responses](https://developers.belvo.com/docs/searching-and-filtering)
+      article.
+
+
+      | Field     | Available Filters |
+
+      | --------- | ----------------- |
+
+      | `account` | `=`, `in`         |
+
+      | `id`      | `=`, `in`         |
+
+      | `link`    | `=`, `in`         |
+
+
+      ```curl cURL
+
+      # Filtering results so that you get the recurring expenses of one account:
+
+      https://sandbox.belvo.com/api/recurring-expenses/?account=89c91f42-df34-4c5d-a4f1-6e1e40438af4
+
+
+      ```
+
+      ```javascript Node
+
+      // Filtering results so that you get the recurring expenses of one
+      account:
+
+      client. recurringExpenses.list({
+        filters: {
+          account: "89c91f42-df34-4c5d-a4f1-6e1e40438af4"
+        }
+      })
+
+
+      ```
+
+      ```python Python
+
+      # Filtering results so that you get the recurring expenses of one account:
+
+      client.
+      RecurringExpenses.list(account="89c91f42-df34-4c5d-a4f1-6e1e40438af4")
+
+
+      ```
+
+      ```ruby Ruby
+
+      # Filtering results so that you get the recurring expenses of one account:
+
+      client. recurring_expenses.list(params: {
+        account: "89c91f42-df34-4c5d-a4f1-6e1e40438af4"
+      })
+
+      ```
   - name: Risk Insights
     description: >-
       Belvo's Risk Insights endpoint exposes a set of features that can be used
@@ -13412,6 +14376,67 @@ tags:
       If you need to know the currency of the account, do a GET Details to the
       Accounts endpoint (using the account ID you receive from in the accounts
       array of the response).
+
+
+      ### **🔦 Filterable fields**
+
+
+      Please see the table below for an alphabetized list of fields that you can
+      filter your responses by. For more information on how to use filters, see
+      our [Filtering
+      responses](https://developers.belvo.com/docs/searching-and-filtering)
+      article.
+
+
+      | Field  | Available Filters |
+
+      | ------ | ----------------- |
+
+      | `id`   | `=`, `in`         |
+
+      | `link` | `=`, `in`         |
+
+
+      ```curl cURL
+
+      # Filtering results so that you get the risk insights of one link:
+
+      https://sandbox.belvo.com/api/risk-insights/?link=89c91f42-df34-4c5d-a4f1-6e1e40438af4
+
+
+      ```
+
+      ```javascript Node
+
+      // Filtering results so that you get the risk insights of one link:
+
+      client. riskInsights.list({
+        filters: {
+          account: "89c91f42-df34-4c5d-a4f1-6e1e40438af4"
+        }
+      })
+
+
+      ```
+
+      ```python Python
+
+      # Filtering results so that you get the risk insights of one link:
+
+      client. RiskInsights.list(link="89c91f42-df34-4c5d-a4f1-6e1e40438af4")
+
+
+      ```
+
+      ```ruby Ruby
+
+      # Filtering results so that you get the risk insights of one link:
+
+      client. risk_insights.list(params: {
+        link: "89c91f42-df34-4c5d-a4f1-6e1e40438af4"
+      })
+
+      ```
   - name: Fiscal API introduction
     description: >-
       Use our **Fiscal API** product to access invoices, tax compliance
@@ -13419,31 +14444,41 @@ tags:
       authority in a given country.
 
 
-
       <img src="https://files.readme.io/97c76a8-Fiscal_endpoints_horizontal.png"
       alt="fiscal-endpoints" width="750">
 
 
+      | API Endpoint                 |
+      Description                                                                                                                          
+      |
 
-      | API Endpoint | Description |
+      | ---------------------------- |
+      -------------------------------------------------------------------------------------------------------------------------------------
+      |
 
-      |-----------|-------|
+      | `api/invoices/`              | Get all the information about the
+      invoices sent and received by a person or a business that have been
+      certified by the tax authority. |
 
-      | `api/invoices/` | Get all the information about the invoices sent and
-      received by a person or a business that have been certified by the tax
-      authority. |
+      | `api/tax-compliance-status/` | Get information about whether a person or
+      business is complying to their tax
+      obligations.                                             |
 
-      | `api/tax-compliance-status/`| Get information about whether a person or
-      business is complying to their tax obligations.|
+      | `api/tax-compliance-status/` | Get tax declaration information for your
+      users. At the moment only available for 🇨🇴 DIAN
+      Colombia.                                  |
 
-      | `api/tax-returns/` | Get all the information about the tax returns sent
-      every year to the tax authority by a person or a business. |
+      | `api/tax-returns/`           | Get all the information about the tax
+      returns sent every year to the tax authority by a person or a
+      business.                         |
 
-      | `api/tax-retentions/` | Get information about tax retention invoices
-      sent and received by a business or a person. |
+      | `api/tax-retentions/`        | Get information about tax retention
+      invoices sent and received by a business or a
+      person.                                             |
 
-      | `api/tax-status/` | Get all the information about the tax situation of a
-      person or a business. |
+      | `api/tax-status/`            | Get all the information about the tax
+      situation of a person or a
+      business.                                                            |
 
 
       <div style="background-color:#f4f6f8; border-left: 6px solid
@@ -13461,6 +14496,128 @@ tags:
       the fiscal institution's website. Multiple INFLOW (invoice received) and
       OUTFLOW (invoice sent) invoices can be retrieved inside each link coming
       from a fiscal institution.
+
+
+      ### **🔦 Filterable fields**
+
+
+      Please see the table below for an alphabetized list of fields that you can
+      filter your responses by. For more information on how to use filters, see
+      our [Filtering
+      responses](https://developers.belvo.com/docs/searching-and-filtering)
+      article.
+
+
+      | Field                    | Available Filters                      |
+
+      | ------------------------ | -------------------------------------- |
+
+      | `created_at `            | `gt`, `gte`, `lt`, `lte`, `range`      |
+
+      | `id`                     | `=`, `in`                              |
+
+      | `invoice_date`           | `=`, `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `invoice_identification` | `=`, `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `link`                   | `=`, `in`                              |
+
+      | `status`                 | `=`, `in`                              |
+
+      | `total_amount`           | `=`, `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `type`                   | `=`, `in`                              |
+
+
+      ```curl cURL
+
+      # Filtering results so that you get Tax Returns from one link:
+
+      https://sandbox.belvo.com/api/invoices/?link=link-id
+
+
+      # Filtering results so that you get Tax Returns from two links 
+
+      # and are of type normal and their status is vigente:
+
+      https://sandbox.belvo.com/api/invoices/?link__in=link-id1,link-id2&informacion_general__tipo_declaracion=Normal&status=vigente
+
+      ```
+
+      ```javascript Node
+
+      //  Filtering results so that you get the Tax Returns from one link:
+
+      client.invoices.list({
+        filters: {
+          link: "link-id"
+        }
+      })
+
+
+      //  Filtering results so that you get the Tax Returns from two links
+
+      // and are of type normal and their status is vigente:
+
+      client.invoices.list({
+        filters: {
+          link__in: "link-id-1, link-id-2",
+          informacion_general__tipo_declaracion: "Normal",
+          status: "vigente"
+        }
+      })
+
+
+      ```
+
+      ```python Python
+
+      # Filtering results so that you get the Tax Return from one link:
+
+      client.invoices.list(link="link-id")
+
+
+      # Filtering results so that you get the Tax Returns from two links
+
+      # # and are of type normal and their status is vigente:
+
+      client.invoices.list(link__in="link-id1,link-id2",
+      informacion_general__tipo_declaracion="Normal", status="vigente")
+
+      ```
+
+      ```ruby Ruby
+
+      # Filtering results so that you get the Tax Return from one link:
+
+      client.invoices.list(params: {
+        link: "link-id"
+      })
+
+
+
+      # Filtering results so that you get the Tax Returns from two links
+
+      # and are of type normal and their status is vigente:
+
+      client.invoices.list(params: {
+        link__in: "link-id1, link-id1",
+        informacion_general__tipo_declaracion: "Normal",
+        status: "vigente"
+      })
+
+      ```
+  - name: Tax declarations
+    description: >-
+      Our Tax declarations endpoint lets you retrieve the electronic
+      representation of the tax declaration document emitted by a country's tax
+      authority.
+
+
+      At the moment, the Tax Declaration resource is available for:
+
+
+      - 🇨🇴 Colombia (DIAN)
   - name: Tax returns
     description: >-
       A **tax return** is the representation of the tax return document sent
@@ -13470,17 +14627,179 @@ tags:
       The tax return data structure will be different depending on if it is
       related to a person or a business (you will find examples for both in the
       endpoints below).
+
+
+      ### **🔦 Filterable fields**
+
+
+      | Field                                   | Available
+      Filters                      |
+
+      | --------------------------------------- |
+      -------------------------------------- |
+
+      | `created_at `                           | `gt`, `gte`, `lt`, `lte`,
+      `range`      |
+
+      | `id`                                    | `=`,
+      `in`                              |
+
+      | `informacion_general__ejercicio`        | `=`, `gt`, `gte`, `lt`, `lte`,
+      `range` |
+
+      | `informacion_general__tipo_declaracion` | `=`,
+      `in`                              |
+
+      | `link`                                  | `=`,
+      `in`                              |
+
+
+      ```curl cURL
+
+      # Filtering results so that you get Tax Returns from one link:
+
+      https://api.belvo.com/api/tax-returns/?link=link-id
+
+
+      # Filtering results so that you get Tax Returns from two links and are of
+      type normal:
+
+      https://api.belvo.com/api/tax-returns/?link__in=link-id1,link-id2&informacion_general__tipo_declaracion=Normal,
+
+      ```
+
+      ```javascript Node
+
+      //  Filtering results so that you get the Tax Returns from one link:
+
+      client.taxReturns.list({
+        filters: {
+          link: "link-id"
+        }
+      })
+
+
+      //  Filtering results so that you get the Tax Returns from two links and
+      are of type normal:
+
+      client.taxReturns.list({
+        filters: {
+          link__in: "link-id-1, link-id-2",
+          informacion_general__tipo_declaracion: "Normal"
+        }
+      })
+
+
+      ```
+
+      ```python Python
+
+      # Filtering results so that you get the Tax Return from one link:
+
+      client.TaxReturns.list(link="link-id")
+
+
+      # Filtering results so that you get the Tax Returns from two links and are
+      of type normal:
+
+      client.TaxReturns.list(link__in="link-id1,link-id2",
+      informacion_general__tipo_declaracion: "Normal")
+
+      ```
+
+      ```ruby Ruby
+
+      # Filtering results so that you get the Tax Return from one link:
+
+      client.tax_returns.list(params: {
+        link: "link-id"
+      })
+
+
+
+      # Filtering results so that you get the Tax Returns from two links and are
+      of type normal:
+
+      client.tax_returns.list(params: {
+        link__in: "link-id1, link-id1",
+        informacion_general__tipo_declaracion: "Normal"
+      })
+
+      ```
   - name: Tax status
     description: >-
       Our **Tax status** endpoint lets you retrieve information about a person's
       or business's tax situation, according to the country's tax authority. 
 
 
-      - For SAT (Mexico), this information is extracted from the *Constancia de
-      situación fiscal* document.
+      - For SAT (Mexico), this information is extracted from the _Constancia de
+      situación fiscal_ document.
 
-      - For DIAN (Colombia), this information is extracted from the *Registro
-      Único Tributario* document.
+      - For DIAN (Colombia), this information is extracted from the _Registro
+      Único Tributario_ document.
+
+
+
+
+      ### **🔦 Filterable fields**
+
+
+      Please see the table below for an alphabetized list of fields that you can
+      filter your responses by. For more information on how to use filters, see
+      our [Filtering
+      responses](https://developers.belvo.com/docs/searching-and-filtering)
+      article.
+
+
+      | Field         | Available Filters                 |
+
+      | ------------- | --------------------------------- |
+
+      | `created_at ` | `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `id`          | `=`, `in`                         |
+
+      | `link`        | `=`, `in`                         |
+
+
+      ```curl cURL
+
+      # Filtering results so that you get institutions from just one link:
+
+      https://api.belvo.com/api/institutions/?link=link
+
+      ```
+
+      ```javascript Node
+
+      //  Filtering results so that you get institutions from just one link:
+
+      client.taxstatus.list({
+        filters: {
+          link: "link_id"
+        }
+      })
+
+
+      ```
+
+      ```python Python
+
+      # Filtering results so that you get institutions from just one link:
+
+      client.TaxStatus.list(link="link")
+
+      ```
+
+      ```ruby Ruby
+
+      # Filtering results so that you get institutions from just one link:
+
+      client.tax_status.list(params: {
+        link: "link"
+      })
+
+      ```
   - name: Tax retentions
     description: >-
       A **tax retention** is the amount of money that the payer must deduct from
@@ -13501,12 +14820,193 @@ tags:
       - total amount that is taxed
 
       - breakdown of all the taxes applied to the invoice
+
+
+
+      ### **🔦 Filterable fields**
+
+
+      Please see the table below for an alphabetized list of fields that you can
+      filter your responses by. For more information on how to use filters, see
+      our [Filtering
+      responses](https://developers.belvo.com/docs/searching-and-filtering)
+      article.
+
+
+      | Field         | Available Filters                 |
+
+      | ------------- | --------------------------------- |
+
+      | `created_at ` | `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `link`        | `=`, `in`                         |
+
+
+      ```curl cURL
+
+      # Filtering results so that you get Tax Retentions from one link:
+
+      https://sandbox.belvo.com/api/tax-retentions/?link=link-id
+
+
+      # Filtering results so that you get Tax Retentions from two links 
+
+      https://api.belvo.com/api/tax-retentions/?link=link-id1,link-id2
+
+      ```
+
+      ```javascript Node
+
+      //  Filtering results so that you get the Tax Retentions from one link:
+
+      client.taxRetentions.list({
+        filters: {
+          link: "link-id"
+        }
+      })
+
+
+      //  Filtering results so that you get the Tax Retentions from two links:
+
+      client.taxRetentions.list({
+        filters: {
+          link__in: "link-id-1, link-id-2"
+        }
+      })
+
+
+      ```
+
+      ```python Python
+
+      # Filtering results so that you get the Tax Retentions from one link:
+
+      client.TaxRetentions.list(link="link-id")
+
+
+      # Filtering results so that you get the Tax Retentions from two links:
+
+      client.TaxRetentions.list(link__in="link-id1,link-id2")
+
+      ```
+
+      ```ruby Ruby
+
+      # Filtering results so that you get the Tax Retentions from one link:
+
+      client.tax_retentions.list(params: {
+        link: "link-id"
+      })
+
+
+
+      # Filtering results so that you get the Tax Retentions from two link:
+
+      client.tax_retentions.list(params: {
+        link__in: "link-id1, link-id1"
+      })
+
+      ```
   - name: Tax compliance status
     description: >-
       A **tax compliance status** indicates about whether a person or business
       is complying with their tax obligations at the moment of the request. The
       information is extracted from SAT's _Opinion de cumplimiento de
       Obligaciones Fiscales_ document.
+
+
+      ### **🔦 Filterable fields**
+
+
+      Please see the table below for an alphabetized list of fields that you can
+      filter your responses by. For more information on how to use filters, see
+      our [Filtering
+      responses](https://developers.belvo.com/docs/searching-and-filtering)
+      article.
+
+
+      | Field         | Available Filters                 |
+
+      | ------------- | --------------------------------- |
+
+      | `created_at ` | `gt`, `gte`, `lt`, `lte`, `range` |
+
+      | `id`          | `=`, `in`                         |
+
+      | `link`        | `=`, `in`                         |
+
+
+      ```curl cURL
+
+      # Filtering results so that you get Tax Compliance Status from one link:
+
+      https://api.belvo.com/api/tax-compliance-status/?link=link-id
+
+
+      # Filtering results so that you get Tax Compliance Status from one link:
+
+      https://api.belvo.com/api/tax-compliance-status/?link=link-id1,link-id2
+
+      ```
+
+      ```javascript Node
+
+      //  Filtering results so that you get the Tax Compliance Status from one
+      link:
+
+      client.taxComplianceStatus.list({
+        filters: {
+          link: "link-id"
+        }
+      })
+
+
+      //  Filtering results so that you get the Tax Compliance Status from two
+      links:
+
+      client.taxComplianceStatus.list({
+        filters: {
+          link__in: "link-id-1, link-id-2"
+        }
+      })
+
+
+      ```
+
+      ```python Python
+
+      # Filtering results so that you get the Tax Compliance Status from one
+      link:
+
+      client.TaxComplianceStatus.list(link="link-id")
+
+
+      # Filtering results so that you get the Tax Compliance Status from two
+      links:
+
+      client.TaxComplianceStatus.list(link__in="link-id1,link-id2")
+
+      ```
+
+      ```ruby Ruby
+
+      # Filtering results so that you get the Tax Compliance Status from one
+      link:
+
+      client.tax_compliance_status.list(params: {
+        link: "link-id"
+      })
+
+
+
+      # Filtering results so that you get the Tax Compliance Status from two
+      link:
+
+      client.tax_compliance_status.list(params: {
+        link__in: "link-id1, link-id1"
+      })
+
+      ```
 paths:
   /api/links/:
     get:
@@ -18511,8 +20011,8 @@ paths:
         - Invoices
       operationId: ListInvoices
       description: >-
-        Get a paginated list of all existing invoices in your Belvo account. We
-        return up to 100 results per page.
+        Get a paginated list of all existing invoices in your Belvo account. By
+        default, we return 100 results per page.
       summary: List all invoices
       parameters:
         - name: page
@@ -19199,7 +20699,6 @@ paths:
                       console.log(error);
                     });
               });
-                
   /api/invoices/{id}/:
     get:
       tags:
@@ -22669,7 +24168,7 @@ paths:
   /investments/portfolios/:
     get:
       tags:
-        - Investment Portfolios (BETA)
+        - Investment Portfolios
       operationId: ListPortfolio
       description: >-
         Get a paginated list of all the existing portfolios (and their
@@ -22815,7 +24314,7 @@ paths:
               });
     post:
       tags:
-        - Investment Portfolios (BETA)
+        - Investment Portfolios
       operationId: RetrievePortfolio
       summary: Retrieve portfolios for a link
       description: Retrieve all portfolios for an existing link.
@@ -22948,7 +24447,7 @@ paths:
               });
     patch:
       tags:
-        - Investment Portfolios (BETA)
+        - Investment Portfolios
       operationId: PatchPortfolio
       summary: Complete a portfolios request
       description: >-
@@ -23089,7 +24588,7 @@ paths:
   /investments/portfolios/{id}/:
     get:
       tags:
-        - Investment Portfolios (BETA)
+        - Investment Portfolios
       operationId: DetailPortfolio
       summary: Get a portfolio's details
       description: Get the details of a specific portfolio.
@@ -23195,7 +24694,7 @@ paths:
               });
     delete:
       tags:
-        - Investment Portfolios (BETA)
+        - Investment Portfolios
       operationId: DestroyPortfolio
       summary: Delete a portfolio
       description: >-
@@ -23292,648 +24791,10 @@ paths:
                       console.log(error);
                     });
               });
-  /investments/transactions/:
-    get:
-      tags:
-        - Investment Transactions (BETA)
-      operationId: ListInvestmentTransactions
-      description: >-
-        Get a paginated list of all the existing transactions for an instrument
-        in your Belvo account. By default, we return up to 100 results per page.
-      summary: List all investment transactions
-      parameters:
-        - name: page
-          required: false
-          in: query
-          description: A page number within the paginated result set.
-          schema:
-            type: integer
-            format: int32
-            example: 1
-        - name: page_size
-          required: false
-          in: query
-          description: >
-            Indicates how many results to return per page. By default we return
-            100 results per page. 
-
-
-            ℹ️ The minimum number of results returned per page is 1 and the
-            maximum is 1000. If you enter a value greater than 1000, our API
-            will default to the maximum value (1000).
-          schema:
-            type: integer
-            format: int32
-            default: 100
-            minimum: 1
-            maximum: 1000
-            example: 100
-        - name: link
-          in: query
-          description: >
-            The `link.id` you want to filter by.
-
-
-            ℹ️ We highly recommend adding either the `link.id` or the
-            `portfolio.id` filters in order to improve your performance.
-          schema:
-            type: string
-            format: uuid
-            example: 8848bd0c-9c7e-4f53-a732-ec896b11d4c4
-        - name: portfolio
-          in: query
-          description: >
-            The `portfolio.id` you want to filter by.
-
-
-            ℹ️ We highly recommend adding either the `link.id` or the
-            `portfolio.id` filters in order to improve your performance.
-          schema:
-            type: string
-            format: uuid
-            example: d979df3a-5d0f-4cc9-9bd4-b75c28b45963
-        - name: created_at__gt
-          in: query
-          schema:
-            type: string
-        - name: created_at__gte
-          in: query
-          schema:
-            type: string
-        - name: created_at__lt
-          in: query
-          schema:
-            type: string
-        - name: created_at__lte
-          in: query
-          schema:
-            type: string
-        - name: created_at__range
-          in: query
-          schema:
-            type: string
-        - name: link__in
-          in: query
-          schema:
-            type: string
-        - name: portfolio__in
-          in: query
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvestmentsTransactionsPaginatedResponse'
-        '401':
-          description: Authentication to Belvo API failed
-          content:
-            application/json:
-              schema:
-                type: array
-                description: >-
-                  This error occurs when you try to make an API call using
-                  incorrect Belvo API credentials (either your secret key or
-                  secret password, or both, are incorrect).
-                items:
-                  $ref: '#/components/schemas/UnauthorizedError'
-      x-readme:
-        code-samples:
-          - language: python
-            name: Belvo Python SDK
-            code: |
-              # For more information about our SDKs go to:
-              # https://developers.belvo.com/docs/belvo-sdks
-
-              from belvo.client import Client
-
-              # Login to Belvo API
-              client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
-
-              # List Investment Transactions
-              for transaction in client.InvestmentsTransactions.list():
-              pprint(transaction)
-          - language: ruby
-            name: Belvo Ruby SDK
-            code: |
-              # For more information about our SDKs go to:
-              # https://developers.belvo.com/docs/belvo-sdks
-
-              require 'belvo'
-
-              sandbox = Belvo::Client.new(
-                'Secret Key ID',
-                'Secret Key PASSWORD',
-                'sandbox'
-              )
-
-              client.investments_transaction.list
-          - language: node
-            name: Belvo Node SDK
-            code: |
-              // For more information about our SDKs go to:
-              // https://developers.belvo.com/docs/belvo-sdks
-
-              var belvo = require('belvo').default;
-
-              var client = new belvo(
-                'Secret Key ID',
-                'Secret Key PASSWORD',
-                'sandbox'
-              );
-
-              client.connect()
-                .then(function () {
-                  client.investmentsTransactions.list()
-                    .then(function (res) {
-                      console.log(res);
-                    })
-                    .catch(function (error) {
-                      console.log(error);
-                    });
-              });
-    post:
-      tags:
-        - Investment Transactions (BETA)
-      operationId: RetrieveInstrumentTransaction
-      summary: Retrieve investment transactions for a link
-      description: Retrieve all instrument transactions for an existing link.
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InstrumentTransactionRequest'
-      responses:
-        '200':
-          description: Ok (when `save_data=false`)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvestmentsInstrumentTransaction'
-        '201':
-          description: Created (when `save_data=true`)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvestmentsInstrumentTransaction'
-        '400':
-          description: Bad request error
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  anyOf:
-                    - $ref: '#/components/schemas/TooManySessionsError'
-                    - $ref: '#/components/schemas/SessionExpiredError'
-                    - $ref: '#/components/schemas/ValidationError'
-                    - $ref: '#/components/schemas/InstitutionDownError'
-                    - $ref: '#/components/schemas/InstitutionUnavailableError'
-                    - $ref: '#/components/schemas/InstitutionInactiveError'
-                    - $ref: '#/components/schemas/UnsupportedOperationError'
-                    - $ref: '#/components/schemas/InvalidLinkError'
-                    - $ref: '#/components/schemas/UnconfirmedLinkError'
-        '401':
-          description: Authentication to Belvo API failed
-          content:
-            application/json:
-              schema:
-                type: array
-                description: >-
-                  This error occurs when you try to make an API call using
-                  incorrect Belvo API credentials (either your secret key or
-                  secret password, or both, are incorrect).
-                items:
-                  $ref: '#/components/schemas/UnauthorizedError'
-        '428':
-          description: MFA Token Required
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TokenRequiredResponse'
-        '500':
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                type: array
-                title: Unexpected Error
-                description: >-
-                  This error occurs when we (Belvo) have encountered an internal
-                  system error (sorry about that) or due to an unsupported
-                  response from the institution.
-                    
-                items:
-                  $ref: '#/components/schemas/UnexpectedError'
-      x-readme:
-        code-samples:
-          - language: python
-            name: Belvo Python SDK
-            code: |
-              # For more information about our SDKs go to:
-              # https://developers.belvo.com/docs/belvo-sdks
-
-              from belvo.client import Client
-
-              # Login to Belvo API
-              client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
-
-              # Retrieve Investment Transactions
-              client.InvestmentsTransactions.create('link-id')
-          - language: ruby
-            name: Belvo Ruby SDK
-            code: |
-              # For more information about our SDKs go to:
-              # https://developers.belvo.com/docs/belvo-sdks
-
-              require 'belvo'
-
-              sandbox = Belvo::Client.new(
-                'Secret Key ID',
-                'Secret Key PASSWORD',
-                'sandbox'
-              )
-
-              client.investments_transaction.retrieve(
-                link: 'link-id'
-              )
-          - language: node
-            name: Belvo Node SDK
-            code: |
-              // For more information about our SDKs go to:
-              // https://developers.belvo.com/docs/belvo-sdks
-
-              var belvo = require('belvo').default;
-
-              var client = new belvo(
-                'Secret Key ID',
-                'Secret Key PASSWORD',
-                'sandbox'
-              );
-
-              client.connect()
-                .then(function () {
-                  client.investmentsTransactions.retrieve('linkID')
-                    .then(function (res) {
-                      console.log(res);
-                    })
-                    .catch(function (error) {
-                      console.log(error);
-                    });
-              });
-    patch:
-      tags:
-        - Investment Transactions (BETA)
-      operationId: PatchInvestmentsTransactions
-      summary: Complete a investment transactions request
-      description: >-
-        Used to resume a Investment retrieve session that was paused because an
-        MFA token was required by the institution.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchBodyWithoutSaveData'
-      responses:
-        '200':
-          description: Ok (when `save_data=false`)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvestmentsInstrumentTransaction'
-        '201':
-          description: Created (when `save_data=true`)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvestmentsInstrumentTransaction'
-        '400':
-          description: Bad request error
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  anyOf:
-                    - $ref: '#/components/schemas/TooManySessionsError'
-                    - $ref: '#/components/schemas/SessionExpiredError'
-                    - $ref: '#/components/schemas/ValidationError'
-                    - $ref: '#/components/schemas/InstitutionDownError'
-                    - $ref: '#/components/schemas/InstitutionUnavailableError'
-                    - $ref: '#/components/schemas/InstitutionInactiveError'
-                    - $ref: '#/components/schemas/UnsupportedOperationError'
-                    - $ref: '#/components/schemas/InvalidLinkError'
-                    - $ref: '#/components/schemas/UnconfirmedLinkError'
-        '401':
-          description: Authentication to Belvo API failed
-          content:
-            application/json:
-              schema:
-                type: array
-                description: >-
-                  This error occurs when you try to make an API call using
-                  incorrect Belvo API credentials (either your secret key or
-                  secret password, or both, are incorrect).
-                items:
-                  $ref: '#/components/schemas/UnauthorizedError'
-        '428':
-          description: MFA Token Required
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TokenRequiredResponse'
-        '500':
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                type: array
-                title: Unexpected Error
-                description: >-
-                  This error occurs when we (Belvo) have encountered an internal
-                  system error (sorry about that) or due to an unsupported
-                  response from the institution.
-                    
-                items:
-                  $ref: '#/components/schemas/UnexpectedError'
-      x-readme:
-        code-samples:
-          - language: python
-            name: Belvo Python SDK
-            code: |
-              # For more information about our SDKs go to:
-              # https://developers.belvo.com/docs/belvo-sdks
-
-              from belvo.client import Client
-
-              # Login to Belvo API
-              client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
-
-              # Resume Investment Transactions
-              investments_transactions = client.InvestmentsTransactions.resume(
-                session="session_id",
-                token="token",
-                link="link_id"
-              )
-          - language: ruby
-            name: Belvo Ruby SDK
-            code: |
-              # For more information about our SDKs go to:
-              # https://developers.belvo.com/docs/belvo-sdks
-
-              require 'belvo'
-
-              client = Belvo::Client.new(
-                'Secret Key ID',
-                'Secret Key PASSWORD',
-                'sandbox'
-              )
-
-              client.investments_transaction.resume(
-                session: 'session_id',
-                token: 'token',
-                link: 'link_id'
-              )
-          - language: node
-            name: Belvo Node SDK
-            code: |
-              // For more information about our SDKs go to:
-              // https://developers.belvo.com/docs/belvo-sdks
-
-              var belvo = require('belvo').default;
-
-              var client = new belvo(
-                'Secret Key ID',
-                'Secret Key PASSWORD',
-                'sandbox'
-              );
-
-              client.connect()
-                .then(function () {
-                  client.investmentsTransactions.resume('sessionId', 'token', 'linkId')
-                    .then(function (res) {
-                      console.log(res);
-                    })
-                    .catch(function (error) {
-                      console.log(error);
-                    });
-              });
-  /investments/transactions/{id}/:
-    get:
-      tags:
-        - Investment Transactions (BETA)
-      operationId: DetailInvestmentTransaction
-      summary: Get an investment transaction's details
-      description: Get the details of a specific instrument's transaction.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: The `transaction.id` you want to get detailed information about.
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvestmentsInstrumentTransaction'
-        '401':
-          description: Authentication to Belvo API failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UnauthorizedError'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                type: array
-                description: |-
-                  You made a request where you:
-
-                    - provided the wrong URL.
-                    - used an ID (for a link, account, transaction, and so on) that is not associated with your Belvo account.
-                    
-                items:
-                  $ref: '#/components/schemas/NotFoundError'
-      x-readme:
-        code-samples:
-          - language: python
-            name: Belvo Python SDK
-            code: |
-              # For more information about our SDKs go to:
-              # https://developers.belvo.com/docs/belvo-sdks
-
-              from belvo.client import Client
-
-              # Login to Belvo API
-              client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
-
-              # Get Investment Transaction
-              client.InvestmentsTransactions.get('investments-transactions.id')
-          - language: ruby
-            name: Belvo Ruby SDK
-            code: >
-              # For more information about our SDKs go to:
-
-              # https://developers.belvo.com/docs/belvo-sdks
-
-
-              require 'belvo'
-
-
-              sandbox = Belvo::Client.new(
-                'Secret Key ID',
-                'Secret Key PASSWORD',
-                'sandbox'
-              )
-
-
-              sandbox.investments_transaction.detail id:
-              'investments-transaction.id'
-          - language: node
-            name: Belvo Node SDK
-            code: |
-              // For more information about our SDKs go to:
-              // https://developers.belvo.com/docs/belvo-sdks
-
-              var belvo = require('belvo').default;
-
-              var client = new belvo(
-                'Secret Key ID',
-                'Secret Key PASSWORD',
-                'sandbox'
-              );
-
-              client.connect()
-                .then(function () {
-                  client.investmentsTransactions.detail('investments-transaction.id')
-                    .then(function (res) {
-                      console.log(res);
-                    })
-                    .catch(function (error) {
-                      console.log(error);
-                    });
-              });
-    delete:
-      tags:
-        - Investment Transactions (BETA)
-      operationId: DestroyInvestmentTransaction
-      summary: Delete an investment transaction
-      description: Delete a specific instrument transaction from your Belvo account.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: The `transaction.id` that you want to delete.
-      responses:
-        '204':
-          description: No content
-        '401':
-          description: Authentication to Belvo API failed
-          content:
-            application/json:
-              schema:
-                type: array
-                description: >-
-                  This error occurs when you try to make an API call using
-                  incorrect Belvo API credentials (either your secret key or
-                  secret password, or both, are incorrect).
-                items:
-                  $ref: '#/components/schemas/UnauthorizedError'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                type: array
-                description: |-
-                  You made a request where you:
-
-                    - provided the wrong URL.
-                    - used an ID (for a link, account, transaction, and so on) that is not associated with your Belvo account.
-                    
-                items:
-                  $ref: '#/components/schemas/NotFoundError'
-      x-readme:
-        code-samples:
-          - language: python
-            name: Belvo Python SDK
-            code: |
-              # For more information about our SDKs go to:
-              # https://developers.belvo.com/docs/belvo-sdks
-
-              from belvo.client import Client
-
-              # Login to Belvo API
-              client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
-
-              # Delete Investment Portfolio
-              client.InvestmentsTransactions.delete('investment-transaction.id')
-          - language: ruby
-            name: Belvo Ruby SDK
-            code: >
-              # For more information about our SDKs go to:
-
-              # https://developers.belvo.com/docs/belvo-sdks
-
-
-              require 'belvo'
-
-
-              sandbox = Belvo::Client.new(
-                'Secret Key ID',
-                'Secret Key PASSWORD',
-                'sandbox'
-              )
-
-
-              sandbox.investments_transaction.delete id:
-              'investment-transaction.id'
-          - language: node
-            name: Belvo Node SDK
-            code: |
-              // For more information about our SDKs go to:
-              // https://developers.belvo.com/docs/belvo-sdks
-
-              var belvo = require('belvo').default;
-
-              var client = new belvo(
-                'Secret Key ID',
-                'Secret Key PASSWORD',
-                'sandbox'
-              );
-
-              client.connect()
-                .then(function () {
-                  client.investmentsTransactions.delete('investment-transaction.id')
-                    .then(function (res) {
-                      console.log(res);
-                    })
-                    .catch(function (error) {
-                      console.log(error);
-                    });
-              });
   /receivables/transactions/:
     get:
       tags:
-        - Receivable Transactions (BETA)
+        - Receivable Transactions
       operationId: ListReceivableTransactions
       description: >-
         Get a paginated list of all the existing receivable transactions in your
@@ -24100,7 +24961,7 @@ paths:
                   $ref: '#/components/schemas/UnauthorizedError'
     post:
       tags:
-        - Receivable Transactions (BETA)
+        - Receivable Transactions
       operationId: RetrieveReceivableTransactions
       summary: Retrieve receivable transactions for a link
       description: Retrieve all receivable transactions for an existing link.
@@ -24178,7 +25039,7 @@ paths:
   /receivables/transactions/{id}/:
     get:
       tags:
-        - Receivable Transactions (BETA)
+        - Receivable Transactions
       operationId: DetailReceivableTransaction
       summary: Get a receivable transaction's details
       description: Get the details of a specific receivable transaction.
@@ -24219,7 +25080,7 @@ paths:
                   $ref: '#/components/schemas/NotFoundError'
     delete:
       tags:
-        - Receivable Transactions (BETA)
+        - Receivable Transactions
       operationId: DestroyReceivableTransaction
       summary: Delete a receivable transaction
       description: Delete a specific receivable transaction from your Belvo account.
@@ -25217,6 +26078,596 @@ paths:
                     
                 items:
                   $ref: '#/components/schemas/NotFoundError'
+  /api/tax-declarations/:
+    get:
+      tags:
+        - Tax declarations
+      operationId: ListTaxDeclarations
+      summary: List all tax declarations
+      description: >-
+        Get a paginated list of all existing tax declarations in your Belvo
+        account. By default, we return up to 100 results per page.
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: A page number within the paginated result set.
+          schema:
+            type: integer
+            format: int32
+            example: 1
+        - name: page_size
+          required: false
+          in: query
+          description: >
+            Indicates how many results to return per page. By default we return
+            100 results per page. 
+
+
+            ℹ️ The minimum number of results returned per page is 1 and the
+            maximum is 1000. If you enter a value greater than 1000, our API
+            will default to the maximum value (1000).
+          schema:
+            type: integer
+            format: int32
+            default: 100
+            minimum: 1
+            maximum: 1000
+            example: 100
+        - name: link
+          in: query
+          description: >
+            The `link.id` you want to filter by.
+
+
+            ℹ️ We highly recommend adding the `link.id` filter in order to
+            improve your performance.
+          schema:
+            type: string
+            format: uuid
+            example: 8848bd0c-9c7e-4f53-a732-ec896b11d4c4
+        - name: link__in
+          in: query
+          description: Return information for these `link.id`s.
+          schema:
+            type: string
+            example: >-
+              8848bd0c-9c7e-4f53-a732-ec896b11d4c4,cc2b13cf-336e-497c-9fad-e074b580df65
+        - name: created_at__gt
+          in: query
+          description: >-
+            Return tax declarations that were last updated in Belvo's database
+            after this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+          schema:
+            type: string
+            example: '2022-05-05'
+        - name: created_at__gte
+          in: query
+          description: >-
+            Return tax declarations that were last updated in Belvo's database
+            after or on this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+          schema:
+            type: string
+            example: '2022-05-04'
+        - name: created_at__lt
+          in: query
+          description: >-
+            Return tax declarations that were last updated in Belvo's database
+            before this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+          schema:
+            type: string
+            example: '2022-04-01'
+        - name: created_at__lte
+          in: query
+          description: >-
+            Return tax declarations that were last updated in Belvo's database
+            before or on this date (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+          schema:
+            type: string
+            example: '2022-03-30'
+        - name: created_at__range
+          in: query
+          description: >-
+            Return tax declarations that were last updated in Belvo's database
+            between two dates (`YYYY-MM-DD` or full `ISO-8601` timestamp).
+          schema:
+            type: string
+            example: 2022-03-03,2022-05-04
+        - name: id
+          in: query
+          description: Return information for this `tax-declaration.id`.
+          schema:
+            type: string
+            example: eb42c21c-2d9e-4dc1-89b8-9401d4beca73
+        - name: id__in
+          in: query
+          description: Return information for these `tax-declaration.id`s.
+          schema:
+            type: string
+            example: >-
+              eb42c21c-2d9e-4dc1-89b8-9401d4beca73,82b3f18c-055b-4f82-9fae-d2201815ab0c
+        - name: year
+          in: query
+          description: Return tax declarations for this year (`YYYY`).
+          schema:
+            type: string
+            example: '2021'
+        - name: year__gt
+          in: query
+          description: Return tax declarations for after this year (`YYYY`).
+          schema:
+            type: string
+            example: '2020'
+        - name: year__gte
+          in: query
+          description: Return tax declarations for this year or after (`YYYY`).
+          schema:
+            type: string
+            example: '2019'
+        - name: year__lt
+          in: query
+          description: Return tax declarations for before this year (`YYYY`).
+          schema:
+            type: string
+            example: '2018'
+        - name: year__lte
+          in: query
+          description: Return tax declarations for this year or earlier (`YYYY`).
+          schema:
+            type: string
+            example: '2017'
+        - name: year__range
+          in: query
+          description: Return tax declarations between these two years (`YYYY`).
+          schema:
+            type: string
+            example: 2017,2021
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/TaxDeclarationIndividualPaginated'
+                  - $ref: '#/components/schemas/TaxDeclarationBusinessPaginated'
+        '401':
+          description: Authentication to Belvo API failed
+          content:
+            application/json:
+              schema:
+                type: array
+                description: >-
+                  This error occurs when you try to make an API call using
+                  incorrect Belvo API credentials (either your secret key or
+                  secret password, or both, are incorrect).
+                items:
+                  $ref: '#/components/schemas/UnauthorizedError'
+      x-readme:
+        code-samples:
+          - language: cURL
+            code: |
+              curl https://sandbox.belvo.com/api/tax-declarations/ \
+                -u [Secret Key ID]:[Secret Key PASSWORD]
+          - language: python
+            name: Belvo Python SDK
+            code: |
+              # check our python-client library on github
+              # https://github.com/belvo-finance/belvo-python
+              from pprint import pprint
+              from belvo.client import Client
+
+              # Login to Belvo API
+              client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+              # List tax declarations
+              for tax_declaration in client.TaxDeclarations.list()
+                pprint(tax_declaration)
+          - language: ruby
+            name: Belvo Ruby SDK
+            code: |
+              # check our Ruby gem on github
+              # https://github.com/belvo-finance/belvo-ruby
+              require 'belvo'
+
+              sandbox = Belvo::Client.new(
+                'Secret Key ID',
+                'Secret Key PASSWORD',
+                'sandbox'
+              )
+
+              sandbox.tax_declarations.list
+          - language: node
+            name: Belvo Node SDK
+            code: |
+              // check our node package on github
+              // https://github.com/belvo-finance/belvo-js
+
+              var belvo = require('belvo').default;
+
+              var client = new belvo(
+                'Secret Key ID',
+                'Secret Key PASSWORD',
+                'sandbox'
+              );
+
+              client.connect()
+                .then(function () {
+                  client.taxDeclarations.list()
+                    .then(function (res) {
+                      console.log(res);
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+              });
+    post:
+      tags:
+        - Tax declarations
+      operationId: RetrieveTaxDeclarations
+      summary: Retrieve tax declarations for a link
+      description: Retrieve tax declaration information for a specific fiscal link.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaxDeclarationsRequest'
+      responses:
+        '200':
+          description: Ok (when `save_data=false`)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/TaxDeclarationBusiness'
+                    - $ref: '#/components/schemas/TaxDeclarationIndividual'
+        '201':
+          description: Created (when `save_data=true`)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/TaxDeclarationBusiness'
+                    - $ref: '#/components/schemas/TaxDeclarationIndividual'
+        '400':
+          description: Bad request error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  anyOf:
+                    - $ref: '#/components/schemas/TooManySessionsError'
+                    - $ref: '#/components/schemas/SessionExpiredError'
+                    - $ref: '#/components/schemas/ValidationError'
+                    - $ref: '#/components/schemas/InstitutionDownError'
+                    - $ref: '#/components/schemas/InstitutionUnavailableError'
+                    - $ref: '#/components/schemas/InstitutionInactiveError'
+                    - $ref: '#/components/schemas/UnsupportedOperationError'
+                    - $ref: '#/components/schemas/InvalidLinkError'
+                    - $ref: '#/components/schemas/UnconfirmedLinkError'
+        '401':
+          description: Authentication to Belvo API failed
+          content:
+            application/json:
+              schema:
+                type: array
+                description: >-
+                  This error occurs when you try to make an API call using
+                  incorrect Belvo API credentials (either your secret key or
+                  secret password, or both, are incorrect).
+                items:
+                  $ref: '#/components/schemas/UnauthorizedError'
+        '408':
+          description: Request Timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestTimeoutError'
+        '500':
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                type: array
+                title: Unexpected Error
+                description: >-
+                  This error occurs when we (Belvo) have encountered an internal
+                  system error (sorry about that) or due to an unsupported
+                  response from the institution.
+                    
+                items:
+                  $ref: '#/components/schemas/UnexpectedError'
+      x-readme:
+        code-samples:
+          - language: cURL
+            code: |-
+              ### Retrieve Tax Declarations
+              curl -X POST \
+                https://sandbox.belvo.com/api/tax-declarations/ \
+                -H 'Content-Type: application/json' \
+                -H 'Host: sandbox.belvo.com' \
+                -H 'cache-control: no-cache' \
+                -d '{
+                  "link": "",
+                  "year_from": YYYY,
+                  "year_to": YYYY,
+                  "attach_pdf": false
+              }' \
+                -u [Secret Key ID]:[Secret Key PASSWORD]
+          - language: python
+            name: Belvo Python SDK
+            code: |-
+              # check our python-client library on github
+              # https://github.com/belvo-finance/belvo-python
+              from belvo.client import Client
+
+              # Login to Belvo API
+              client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+              # Retrieve Tax Declarations
+              tax_declarations = client.TaxDeclarations.create(
+                link="link_id",
+                year_from="2019",
+                year_to="2020",
+                attach_pdf=True
+              )
+          - language: ruby
+            name: Belvo Ruby SDK
+            code: |
+              # check our Ruby gem on github
+              # https://github.com/belvo-finance/belvo-ruby
+              require 'belvo'
+
+              sandbox = Belvo::Client.new(
+                'Secret Key ID',
+                'Secret Key PASSWORD',
+                'sandbox'
+              )
+
+              # Retrieve Tax Declarations
+              sandbox.tax_declarations.retrieve(
+                link: 'link-id',
+                year_from: "2019",
+                year_to: "2020"
+              )
+          - language: node
+            name: Belvo Node SDK
+            code: |-
+              // check our node package on github
+              // https://github.com/belvo-finance/belvo-js
+
+              var belvo = require('belvo').default;
+
+              var client = new belvo(
+                'Secret Key ID',
+                'Secret Key PASSWORD',
+                'sandbox'
+              );
+
+              // Retrieve Tax Declarations
+              client.connect()
+                .then(function () {
+                  client.taxDeclarations.retrieve('linkID', "2019", "2020")
+                    .then(function (res) {
+                      console.log(res);
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+              });
+  /api/tax-declarations/{id}/:
+    get:
+      tags:
+        - Tax declarations
+      operationId: DetailTaxDeclaration
+      summary: Get a tax declaration's details
+      description: Get the details of a specific Tax declaration.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The `tax-declaration.id` you want to get detailed information about.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/TaxDeclarationIndividual'
+                  - $ref: '#/components/schemas/TaxDeclarationBusiness'
+        '401':
+          description: Authentication to Belvo API failed
+          content:
+            application/json:
+              schema:
+                type: array
+                description: >-
+                  This error occurs when you try to make an API call using
+                  incorrect Belvo API credentials (either your secret key or
+                  secret password, or both, are incorrect).
+                items:
+                  $ref: '#/components/schemas/UnauthorizedError'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: array
+                description: |-
+                  You made a request where you:
+
+                    - provided the wrong URL.
+                    - used an ID (for a link, account, transaction, and so on) that is not associated with your Belvo account.
+                    
+                items:
+                  $ref: '#/components/schemas/NotFoundError'
+      x-readme:
+        code-samples:
+          - language: cURL
+            code: |
+              curl https://sandbox.belvo.com/api/tax-compliance-status/{id} \
+                -u [Secret Key ID]:[Secret Key PASSWORD]
+          - language: python
+            name: Belvo Python SDK
+            code: |
+              # check our python-client library on github
+              # https://github.com/belvo-finance/belvo-python
+              from belvo.client import Client
+
+              # Login to Belvo API
+              client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+              # Get Tax declaration
+              client.TaxDeclaration.get('tax-declaration-id')
+          - language: ruby
+            name: Belvo Ruby SDK
+            code: |
+              # check our Ruby gem on github
+              # https://github.com/belvo-finance/belvo-ruby
+              require 'belvo'
+
+              client = Belvo::Client.new(
+                'Secret Key ID',
+                'Secret Key PASSWORD',
+                'sandbox'
+              )
+
+              sandbox.tax_declaration.detail id: 'tax-declaration-id'
+          - language: node
+            name: Belvo Node SDK
+            code: |
+              // check our node package on github
+              // https://github.com/belvo-finance/belvo-js
+
+              var belvo = require('belvo').default;
+
+              var client = new belvo(
+                'Secret Key ID',
+                'Secret Key PASSWORD',
+                'sandbox'
+              );
+
+              client.connect()
+                .then(function () {
+                  client.taxDeclaration.detail('taxDeclarationId')
+                    .then(function (res) {
+                      console.log(res);
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+              });
+    delete:
+      tags:
+        - Tax declarations
+      operationId: DestroyTaxDeclaration
+      summary: Delete a tax declration
+      description: Delete a specific Tax declaration from your Belvo account.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The `tax-declration.id` that you want to delete.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Authentication to Belvo API failed
+          content:
+            application/json:
+              schema:
+                type: array
+                description: >-
+                  This error occurs when you try to make an API call using
+                  incorrect Belvo API credentials (either your secret key or
+                  secret password, or both, are incorrect).
+                items:
+                  $ref: '#/components/schemas/UnauthorizedError'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: array
+                description: |-
+                  You made a request where you:
+
+                    - provided the wrong URL.
+                    - used an ID (for a link, account, transaction, and so on) that is not associated with your Belvo account.
+                    
+                items:
+                  $ref: '#/components/schemas/NotFoundError'
+      x-readme:
+        code-samples:
+          - language: cURL
+            code: |
+              curl -X DELETE \
+                https://sandbox.belvo.com/api/tax-compliance-status/{id}/ \
+                -H 'Host: sandbox.belvo.com' \
+                -u [Secret Key ID]:[Secret Key PASSWORD]
+          - language: python
+            name: Belvo Python SDK
+            code: |
+              # check our python-client library on github
+              # https://github.com/belvo-finance/belvo-python
+              from belvo.client import Client
+
+              # Login to Belvo API
+              client = Client("Secret Key ID", "Secret Key PASSWORD", "sandbox")
+
+              # Delete Tax declaration
+              client.TaxDeclaration.delete('tax-declaration-id')
+          - language: ruby
+            name: Belvo Ruby SDK
+            code: |
+              # check our Ruby gem on github
+              # https://github.com/belvo-finance/belvo-ruby
+              require 'belvo'
+
+              client = Belvo::Client.new(
+                'Secret Key ID',
+                'Secret Key PASSWORD',
+                'sandbox'
+              )
+
+              client.tax_declarations.delete id: 'tax-declaration-id'
+          - language: node
+            name: Belvo Node SDK
+            code: |
+              // check our node package on github
+              // https://github.com/belvo-finance/belvo-js
+
+              var belvo = require('belvo').default;
+
+              var client = new belvo(
+                'Secret Key ID',
+                'Secret Key PASSWORD',
+                'sandbox'
+              );
+
+              client.connect()
+                .then(function () {
+                  client.taxDeclaration.delete('taxDeclarationId')
+                    .then(function (res) {
+                      console.log(res);
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+              });
 x-readme:
   explorer-enabled: true
   proxy-enabled: true
